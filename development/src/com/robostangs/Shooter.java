@@ -12,6 +12,39 @@ import edu.wpi.first.wpilibj.CANJaguar;
  * Three jags. needs to deal with feedMode
  */
 public class Shooter {
-    private CANJaguar first, middle, last;
+    public static Shooter instance = null;
+    private CANJaguar shooter;
     private boolean feedMode;
+    
+    private Shooter() {
+
+    }
+
+    public static Shooter getInstance() {
+        if (instance == null) {
+            instance = new Shooter();
+        }
+
+        return instance;
+    }
+
+    public void shoot() {
+
+    }
+
+    public void feed() {
+
+    }
+
+    public void stop() {
+
+    }
+
+    public boolean isFeedMode() {
+        return false;
+    }
+
+    public boolean readyToShoot() {
+        return false;
+    }
 }

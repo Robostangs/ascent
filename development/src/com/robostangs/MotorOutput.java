@@ -7,15 +7,28 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 /**
  *
  * @author sky
- * Combines 2 jags into one PID output
+ * Combines the 2 arm jags into one PID output
  */
-public class MotorOutput implements PIDOutput {    
+public class ArmMotors implements PIDOutput {    
+    private static ArmMotors instance = null;
     private CANJaguar jag1, jag2;
     
-    public MotorOutput(CANJaguar one, CANJaguar two) {
-        //don't declare new jags
-        jag1 = one;
-        jag2 = two;
+    private ArmMotors() {
+        //TODO: Constants
+        try {
+            jag1 = new CANJaguar(1);
+            jag2 = new CANJaguar(2);
+        } catch (CANTimeoutException ex) {
+
+        }
+    }
+
+    public static ArmMotors getInstance() {
+        if (instance == null) {
+            instance = new ArmMotors();
+        }
+
+        return instance;
     }
     
     public void set(double speed) {
