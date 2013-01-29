@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.PIDController;
 public class Arm {
     private static Arm instance = null;
     private Potentiometer potA, potB;
-    private MotorOutput motors;
+    private ArmMotors motors;
     private PIDController pidA, pidB;
     private boolean useB;
     

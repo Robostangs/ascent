@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
  *
  * @author sky
  * needs to have methods for all buttons, joysticks
+ * TODO: constants
  */
 public class XboxManip extends Joystick{
     private static XboxManip instance = null;
@@ -20,7 +21,7 @@ public class XboxManip extends Joystick{
 
     public static XboxManip getInstance() {
         if (instance == null) {
-            instance = new XboxManip();
+            instance = new XboxManip(2);
         }
 
         return instance;
