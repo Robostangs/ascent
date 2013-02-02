@@ -13,4 +13,9 @@ Ways it could Break:
     -Frisbee enters lift/shooter earlier than timer expects
 
 Ways to Test:
-    -
+    +Physically:
+        -Insert frisbees in the robot at different angle and positions
+        -Try different combinations of Xbox buttons
+        -Shoot, lift, and ingest in different orders
+    +Code:
+        -Read through the timer times
