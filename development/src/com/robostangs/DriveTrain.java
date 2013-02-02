@@ -48,6 +48,10 @@ public class DriveTrain {
         climbMode = false;
     }
     
+    /**
+     * singleton stuff
+     * @return 
+     */
     public static DriveTrain getInstance() {
         if (instance == null) {
             instance = new DriveTrain();
@@ -56,30 +60,39 @@ public class DriveTrain {
         return instance;
     }
     
+    /**
+     * tank drive
+     * @param leftPower
+     * @param rightPower 
+     */
     public static void drive(double leftPower, double rightPower) {
         try {
             leftFront.setX(leftPower);
             leftMid.setX(leftPower);
             leftBack.setX(leftPower);
-            rightFront.setX(leftPower);
-            rightMid.setX(leftPower);
-            rightBack.setX(leftPower);
+            rightFront.setX(rightPower);
+            rightMid.setX(rightPower);
+            rightBack.setX(rightPower);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
     }
     
-    //positive power = CW, negative = CCW
+    /**
+     * turn around
+     * @param power positive = CW, negative = CCW
+     */
     public static void turn(double power) {
         drive (power, -power);
     }
     
+    /**
+     * 
+     * @param leftPower
+     * @param rightPower 
+     */
     public static void humanDrive(double leftPower, double rightPower) {
-        if (Math.abs(leftPower) < 0.2) {
-            leftPower = 0;
-        } else if (Math.abs(rightPower) < 0.2) {
-            rightPower = 0;
-        }
+        //TODO: to be determined
         drive (leftPower, rightPower);
     }
     
@@ -92,14 +105,25 @@ public class DriveTrain {
         
     }
     
+    /**
+     * drive at a half speed
+     * @param leftPower
+     * @param rightPower 
+     */
     public static void driveSlow(double leftPower, double rightPower) {
         drive(leftPower/2, rightPower/2);
     }
     
+    /**
+     * drive straight
+     * @param power
+     * @param angle 
+     */
     public static void driveStraight(double power, double angle) {
         double leftPower = power;
         double rightPower = power;
         
+        //TODO: which way does gyro increase?
         if (getAngle() > angle) {
             leftPower = leftPower * Constants.DT_STRAIGHT_LEFT_INC;
             rightPower = rightPower * Constants.DT_STRAIGHT_RIGHT_DEC;
@@ -111,40 +135,60 @@ public class DriveTrain {
         drive(leftPower, rightPower);
     }
     
+    /**
+     * drive straight for a certain distance
+     * @param power
+     * @param angle
+     * @param distance
+     * @return -1 when incomplete, 0 when in progress, 1 when complete
+     */
     public static int driveStraight(double power, double angle, double distance) {
-        if (getLeftEncoderDistance() < distance || getRightEncoderDistance() < distance) {
+        if (getLeftEncoderDistance() < distance && getRightEncoderDistance() < distance) {
             driveStraight(power, angle);
             return 0;
-        } else if (getLeftEncoderDistance() > distance || getRightEncoderDistance() > distance) {
-            driveStraight(0,0);
-            return 1;
         } else {
-            driveStraight(power, angle);
-            return -1;
+            driveStraight(0,0);
+            leftEncoder.reset();
+            rightEncoder.reset();
+            return 1;
         }
+        
+        /*
+         * timer stuff
+         * change power to speed, distance/time
+         * get projected time
+         * if time passes +1sec, stop and return -1
+         */ 
     }
     
+    /**
+     * turn around for angle
+     * @param power
+     * @param angle
+     * @return -1 if incomplete, 0 when in progress, 1 if complete
+     */
     public static int turn(double power, double angle) {
         int turn = 0;
         if (angle > 0) {
             if(getAngle() < angle) {
                 turn(power, -power);
                 turn = 0;
-            } else if (getAngle() > angle) {
+            } else if (getAngle() >= angle) {
                 turn(0, 0);
-                turn = -1;
-            }
-        } else if (angle < 0) {
-            if (getAngle() > angle) {
-                turn (-power, power);
-                turn = 0;
-            } else if (angle > 0) {
-                turn (0, 0);
                 turn = 1;
             }
         } else {
-            turn = -1;
+            if (getAngle() > angle) {
+                turn (-power, power);
+                turn = 0;
+            } else if (getAngle() <= angle) {
+                turn (0, 0);
+                turn = 1;
+            }
         }
+        
+        //timer stuff
+        turn = -1;
         
         return turn;
     }
@@ -239,4 +283,8 @@ public class DriveTrain {
     public static void enableDriveMode() {
         climbMode = false;
     }
+    
+    /**
+     * TODO: climbing stuff if climbMode = true
+     */
 }
