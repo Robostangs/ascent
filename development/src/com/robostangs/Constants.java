@@ -40,4 +40,14 @@ public class Constants {
     public static final double DT_STRAIGHT_RIGHT_INC = 0.0;
     public static final double DT_STRAIGHT_RIGHT_DEC = 0.0;
     
+        /*
+     * FrisbeeTracker
+     */
+    public static final int INGEST_SWITCH_POS = 0;
+    public static final int LIFT_SWITCH_POS = 0;
+    public static final int SHOOT_SWITCH_POS = 0;
+    public static final double INGEST_FRISBEE_TIMER = 0.0;
+    public static final double LIFT_FRISBEE_TIMER = 0.0;
+    public static final double SHOOT_FRISBEE_TIMER = 0.0;
+
 }
