@@ -8,4 +8,9 @@ What it is Supposed to do:
     -Uses a timer in order to see if a frisbee has passed through the shooter
 
 Ways it could Break:
+    -Frisbee gets jammed on a button
+    -Frisbee passes/skips over the sensor that counts them
+    -Frisbee enters lift/shooter earlier than timer expects
+
+Ways to Test:
     -
