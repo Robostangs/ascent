@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
  */
 public class FrisbeeTracker {
     private static FrisbeeTracker instance = null;
-    private static DigitalInput ingestSwitch, shootSwitch, liftSwitch;
-    private static int numberOfFrisbees;
+    private static DigitalInput ingestSwitch = new DigitalInput(Constants.INGEST_SWITCH_POS);
+    private static DigitalInput shootSwitch = new DigitalInput(Constants.SHOOT_SWITCH_POS);
+    private static DigitalInput liftSwitch = new DigitalInput(Constants.LIFT_SWITCH_POS);
+    private static int numberOfFrisbees = 0;
     
     private FrisbeeTracker() {
         
@@ -28,22 +30,68 @@ public class FrisbeeTracker {
     }
     
     public static int getNumberOfFrisbees() {
-        return 0;
+        return numberOfFrisbees;
     }
     
     public static void count(boolean feedMode) {
-        
+        //if in feedMode, adds frisbees; if not, subtracts
+        if (feedMode = true) {
+            if (FrisbeeTracker.shotFrisbee() == true) {
+                numberOfFrisbees ++;
+            }
+        if (feedMode = false) {
+            if (FrisbeeTracker.shotFrisbee() == true) {
+                numberOfFrisbees --;
+            }
+        }
+        }
     }
-    
+            
     public static boolean ingestFrisbee() {
+        if (ingestSwitch.get() == true) {
+            //accounts for switch being pressed for a period of time
+            StopWatch time = new StopWatch();
+            time.start();
+            while (ingestSwitch.get() == true) {                
+            }
+            time.stop();
+            if (time.getSeconds() >= Constants.INGEST_FRISBEE_TIMER) {
+                numberOfFrisbees = numberOfFrisbees + 1;
+                return true;
+            }            
+            time.reset();
+        } 
         return false;
     }
     
     public static boolean liftFrisbee() {
+        if (liftSwitch.get() == true) {
+             //accounts for switch being pressed for a period of time
+            StopWatch time = new StopWatch();
+            while (ingestSwitch.get() == true) {                
+            }
+            time.start();
+            if (time.getSeconds() >= Constants.LIFT_FRISBEE_TIMER) {
+                return true;
+            }      
+            time.reset();
+        } 
         return false;
     }
     
     public static boolean shotFrisbee() {
+        if (ingestSwitch.get() == true) {
+             //accounts for switch being pressed for a period of time
+            StopWatch time = new StopWatch();
+            time.start();
+            while (ingestSwitch.get() == true) {                
+            }
+            time.stop();
+            if (time.getSeconds() >= Constants.SHOOT_FRISBEE_TIMER) {
+                return true;
+            }        
+            time.reset();
+        }
         return false;
     }
     
