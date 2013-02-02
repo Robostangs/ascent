@@ -5,6 +5,7 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.Joystick;
+import java.lang.Math;
 
 /**
  * For manip's controller
@@ -12,6 +13,9 @@ import edu.wpi.first.wpilibj.Joystick;
  * maintainer: Nicholas
  */
 public class XboxManip extends XboxController {
+    
+    int a;
+    
     private static XboxManip instance = null;
     
     private XboxManip(int port) {
@@ -25,5 +29,17 @@ public class XboxManip extends XboxController {
 
         return instance;
     }
+    
+    public void antidrift(double leftStick, double rightStick)
+    {
+        if(Math.abs(leftStick) < 0.1){
+            leftStick = 0;
+        }
+        
+        if(Math.abs(rightStick) < 0.1){
+            rightStick = 0;
+        }
+    }
+    
     
 }

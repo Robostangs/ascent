@@ -29,20 +29,32 @@ public class Shooter {
         if (instance == null) {
             instance = new Shooter();
         }
-
         return instance;
     }
 
     public static void shoot() {
-
+        try{
+            shooter.setX(1.0);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static void feed() {
-
+        try {
+            shooter.setX(-1.0);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        feedMode = true;
     }
 
     public static void stop() {
-
+        try{
+            shooter.setX(0.0);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static boolean isFeedMode() {
