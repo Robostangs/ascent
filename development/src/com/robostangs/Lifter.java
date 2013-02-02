@@ -1,20 +1,25 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
  * Lifter class
- * maintainer: Sam
+ * maintainer: Sam 
  */
 
 public class Lifter {
-  private static Lifter instance = getInstance();
-  private CANJaguar lift;
+  private static Lifter instance = null;
+  private static CANJaguar lift;
 
-  private Lifter() {
-
+  private Lifter() { 
+      try{
+      lift = new CANJaguar(Constants.LIFTER_JAG);
+      }catch (CANTimeoutException ex) {
+          ex.printStackTrace();
+      }
   }
-
+  
   public static Lifter getInstance() {
     if (instance == null) {
       instance = new Lifter();
@@ -24,17 +29,27 @@ public class Lifter {
   }
 
   public static void enable() {
-
+        try {
+            lift.setX(1.0);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
   }
 
   public static void reverse() {
-
+        try {
+            lift.setX(-1.0);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
   }
 
   public static void stop() {
-
+        try {
+            lift.setX(0.0);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
   }
 
 }
-
-

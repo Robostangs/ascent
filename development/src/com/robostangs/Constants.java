@@ -7,47 +7,17 @@ package com.robostangs;
 /**
  *
  * @author sky
- * TODO: actual constants values
+ * TODO: everything pretty much.
  */
 public class Constants {
-    
-    /*
-     * Shooter
-     */
-    public static final int SHOOTER_JAG_POS = 0;
     
     /*
      * StopWatch
      */
     public static final double MICRO_TO_BASE = 0.0;
+    static final int INGEST_RELAY = 0;
+    static final int LIFTER_JAG = 0;
+    static final int INGEST_CONV_JAG = 0;
+    static final int SHOOT_CONV_JAG = 0;
     
-    /*
-     * DriveTrain
-     */
-    //Pos
-    public static final int DT_LEFT_ENCODER_FRONT = 0;
-    public static final int DT_LEFT_ENCODER_BACK = 0;
-    public static final int DT_RIGHT_ENCODER_FRONT = 0;
-    public static final int DT_RIGHT_ENCODER_BACK = 0;
-    public static final int DT_GYRO_POS = 0;
-    public static final int DT_JAG_POS = 0;
-    public static final int DT_JAG_CLIMB_POS = 0;
-    public static final double DT_JAG_CONFIG_TIME = 0.5;
-    
-    //drive straight
-    public static final double DT_STRAIGHT_LEFT_INC = 0.0;
-    public static final double DT_STRAIGHT_LEFT_DEC = 0.0;
-    public static final double DT_STRAIGHT_RIGHT_INC = 0.0;
-    public static final double DT_STRAIGHT_RIGHT_DEC = 0.0;
-    
-     /*
-     * FrisbeeTracker
-     */
-    public static final int INGEST_SWITCH_POS = 0;
-    public static final int LIFT_SWITCH_POS = 0;
-    public static final int SHOOT_SWITCH_POS = 0;
-    public static final double INGEST_FRISBEE_TIMER = 0.0;
-    public static final double LIFT_FRISBEE_TIMER = 0.0;
-    public static final double SHOOT_FRISBEE_TIMER = 0.0;
-
 }
