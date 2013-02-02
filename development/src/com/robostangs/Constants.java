@@ -40,7 +40,7 @@ public class Constants {
     public static final double DT_STRAIGHT_RIGHT_INC = 0.0;
     public static final double DT_STRAIGHT_RIGHT_DEC = 0.0;
     
-        /*
+     /*
      * FrisbeeTracker
      */
     public static final int INGEST_SWITCH_POS = 0;
