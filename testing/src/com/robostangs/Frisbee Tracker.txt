@@ -1,1 +1,11 @@
 Frisbee Tracker: Testing/Requirements
+
+What it is Supposed to do:
+    -Counts Frisbees
+        -It tells shootSwitch if it should add the frisbee or not ingest the frisbee
+    -Uses a timer in order to see if a frisbee has been ingested
+    -Uses a timer in order to see if a frisbee is going to enter the lift
+    -Uses a timer in order to see if a frisbee has passed through the shooter
+
+Ways it could Break:
+    -
