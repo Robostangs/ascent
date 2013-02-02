@@ -1,0 +1,19 @@
+Testing/Requirements: Loader
+
+Program tasks:
+    -Program first turns everything off
+    -Runs ingestor and ingestor conveyor
+    -Runs lifter and the shooter conveyor
+    -Runs everything in the program from ingestor to the shooter
+    -Reverses motors to feed from station
+    -Moves lift up
+    -Moves lift down
+    -Turns off the ingestor, ingestor conveyor, and lift
+
+Ways the program could break:
+    -Jams anywhere in the mechanism
+    -Motors break
+    -Motors run out of battery and cannot perform at full speed
+    -Shooter cannot get up to adequate speed
+    -
+
