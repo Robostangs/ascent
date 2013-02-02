@@ -15,5 +15,11 @@ Ways the program could break:
     -Motors break
     -Motors run out of battery and cannot perform at full speed
     -Shooter cannot get up to adequate speed
-    -
+
+ Ways the test the program:
+    *Code testing
+        -Make the program think there are too many frisbees in the machine
+    *Physical testing
+        -Insert too many or not enough frisbees into the machine
+        -Find a way to temporarily jam the motors
 
