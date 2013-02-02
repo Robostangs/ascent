@@ -68,7 +68,7 @@ public class FrisbeeTracker {
         if (liftSwitch.get() == true) {
              //accounts for switch being pressed for a period of time
             StopWatch time = new StopWatch();
-            while (ingestSwitch.get() == true) {                
+            while (liftSwitch.get() == true) {                
             }
             time.start();
             if (time.getSeconds() >= Constants.LIFT_FRISBEE_TIMER) {
@@ -80,11 +80,11 @@ public class FrisbeeTracker {
     }
     
     public static boolean shotFrisbee() {
-        if (ingestSwitch.get() == true) {
+        if (shootSwitch.get() == true) {
              //accounts for switch being pressed for a period of time
             StopWatch time = new StopWatch();
             time.start();
-            while (ingestSwitch.get() == true) {                
+            while (shootSwitch.get() == true) {                
             }
             time.stop();
             if (time.getSeconds() >= Constants.SHOOT_FRISBEE_TIMER) {
