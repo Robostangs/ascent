@@ -7,6 +7,8 @@ package com.robostangs;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * DT has 6 jags, encoder on each side, and a gyro
@@ -15,14 +17,35 @@ import edu.wpi.first.wpilibj.Gyro;
  */
 public class DriveTrain {
     private static DriveTrain instance = getInstance();
-    private CANJaguar leftFront, leftMid, leftBack, rightFront, rightMid, 
+    private static CANJaguar leftFront, leftMid, leftBack, rightFront, rightMid, 
             rightBack, climber;
-    private Encoder leftEncoder, rightEncoder;
-    private Gyro gyro;
-    private boolean climbMode;
+    private static Encoder leftEncoder, rightEncoder;
+    private static Gyro gyro;
+    private static boolean climbMode;
     
     private DriveTrain() {
-        //declare jags here, init jags method not necessary
+        leftEncoder = new Encoder (Constants.DT_LEFT_ENCODER_FRONT, Constants.DT_LEFT_ENCODER_BACK);
+        leftEncoder = new Encoder (Constants.DT_RIGHT_ENCODER_FRONT, Constants.DT_RIGHT_ENCODER_BACK);
+        gyro = new Gyro (Constants.DT_GYRO_POS);
+        try {
+            //declare jags here, init jags method not necessary
+            leftFront = new CANJaguar(Constants.DT_JAG_POS);
+            leftMid = new CANJaguar(Constants.DT_JAG_POS);
+            leftBack = new CANJaguar(Constants.DT_JAG_POS);
+            rightFront = new CANJaguar(Constants.DT_JAG_POS);
+            rightMid = new CANJaguar(Constants.DT_JAG_POS);
+            rightBack = new CANJaguar(Constants.DT_JAG_POS);
+            climber = new CANJaguar (Constants.DT_JAG_CLIMB_POS);
+            leftFront.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
+            leftMid.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
+            leftBack.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
+            rightFront.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
+            rightMid.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
+            rightBack.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        climbMode = false;
     }
     
     public static DriveTrain getInstance() {
@@ -33,75 +56,187 @@ public class DriveTrain {
         return instance;
     }
     
-    public void drive(double leftPower, double rightPower) {
+    public static void drive(double leftPower, double rightPower) {
+        try {
+            leftFront.setX(leftPower);
+            leftMid.setX(leftPower);
+            leftBack.setX(leftPower);
+            rightFront.setX(leftPower);
+            rightMid.setX(leftPower);
+            rightBack.setX(leftPower);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    //positive power = CW, negative = CCW
+    public static void turn(double power) {
+        drive (power, -power);
+    }
+    
+    public static void humanDrive(double leftPower, double rightPower) {
+        if (Math.abs(leftPower) < 0.2) {
+            leftPower = 0;
+        } else if (Math.abs(rightPower) < 0.2) {
+            rightPower = 0;
+        }
+        drive (leftPower, rightPower);
+    }
+    
+    /**
+     * TODO: ???
+     * @param power
+     * @param angle 
+     */
+    public static void arcadeDrive(double power, double angle) {
         
     }
     
-    public void turn(double power) {
-        
+    public static void driveSlow(double leftPower, double rightPower) {
+        drive(leftPower/2, rightPower/2);
     }
     
-    public void humanDrive(double leftPower, double rightPower) {
+    public static void driveStraight(double power, double angle) {
+        double leftPower = power;
+        double rightPower = power;
         
+        if (getAngle() > angle) {
+            leftPower = leftPower * Constants.DT_STRAIGHT_LEFT_INC;
+            rightPower = rightPower * Constants.DT_STRAIGHT_RIGHT_DEC;
+        } else if (getAngle() < angle) {
+            leftPower = leftPower * Constants.DT_STRAIGHT_LEFT_DEC;
+            rightPower = rightPower * Constants.DT_STRAIGHT_RIGHT_INC;
+        }
+        
+        drive(leftPower, rightPower);
     }
     
-    public void arcadeDrive(double power, double angle) {
-        
+    public static int driveStraight(double power, double angle, double distance) {
+        if (getLeftEncoderDistance() < distance || getRightEncoderDistance() < distance) {
+            driveStraight(power, angle);
+            return 0;
+        } else if (getLeftEncoderDistance() > distance || getRightEncoderDistance() > distance) {
+            driveStraight(0,0);
+            return 1;
+        } else {
+            driveStraight(power, angle);
+            return -1;
+        }
     }
     
-    public void driveSlow(double leftPower, double rightPower) {
+    public static int turn(double power, double angle) {
+        int turn = 0;
+        if (angle > 0) {
+            if(getAngle() < angle) {
+                turn(power, -power);
+                turn = 0;
+            } else if (getAngle() > angle) {
+                turn(0, 0);
+                turn = -1;
+            }
+        } else if (angle < 0) {
+            if (getAngle() > angle) {
+                turn (-power, power);
+                turn = 0;
+            } else if (angle > 0) {
+                turn (0, 0);
+                turn = 1;
+            }
+        } else {
+            turn = -1;
+        }
         
+        return turn;
     }
     
-    public void driveStraight(double power, double angle) {
-        
-    }
-    
-    public int driveStraight(double power, double angle, double distance) {
+    /**
+     * drive the robot along a circular arc
+     * @param power
+     * @param x
+     * @param y
+     * @return 
+     */
+    public static int driveArc(double power, double x, double y) {
         return -1;
     }
     
-    public int turn(double power, double angle) {
+    /**
+     * TODO: drive to position (x,y)
+     * @param power
+     * @param x
+     * @param y
+     * @return 
+     */
+    public static int driveToPosition(double power, double x, double y) {
         return -1;
     }
     
-    public int driveArc(double power, double x, double y) {
-        return -1;
+    /**
+     * get distance from the left encoder
+     * @return in meters
+     */
+    public static double getLeftEncoderDistance() {
+        return leftEncoder.getDistance();
     }
     
-    public int driveToPosition(double power, double x, double y) {
-        return -1;
+    /**
+     * get distance from the right encoder
+     * @return in meters
+     */
+    public static double getRightEncoderDistance() {
+        return rightEncoder.getDistance();
     }
     
-    public double getLeftEncoderDistance() {
-        return 0;
+    /**
+     * get the angle using gyro
+     * @return in degrees
+     */
+    public static double getAngle() {
+        return gyro.getAngle();
     }
     
-    public double getRightEncoderDistance() {
-        return 0;
+    /**
+     * resets all encoders
+     */
+    public static void resetEncoders() {
+        leftEncoder.reset();
+        rightEncoder.reset();
     }
     
-    public double getAngle() {
-        return 0;
+    /**
+     * sends encoder status to SmartDashboard
+     */
+    public static void sendEncoders() {
+        SmartDashboard.putData("Left Encoder: ", leftEncoder);
+        SmartDashboard.putData("Rigth Encoder: ", rightEncoder);
     }
     
-    public void resetEncoders() {
-        
+    /**
+     * send gyro status to SmartDashboard
+     */
+    public static void sendGyro() {
+        SmartDashboard.putData("Gyro: ", gyro);
     }
     
-    public void sendEncoders() {
-        
+    /**
+     * check the mode
+     * @return climbMode
+     */
+    public static boolean getMode() {
+        return climbMode;
     }
     
-    public void sendGyro() {
-        
+    /**
+     * enable climb mode
+     */
+    public static void enableClimbMode() {
+        climbMode = true;
     }
     
-    public boolean getMode() {
-        return false;
-    }
-    
-    public void enableClimbMode() {
-        
+    /**
+     * enable drive mode
+     */
+    public static void enableDriveMode() {
+        climbMode = false;
     }
 }
