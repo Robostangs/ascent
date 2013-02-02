@@ -7,16 +7,11 @@ package com.robostangs;
 import edu.wpi.first.wpilibj.CANJaguar;
 
 /**
- *
- * @author sky
- * Runs the conveyor motors
- * needs a method to run forwards, and in reverse for all jags
+ * Uses conveyors, lifter, ingestor to get frisbees to shooter
+ * maintainer: Tejas
  */
 public class Loader {
     private static Loader instance = null;
-    private Conveyors conveyors;
-    private Lifter lift;
-    private Ingestor ingest;
     
     private Loader() {
     }
@@ -29,47 +24,46 @@ public class Loader {
         return instance;
     }
 
-    public void allOff() {
+    public static void allOff() {
 
     }
 
-    public void ingest() {
+    public static void ingest() {
 
     }
 
-    public void loadShooter() {
+    public static void loadShooter() {
     }
 
-    public void runAll() {
-
-    }
-
-    public void feed() {
-
+    public static void runAll() {
 
     }
 
-    public void liftDown() {
+    public static void feed() {
 
     }
 
-    public void liftUp() {
+    public static void liftDown() {
 
     }
 
-    public void ingestorOff() {
+    public static void liftUp() {
 
     }
 
-    public void ingestConveyorOff() {
+    public static void ingestorOff() {
 
     }
 
-    public void liftOff() {
+    public static void ingestConveyorOff() {
 
     }
 
-    public void shooterConveyorOff() {
+    public static void liftOff() {
+
+    }
+
+    public static void shooterConveyorOff() {
 
     }
 }

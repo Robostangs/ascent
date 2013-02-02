@@ -9,13 +9,12 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 
 /**
- *
- * @author sky
  * DT has 6 jags, encoder on each side, and a gyro
- * Needs basic drive, turning, human drive, methods to deal with sensors, driveSlow
+ * maintainer: Koshiro
+ * TODO: drive train: all methods must be static
  */
 public class DriveTrain {
-    private static DriveTrain instance = null;
+    private static DriveTrain instance = getInstance();
     private CANJaguar leftFront, leftMid, leftBack, rightFront, rightMid, 
             rightBack, climber;
     private Encoder leftEncoder, rightEncoder;
@@ -23,7 +22,7 @@ public class DriveTrain {
     private boolean climbMode;
     
     private DriveTrain() {
-        
+        //declare jags here, init jags method not necessary
     }
     
     public static DriveTrain getInstance() {

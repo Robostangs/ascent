@@ -5,19 +5,24 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
- *
- * @author sky
- * Three jags. needs to deal with feedMode
+ * Handles the shooter
+ * maintainer: Nicholas
  */
 public class Shooter {
     public static Shooter instance = null;
-    private CANJaguar shooter;
-    private boolean feedMode;
+    private static CANJaguar shooter;
+    private static boolean feedMode = false;
     
     private Shooter() {
-
+        try {
+            shooter = new CANJaguar(Constants.SHOOTER_JAG_POS);
+        } catch(CANTimeoutException ex) {
+            System.out.println("CAN ERROR AT SHOOTER");
+            ex.printStackTrace();
+        }
     }
 
     public static Shooter getInstance() {
@@ -28,23 +33,23 @@ public class Shooter {
         return instance;
     }
 
-    public void shoot() {
+    public static void shoot() {
 
     }
 
-    public void feed() {
+    public static void feed() {
 
     }
 
-    public void stop() {
+    public static void stop() {
 
     }
 
-    public boolean isFeedMode() {
+    public static boolean isFeedMode() {
         return false;
     }
 
-    public boolean readyToShoot() {
+    public static boolean readyToShoot() {
         return false;
     }
 }

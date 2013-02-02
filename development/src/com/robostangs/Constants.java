@@ -12,6 +12,11 @@ package com.robostangs;
 public class Constants {
     
     /*
+     * Shooter
+     */
+    public static final int SHOOTER_JAG_POS = 0;
+    
+    /*
      * StopWatch
      */
     public static final double MICRO_TO_BASE = 0.0;

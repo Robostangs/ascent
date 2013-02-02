@@ -7,12 +7,12 @@ package com.robostangs;
 import edu.wpi.first.wpilibj.CANJaguar;
 
 /**
- *
- * @author sky
+ * Manages the conveyors system
+ * maintainer: Sam
  */
 public class Conveyors {
-    private static Conveyors instance = null;
-    private CANJaguar ingestConveyor, shooterConveyor;
+    private static Conveyors instance = getInstance();
+    private static CANJaguar ingestConveyor, shooterConveyor;
     
     private Conveyors() {
         
@@ -26,31 +26,31 @@ public class Conveyors {
         return instance;
     }
     
-    public void ingestMode() {
+    public static void ingestMode() {
         
     }
 
-    public void loadShooter() {
+    public static void loadShooter() {
 
     }
 
-    public void feedMode() { 
+    public static void feedMode() { 
 
     }
 
-    public void stopShooter() { 
+    public static void stopShooter() { 
     
     }
 
-    public void stopBoth() {
+    public static void stopBoth() {
     
     }
 
-    public void shakeIngest() {
+    public static void shakeIngest() {
 
     }
 
-    public void shakeShooter() {
+    public static void shakeShooter() {
 
     }
 }

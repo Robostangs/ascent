@@ -7,17 +7,16 @@ package com.robostangs;
 import edu.wpi.first.wpilibj.Relay;
 
 /**
- *
- * @author sky
- * runs the ingestor
+ * Runs the Ingestor
+ * maintainer: Sam
  */
 public class Ingestor {
-    private static Ingestor instance = null;
-    private Relay ingest;
-    private boolean isOn;
+    private static Ingestor instance = getInstance();
+    private static Relay ingest;
+    private static boolean isOn;
     
     private Ingestor() {
-        
+        //this is the constructor, even though it is private
     }
     
     public static Ingestor getInstance() {
@@ -28,19 +27,19 @@ public class Ingestor {
         return instance;
     }
     
-    public void turnOn() {
+    public static void turnOn() {
         
     }
     
-    public void turnOff() {
+    public static void turnOff() {
         
     }
     
-    public void reverse() {
+    public static void reverse() {
         
     }
     
-    public boolean getState() {
+    public static boolean getState() {
         return false;
     }
     

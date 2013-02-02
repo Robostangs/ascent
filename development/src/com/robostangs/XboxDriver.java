@@ -7,13 +7,12 @@ package com.robostangs;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- *
- * @author sky
- * needs to have methods for all buttons, joysticks
- * TODO: constants
+ * For driver's controller
+ * should adjust for joystick drift
+ * maintainer: Nicholas
  */
-public class XboxDriver extends Joystick{
-    private static XboxDriver instance = null;
+public class XboxDriver extends XboxController {
+    private static XboxDriver instance = getInstance();
     
     private XboxDriver(int port) {
         super(port);

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
  */
 public class ArmMotors implements PIDOutput {    
     private static ArmMotors instance = null;
-    private CANJaguar jag1, jag2;
+    private static CANJaguar jag1, jag2;
     
     private ArmMotors() {
         //TODO: Constants
@@ -31,7 +31,7 @@ public class ArmMotors implements PIDOutput {
         return instance;
     }
     
-    public void set(double speed) {
+    public static void set(double speed) {
         try {
             jag1.setX(speed);
             jag2.setX(speed);

@@ -7,14 +7,13 @@ package com.robostangs;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
- *
- * @author sky
- * keeps track of the number of frisbees
+ * Counts frisbees, tracks location in robot
+ * maintainer: Michael
  */
 public class FrisbeeTracker {
     private static FrisbeeTracker instance = null;
-    private DigitalInput ingestSwitch, shootSwitch, liftSwitch;
-    private int numberOfFrisbees;
+    private static DigitalInput ingestSwitch, shootSwitch, liftSwitch;
+    private static int numberOfFrisbees;
     
     private FrisbeeTracker() {
         
@@ -28,23 +27,23 @@ public class FrisbeeTracker {
         return instance;
     }
     
-    public int getNumberOfFrisbees() {
+    public static int getNumberOfFrisbees() {
         return 0;
     }
     
-    public void count(boolean feedMode) {
+    public static void count(boolean feedMode) {
         
     }
     
-    public boolean ingestFrisbee() {
+    public static boolean ingestFrisbee() {
         return false;
     }
     
-    public boolean liftFrisbee() {
+    public static boolean liftFrisbee() {
         return false;
     }
     
-    public boolean shotFrisbee() {
+    public static boolean shotFrisbee() {
         return false;
     }
     

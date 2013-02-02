@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.CANJaguar;
 
 /**
  * Lifter class
- * maintainer: 
+ * maintainer: Sam
  */
 
 public class Lifter {
-  private static Lifter instance = null;
+  private static Lifter instance = getInstance();
   private CANJaguar lift;
 
   private Lifter() {
@@ -23,15 +23,15 @@ public class Lifter {
     return instance;
   }
 
-  public void enable() {
+  public static void enable() {
 
   }
 
-  public void reverse() {
+  public static void reverse() {
 
   }
 
-  public void stop() {
+  public static void stop() {
 
   }
 
