@@ -1,0 +1,22 @@
+Arm: Testing/requirements
+
+What it is suppose to do: 
+
+enable/disable pid
+change pid channels
+check the active pid channel
+enable/disable specific pid channel
+use pots to check arm position
+			
+
+What can go wrong: 
+
+pid takes too long to find arm position
+pot return incorrect values
+pid return incorrect data
+pot a and b give conflicting values
+incorrect angle given for arm
+
+
+How to test:
+
