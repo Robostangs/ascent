@@ -190,10 +190,13 @@ public class DriveTrain {
     public static int turn(double power, double angle) {
         timer.start();
         
-        //timer stuff
+        /*
+         * timer stuff
+         * it's a circular motion so find ƒÖ(ƒ¢ƒÆ/ƒ¢t)
+         * t = angle / power
+         */ 
         double speed = power * Constants.DT_CONV_VOLT_M_PER_SEC;
-        double arc = Constants.DT_TURN_RADIUS * Math.toRadians(angle);
-        double expectedTime = arc / speed;
+        double expectedTime = Math.toRadians(angle) / speed;
         if (timer.get() > (expectedTime + 1.0)) {
             driveStraight(0, 0);
             timer.stop();
