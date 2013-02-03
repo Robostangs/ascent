@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * DT has 6 jags, encoder on each side, and a gyro
@@ -21,12 +22,17 @@ public class DriveTrain {
             rightBack, climber;
     private static Encoder leftEncoder, rightEncoder;
     private static Gyro gyro;
+    private static Timer timer;
     private static boolean climbMode;
     
     private DriveTrain() {
         leftEncoder = new Encoder (Constants.DT_LEFT_ENCODER_FRONT, Constants.DT_LEFT_ENCODER_BACK);
         leftEncoder = new Encoder (Constants.DT_RIGHT_ENCODER_FRONT, Constants.DT_RIGHT_ENCODER_BACK);
+        
         gyro = new Gyro (Constants.DT_GYRO_POS);
+        
+        timer = new Timer();
+        
         try {
             //declare jags here, init jags method not necessary
             leftFront = new CANJaguar(Constants.DT_JAG_POS);
@@ -45,6 +51,7 @@ public class DriveTrain {
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+        
         climbMode = false;
     }
     
@@ -143,22 +150,35 @@ public class DriveTrain {
      * @return -1 when incomplete, 0 when in progress, 1 when complete
      */
     public static int driveStraight(double power, double angle, double distance) {
+        /*
+         * timer stuff
+         * change power(Volts) to speed(distance/time)
+         * get projected time speed = volt --> distance/time;
+         * if the actual time passes expected time +1sec, stop and return -1
+         */ 
+        double speed = power * Constants.DT_CONV_VOLT_M_PER_SEC;
+        double expectedTime = distance / speed;
+        if (timer.get() > (expectedTime + 1.0)) {
+            driveStraight(0, 0);
+            timer.stop();
+            resetTimer();
+            resetEncoders();
+            return -1;
+        }
+        
         if (getLeftEncoderDistance() < distance && getRightEncoderDistance() < distance) {
+            timer.start();
             driveStraight(power, angle);
             return 0;
-        } else {
+        } else if (getLeftEncoderDistance() >= distance && getRightEncoderDistance() >= distance) {
             driveStraight(0,0);
-            leftEncoder.reset();
-            rightEncoder.reset();
+            timer.stop();
+            resetTimer();
+            resetEncoders();
             return 1;
         }
         
-        /*
-         * timer stuff
-         * change power to speed, distance/time
-         * get projected time
-         * if time passes +1sec, stop and return -1
-         */ 
+        return -1;
     }
     
     /**
@@ -168,29 +188,45 @@ public class DriveTrain {
      * @return -1 if incomplete, 0 when in progress, 1 if complete
      */
     public static int turn(double power, double angle) {
-        int turn = 0;
+        timer.start();
+        
+        //timer stuff
+        double speed = power * Constants.DT_CONV_VOLT_M_PER_SEC;
+        double arc = Constants.DT_TURN_RADIUS * Math.toRadians(angle);
+        double expectedTime = arc / speed;
+        if (timer.get() > (expectedTime + 1.0)) {
+            driveStraight(0, 0);
+            timer.stop();
+            resetTimer();
+            resetEncoders();
+            return -1;
+        }
+        
         if (angle > 0) {
             if(getAngle() < angle) {
                 turn(power, -power);
-                turn = 0;
+                return 0;
             } else if (getAngle() >= angle) {
                 turn(0, 0);
-                turn = 1;
+                timer.stop();
+                resetTimer();
+                resetEncoders();
+                return 1;
             }
-        } else {
+        } else if (angle < 0) {
             if (getAngle() > angle) {
                 turn (-power, power);
-                turn = 0;
+                return 0;
             } else if (getAngle() <= angle) {
                 turn (0, 0);
-                turn = 1;
+                timer.stop();
+                resetTimer();
+                resetEncoders();
+                return 1;
             }
         }
         
-        //timer stuff
-        turn = -1;
-        
-        return turn;
+        return -1;
     }
     
     /**
@@ -239,6 +275,12 @@ public class DriveTrain {
         return gyro.getAngle();
     }
     
+    /**
+     * reset the timer
+     */
+    public static void resetTimer() {
+        timer.reset();
+    }
     /**
      * resets all encoders
      */
