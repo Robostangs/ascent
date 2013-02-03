@@ -58,7 +58,6 @@ public class FrisbeeTracker {
             //accounts for switch being pressed for a period of time
             time.start();
             if (time.getSeconds() >= Constants.INGEST_FRISBEE_TIMER) {
-                numberOfFrisbees = numberOfFrisbees + 1;
                 return true;
             }           
         } 
