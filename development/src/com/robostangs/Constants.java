@@ -15,7 +15,7 @@ public class Constants {
      * StopWatch
      */
     public static final double MICRO_TO_BASE = 0.0;
-// <<<<<<< .mine
+
     public static final int POT_A_PORT = 0;
     public static final int POT_B_PORT = 0;
     public static final int POT_MIN_VALUE = 0;
@@ -29,11 +29,30 @@ public class Constants {
     public static final double ARM_KP_B = 0.0;
     public static final double ARM_KI_B = 0.0;
     public static final double ARM_KD_B = 0.0;
-// =======
     static final int INGEST_RELAY = 0;
     static final int LIFTER_JAG = 0;
     static final int INGEST_CONV_JAG = 0;
     static final int SHOOT_CONV_JAG = 0;
     
-// >>>>>>> .r33
+    /*
+     * DriveTrain
+     */
+    //Position
+    public static final int DT_LEFT_ENCODER_FRONT = 0;
+    public static final int DT_LEFT_ENCODER_BACK = 0;
+    public static final int DT_RIGHT_ENCODER_FRONT = 0;
+    public static final int DT_RIGHT_ENCODER_BACK = 0;
+    public static final int DT_GYRO_POS = 0;
+    public static final int DT_JAG_POS = 0;
+    public static final int DT_JAG_CLIMB_POS = 0;
+    public static final double DT_JAG_CONFIG_TIME = 0.5;
+    
+    //Drive Straight
+    public static final double DT_STRAIGHT_LEFT_INC = 0.0;
+    public static final double DT_STRAIGHT_LEFT_DEC = 0.0;
+    public static final double DT_STRAIGHT_RIGHT_INC = 0.0;
+    public static final double DT_STRAIGHT_RIGHT_DEC = 0.0;
+
+    //Timer
+    public static final double DT_CONV_VOLT_TO_M_PER_SEC = 0.0;
 }
