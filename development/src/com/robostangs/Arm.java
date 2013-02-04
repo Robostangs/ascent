@@ -14,16 +14,8 @@ public class Arm {
     private ArmMotors motors;
     private PIDController pidA, pidB; //shows as error
     private boolean useB;
-// =======
-    private static Arm instance = getInstance();
-    private static Potentiometer potA;
-    private static Potentiometer potB;
-    private static ArmMotors motors = ArmMotors.getInstance();
-    private static PIDController pidA;
-    private static PIDController pidB;
-    private static boolean useB;
-// >>>>>>> .r33
     
+       
     private Arm() {
         potA = new Potentiometer(Constants.POT_A_PORT);
         potB = new Potentiometer(Constants.POT_B_PORT);
@@ -40,25 +32,21 @@ public class Arm {
         return instance;
     }
     
-// <<<<<<< .mine
     public double getPotA() {
         return potA.getAverageValue(); //shows as error
-// =======
+        
     public static int getPotA() {
         return 0;
-// >>>>>>> .r33
     }
     
-// <<<<<<< .mine
+
     public double getPotB() {
         return potB.getAverageValue(); //shows as error
-// =======
+
     public static int getPotB() {
         return 0;
-// >>>>>>> .r33
     }
     
-// <<<<<<< .mine
      public double getAngle() {
         double w;
         if (useB == false) {
@@ -73,23 +61,22 @@ public class Arm {
             w = 0;
             return w;
         }
-// =======
+
     public static double getAngle() {
         return 0;
-// >>>>>>> .r33
+
     }
     
     public static void setJags(double power) {
         ArmMotors.set(power);
     }
     
-// <<<<<<< .mine
+
     public void setPosition(double potValue) { 
         ArmMotors.getAverageValue(potValue); //shows as error
-// =======
+
     public static void setPosition(double potValue) {
         
-// >>>>>>> .r33
     }
     
     public boolean pidEnabled() {
@@ -137,15 +124,11 @@ public class Arm {
     }
     
     public static void sendAngle() {
-        SmartDashboard.putData("Angle: ", getAngle()); //shows as error
+        SmartDashboard.putData("Angle: ", getAngle());
     }
     
-// <<<<<<< .mine
-    // all the errors
-    public void sendPotData() {
-// =======
     public static void sendPotData() {
-// >>>>>>> .r33
+
         if(potA.isEnable()) {
             SmartDashboard.putData(getPotA());
         }
