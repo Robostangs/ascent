@@ -8,14 +8,12 @@ package com.robostangs; //shows as error
 import edu.wpi.first.wpilibj.PIDController;
 
 public class Arm {
-// <<<<<<< .mine
     private static Arm instance = null;
     private Potentiometer potA, potB;
     private ArmMotors motors;
     private PIDController pidA, pidB; //shows as error
     private boolean useB;
     
-       
     private Arm() {
         potA = new Potentiometer(Constants.POT_A_PORT);
         potB = new Potentiometer(Constants.POT_B_PORT);
@@ -27,14 +25,13 @@ public class Arm {
     public static Arm getInstance() {
         if (instance == null) {
             instance = new Arm();
-        }
-        
+        }        
         return instance;
     }
     
     public double getPotA() {
-        return potA.getAverageValue(); //shows as error
-        
+        return potA.getAverageValue(); 
+    }    
     public static int getPotA() {
         return 0;
     }
@@ -42,7 +39,7 @@ public class Arm {
 
     public double getPotB() {
         return potB.getAverageValue(); //shows as error
-
+    }
     public static int getPotB() {
         return 0;
     }
