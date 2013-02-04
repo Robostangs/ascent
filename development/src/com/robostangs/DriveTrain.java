@@ -156,7 +156,7 @@ public class DriveTrain {
          * get projected time speed = volt --> distance/time;
          * if the actual time passes expected time +1sec, stop and return -1
          */ 
-        double speed = power * Constants.DT_CONV_VOLT_M_PER_SEC;
+        double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;
         double expectedTime = distance / speed;
         if (timer.get() > (expectedTime + 1.0)) {
             driveStraight(0, 0);
@@ -195,7 +195,7 @@ public class DriveTrain {
          * it's a circular motion so find ƒÖ(ƒ¢ƒÆ/ƒ¢t)
          * t = angle / power
          */ 
-        double speed = power * Constants.DT_CONV_VOLT_M_PER_SEC;
+        double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;
         double expectedTime = Math.toRadians(angle) / speed;
         if (timer.get() > (expectedTime + 1.0)) {
             driveStraight(0, 0);
