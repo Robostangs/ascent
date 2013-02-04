@@ -138,7 +138,7 @@ public class Arm {
         }
     }
     
-    public static boolean isPotBFunctional() {
+    public boolean isPotBFunctional() {
         // must be enabled and within possible range
         if (pidB.isEnable() && Constants.POT_MIN_VALUE <= getPotB() && Constants.POT_MAX_VALUE <= getPotB()) {
             return true;
