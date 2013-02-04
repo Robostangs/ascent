@@ -3,7 +3,7 @@
  * maintainer: Lauren
  */
 
-package com.robostangs; //shows as error
+package com.robostangs;
 
 import edu.wpi.first.wpilibj.PIDController;
 
@@ -11,15 +11,15 @@ public class Arm {
     private static Arm instance = null;
     private Potentiometer potA, potB;
     private ArmMotors motors;
-    private PIDController pidA, pidB; //shows as error
+    private PIDController pidA, pidB; 
     private boolean useB;
     
     private Arm() {
         potA = new Potentiometer(Constants.POT_A_PORT);
         potB = new Potentiometer(Constants.POT_B_PORT);
         motors = ArmMotors.getInstance();
-        pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A); //shows as error
-        pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B); //shows as error
+        pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A); 
+        pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B); 
     }
     
     public static Arm getInstance() {
@@ -34,7 +34,7 @@ public class Arm {
     }    
 
     public static int getPotB() {
-        return potB.getAverageValue();
+        return potB.getAverageValue(); 
     }
     
      public static double getAngle() {
