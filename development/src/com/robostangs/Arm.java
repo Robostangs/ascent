@@ -29,7 +29,7 @@ public class Arm {
         return instance;
     }
     
-    public static int getPotA() {
+    public int getPotA() {
         return potA.getAverageValue(); 
     }    
 
