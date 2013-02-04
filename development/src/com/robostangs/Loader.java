@@ -24,46 +24,54 @@ public class Loader {
         return instance;
     }
 
-    public static void allOff() {
-
+        public static void allOff(){
+        Lifter.stop();
+        Conveyors.stopBoth();
+        Ingestor.turnOff();
     }
-
-    public static void ingest() {
-
+    
+    public static void ingest(){
+        Ingestor.turnOn();
+        
     }
-
-    public static void loadShooter() {
+    
+    public static void loadShooter(){
+        Lifter.enable();
+        Conveyors.feedMode();
     }
-
-    public static void runAll() {
-
+    
+    public void runAll(){
+        Ingestor.turnOn();
+        Conveyors.ingestMode();
+        Conveyors.feedMode();
     }
-
-    public static void feed() {
-
+    
+    public static void feed(){
+        Lifter.reverse();
     }
-
-    public static void liftDown() {
-
+    
+    public static void liftDown(){
+        Lifter.enable(Constants.LIFT_DOWN);
     }
+    
 
     public static void liftUp() {
-
+        Lifter.reverse(Constants.LIFT_UP);
     }
 
     public static void ingestorOff() {
-
+        Ingestor.turnOff();
     }
 
     public static void ingestConveyorOff() {
-
+        Conveyors.stopIngest();
     }
 
     public static void liftOff() {
-
+        Lifter.stop();
     }
 
     public static void shooterConveyorOff() {
-
+        Conveyors.shakeShooter();
     }
 }
