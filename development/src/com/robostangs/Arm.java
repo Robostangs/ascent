@@ -34,7 +34,7 @@ public class Arm {
     }    
 
     public static int getPotB() {
-        return potB.getAverageValue(); //shows as error
+        return potB.getAverageValue();
     }
     
      public static double getAngle() {
@@ -109,7 +109,6 @@ public class Arm {
     }
     
     public static void sendPotData() {
-
         if(potA.isEnable()) {
             SmartDashboard.putData(getPotA());
         }
@@ -145,6 +144,5 @@ public class Arm {
         else {
             return false;
         }
-    }
-      
+    }     
 }
