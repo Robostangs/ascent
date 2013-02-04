@@ -18,8 +18,8 @@ public class Arm {
         potA = new Potentiometer(Constants.POT_A_PORT);
         potB = new Potentiometer(Constants.POT_B_PORT);
         motors = ArmMotors.getInstance();
-        pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A); 
-        pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B); 
+        pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, pidget(), pidwrite()); 
+        pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, pidget(), pidwrite()); 
     }
     
     public static Arm getInstance() {
