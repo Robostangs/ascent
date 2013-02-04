@@ -29,22 +29,15 @@ public class Arm {
         return instance;
     }
     
-    public double getPotA() {
+    public static int getPotA() {
         return potA.getAverageValue(); 
     }    
-    public static int getPotA() {
-        return 0;
-    }
-    
 
-    public double getPotB() {
+    public static int getPotB() {
         return potB.getAverageValue(); //shows as error
     }
-    public static int getPotB() {
-        return 0;
-    }
     
-     public double getAngle() {
+     public static double getAngle() {
         double w;
         if (useB == false) {
             w = Constants.INIT_POT_VALUE + getPotA() * Constants.POT_IN_DEGREES;
@@ -58,11 +51,6 @@ public class Arm {
             w = 0;
             return w;
         }
-
-    public static double getAngle() {
-        return 0;
-
-    }
     
     public static void setJags(double power) {
         ArmMotors.set(power);
