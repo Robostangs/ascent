@@ -14,8 +14,8 @@ public class Lifter {
 
   private Lifter() { 
       try{
-      lift = new CANJaguar(Constants.LIFTER_JAG);
-      }catch (CANTimeoutException ex) {
+        lift = new CANJaguar(Constants.LIFTER_JAG_POS);
+      } catch (CANTimeoutException ex) {
           ex.printStackTrace();
       }
   }
@@ -24,13 +24,12 @@ public class Lifter {
     if (instance == null) {
       instance = new Lifter();
     }
-    
     return instance;
   }
 
   public static void enable() {
         try {
-            lift.setX(1.0);
+            lift.setX(Constants.LIFTER_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -38,7 +37,7 @@ public class Lifter {
 
   public static void reverse() {
         try {
-            lift.setX(-1.0);
+            lift.setX(-Constants.LIFTER_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }

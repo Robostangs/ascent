@@ -34,15 +34,16 @@ public class Shooter {
 
     public static void shoot() {
         try{
-            shooter.setX(1.0);
+            shooter.setX(Constants.SHOOTER_MAX_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+        feedMode = false;
     }
 
     public static void feed() {
         try {
-            shooter.setX(-1.0);
+            shooter.setX(-Constants.SHOOTER_FEED_POWER); //feed shouldn't run @ full
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -58,10 +59,11 @@ public class Shooter {
     }
 
     public static boolean isFeedMode() {
-        return false;
+        return feedMode;
     }
 
     public static boolean readyToShoot() {
+        //TODO: get shooter jag current?
         return false;
     }
 }

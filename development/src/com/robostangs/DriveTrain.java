@@ -22,7 +22,7 @@ public class DriveTrain {
             rightBack, climber;
     private static Encoder leftEncoder, rightEncoder;
     private static Gyro gyro;
-    private static Timer timer;
+    private static StopWatch timer;
     private static boolean climbMode;
     
     private DriveTrain() {
@@ -31,7 +31,7 @@ public class DriveTrain {
         
         gyro = new Gyro (Constants.DT_GYRO_POS);
         
-        timer = new Timer();
+        timer = new StopWatch();
         
         try {
             //declare jags here, init jags method not necessary
@@ -48,6 +48,7 @@ public class DriveTrain {
             rightFront.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
             rightMid.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
             rightBack.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
+            climber.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -90,7 +91,7 @@ public class DriveTrain {
      * @param power positive = CW, negative = CCW
      */
     public static void turn(double power) {
-        drive (power, -power);
+        drive(power, -power);
     }
     
     /**
@@ -118,7 +119,7 @@ public class DriveTrain {
      * @param rightPower 
      */
     public static void driveSlow(double leftPower, double rightPower) {
-        drive(leftPower/2, rightPower/2);
+        drive(leftPower / 2, rightPower / 2);
     }
     
     /**
@@ -170,15 +171,13 @@ public class DriveTrain {
             timer.start();
             driveStraight(power, angle);
             return 0;
-        } else if (getLeftEncoderDistance() >= distance && getRightEncoderDistance() >= distance) {
+        } else {
             driveStraight(0,0);
             timer.stop();
             resetTimer();
             resetEncoders();
             return 1;
         }
-        
-        return -1;
     }
     
     /**
@@ -192,7 +191,7 @@ public class DriveTrain {
         
         /*
          * timer stuff
-         * it's a circular motion so find É÷(É¢É∆/É¢t)
+         * it's a circular motion 
          * t = angle / power
          */ 
         double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;

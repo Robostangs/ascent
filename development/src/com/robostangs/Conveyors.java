@@ -14,8 +14,8 @@ public class Conveyors {
     
     private Conveyors() {
         try{
-        ingestConveyor = new CANJaguar(Constants.INGEST_CONV_JAG);
-        shooterConveyor = new CANJaguar(Constants.SHOOT_CONV_JAG);
+            ingestConveyor = new CANJaguar(Constants.CONV_INGEST_JAG_POS);
+            shooterConveyor = new CANJaguar(Constants.CONV_SHOOT_JAG_POS);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -31,7 +31,7 @@ public class Conveyors {
     
     public static void ingestMode() {
         try {
-            ingestConveyor.setX(1.0);
+            ingestConveyor.setX(Constants.CONV_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -39,7 +39,7 @@ public class Conveyors {
     
     public static void reverseIngest(){
         try {
-            ingestConveyor.setX(-1.0);
+            ingestConveyor.setX(-Constants.CONV_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class Conveyors {
 
     public static void readyShooter() {
         try {
-            shooterConveyor.setX(1.0);
+            shooterConveyor.setX(Constants.CONV_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -63,7 +63,7 @@ public class Conveyors {
 
     public static void feedMode() { 
         try {
-            shooterConveyor.setX(-1.0);
+            shooterConveyor.setX(-Constants.CONV_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -78,26 +78,23 @@ public class Conveyors {
     }
 
     public static void stopBoth() {
-        try {
-            ingestConveyor.setX(0.0);
-            shooterConveyor.setX(0.0);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
+        stopIngest();
+        stopShooter();
     }
 
     public static void shakeIngest() {
         StopWatch timer = new StopWatch();
-        while(timer.get() < 2){
-            if(direction){
+        timer.start();
+        while (timer.getSeconds() < 2) {
+            if (direction) {
                 try {
-                    ingestConveyor.setX(.5);
+                    ingestConveyor.setX(Constants.CONV_POWER);
                 } catch (CANTimeoutException ex) {
                     ex.printStackTrace();
                 }           
-            }else{
+            } else {
                 try {
-                    ingestConveyor.setX(-.5);
+                    ingestConveyor.setX(-Constants.CONV_POWER);
                 } catch (CANTimeoutException ex) {
                     ex.printStackTrace();
                 }
@@ -105,20 +102,20 @@ public class Conveyors {
         }
         direction = !direction;
         timer.reset();
-        }            
+    }            
 
     public static void shakeShooter() {
         StopWatch timer = new StopWatch();
-        while(timer.get() < 2){
-            if(direction){
+        while (timer.get() < 2) {
+            if (direction) {
                 try {
-                    shooterConveyor.setX(.5);
+                    shooterConveyor.setX(Constants.CONV_POWER);
                 } catch (CANTimeoutException ex) {
                     ex.printStackTrace();
                 }           
-            }else{
+            } else {
                 try {
-                    shooterConveyor.setX(-.5);
+                    shooterConveyor.setX(-Constants.CONV_POWER);
                 } catch (CANTimeoutException ex) {
                     ex.printStackTrace();
                 }

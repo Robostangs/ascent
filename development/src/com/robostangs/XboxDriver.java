@@ -20,20 +20,41 @@ public class XboxDriver extends XboxController {
 
     public static XboxDriver getInstance() {
         if (instance == null) {
-            instance = new XboxDriver(1);
+            instance = new XboxDriver(Constants.XBOX_DRIVER_PORT);
         }
 
         return instance;
     }
     
-    public void antidrift(double leftStick, double rightStick)
-    {
-        if(Math.abs(leftStick) < 0.1){
-            leftStick = 0;
+    public double leftStickXAxis() {
+        double lsxa = getRawAxis(1);
+        if (Math.abs(lsxa) < Constants.XBOX_DRIVER_DRIFT) {
+            lsxa = 0;
         }
-        
-        if(Math.abs(rightStick) < 0.1){
-            rightStick = 0;
+        return lsxa;
+    }
+    
+    public double leftStickYAxis(){
+        double lsya = -getRawAxis(2);
+        if(Math.abs(lsya) < Constants.XBOX_DRIVER_DRIFT) {
+            lsya = 0;
         }
+        return lsya;
+    }
+       
+    public double rightStickXAxis(){
+        double rsxa = getRawAxis(4);
+        if(Math.abs(rsxa) < Constants.XBOX_DRIVER_DRIFT) {
+            rsxa = 0;
+        }
+        return rsxa;
+    }
+    
+    public double rightStickYAxis(){
+        double rsya = -getRawAxis(5);
+        if(Math.abs(rsya) < Constants.XBOX_DRIVER_DRIFT) {
+            rsya = 0;
+        }
+        return rsya;
     }
 }

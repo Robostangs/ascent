@@ -16,6 +16,9 @@ public class Constants {
      */
     public static final double MICRO_TO_BASE = 0.0;
 
+    /*
+     * Arm
+     */
     public static final int POT_A_PORT = 0;
     public static final int POT_B_PORT = 0;
     public static final int POT_MIN_VALUE = 0;
@@ -29,10 +32,14 @@ public class Constants {
     public static final double ARM_KP_B = 0.0;
     public static final double ARM_KI_B = 0.0;
     public static final double ARM_KD_B = 0.0;
-    static final int INGEST_RELAY = 0;
-    static final int LIFTER_JAG = 0;
-    static final int INGEST_CONV_JAG = 0;
-    static final int SHOOT_CONV_JAG = 0;
+
+    /*
+     * Loading System
+     */
+    public static final int INGEST_RELAY = 0;
+    public static final int LIFTER_JAG = 0;
+    public static final int INGEST_CONV_JAG = 0;
+    public static final int SHOOT_CONV_JAG = 0;
     
     /*
      * DriveTrain

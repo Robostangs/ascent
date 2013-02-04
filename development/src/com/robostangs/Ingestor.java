@@ -16,26 +16,28 @@ public class Ingestor {
     private static boolean isOn;
     
     private Ingestor() {
-        ingest = new Relay(Constants.INGEST_RELAY);
+        ingest = new Relay(Constants.INGEST_RELAY_POS);
     }
     
     public static Ingestor getInstance() {
         if (instance == null) {
             instance = new Ingestor();
         }
-        
         return instance;
     }
     
     public static void turnOn() {
+        isOn = true;
         ingest.set(Relay.Value.kForward);
     }
     
     public static void turnOff() {
+        isOn = false;
         ingest.set(Relay.Value.kOn);
     }
     
     public static void reverse() {
+        isOn = true;
         ingest.set(Relay.Value.kReverse);
     }
     

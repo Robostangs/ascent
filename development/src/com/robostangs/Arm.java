@@ -6,20 +6,21 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm {
     private static Arm instance = null;
-    private Potentiometer potA, potB;
-    private ArmMotors motors;
-    private PIDController pidA, pidB; 
-    private boolean useB;
+    private static Potentiometer potA, potB;
+    private static ArmMotors motors;
+    private static PIDController pidA, pidB; 
+    private static boolean useB = false;
     
     private Arm() {
         potA = new Potentiometer(Constants.POT_A_PORT);
         potB = new Potentiometer(Constants.POT_B_PORT);
         motors = ArmMotors.getInstance();
-        pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, pidGet(), pidWrite()); 
-        pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, pidGet(), pidWrite()); 
+        pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motors); 
+        pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, potB, motors); 
     }
     
     public static Arm getInstance() {
@@ -29,49 +30,54 @@ public class Arm {
         return instance;
     }
     
-    public int getPotA() {
+    public static int getPotA() {
         return potA.getAverageValue(); 
     }    
 
-    public int getPotB() {
+    public static int getPotB() {
         return potB.getAverageValue(); 
     }
     
-     public double getAngle() {
-        double w;
-        if (useB == false) {
-            w = Constants.INIT_POT_VALUE + getPotA() * Constants.POT_IN_DEGREES;
-            return w;
-        }
-        else if (useB == true) {
-            w = Constants.INIT_POT_VALUE + getPotB() * Constants.POT_IN_DEGREES;
-            return w;
-        }
-        else {
-            w = 0;
-            return w;
+     public static double getAngle() {
+        double angle = 0;
+        if (!useB) {
+            angle = (getPotA() - Constants.ARM_POT_ZERO) * Constants.POT_TO_DEGREES;
+            return angle;
+        } else {
+            angle = (getPotB() - Constants.ARM_POT_ZERO) * Constants.POT_TO_DEGREES;
+            return angle;
         }
      }
     
     public static void setJags(double power) {
+        if (pidEnabled()) {
+            disablePID();
+        }
         ArmMotors.set(power);
     }
     
 
     public static void setPosition(double potValue) { 
-        ArmMotors.getAverageValue(potValue);
+        if (useB) {
+            pidA.disable();
+            pidB.setSetpoint(potValue);
+            pidB.enable();
+        } else {
+            pidB.disable();
+            pidA.setSetpoint(potValue);
+            pidA.enable();
+        }
     }
         
-    public boolean pidEnabled() {
-        if( pidA.isEnable() || pidB.isEnable()) {
+    public static boolean pidEnabled() {
+        if (pidA.isEnable() || pidB.isEnable()) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }    
     }
     
-    public void disablePID() {
+    public static void disablePID() {
         if( pidA.isEnable()) {
             pidA.disable();
         }
@@ -80,67 +86,51 @@ public class Arm {
         }
     }
     
-    public void stop() {
+    public static void stop() {
         ArmMotors.set(0);
     }
     
-    public void usePotA() {
-        pidA.enable();
-        pidB.disable();
+    public static void usePotA() {
         useB = false;
     }
     
-    public void usePotB() {
-        pidB.enable();
-        pidA.disable();
+    public static void usePotB() {
         useB = true;
     }
     
-    public void switchPot() {
-        // if both are disabled then it uses potA
-        if (pidA.isEnable() && !pidB.isEnable()) {
-            Arm.getInstance().usePotB();
-        }
-        else if (!pidA.isEnable() || pidB.isEnable()) {
-            Arm.getInstance().usePotA();
-        }        
+    public static void switchPot() {
+        useB = !useB;        
     }
     
-    public void sendAngle() {
-        SmartDashboard.putData("Angle: ", getAngle());
+    public static void sendAngle() {
+        SmartDashboard.putNumber("Angle: ", getAngle());
     }
     
-    public void sendPotData() {
-        if(potA.isEnable()) {
-            SmartDashboard.putData(getPotA());
-        }
-        if(potB.isEnable()) {
-            SmartDashboard.putData(getPotB());
-        }
+    public static void sendPotData() {
+        SmartDashboard.putNumber("Pot A: ", getPotA());
+        SmartDashboard.putNumber("Pot B: ", getPotB());
     }
     
-    public void sendWhichPotInUse() {
-        if(potA.isEnable()) {
-            SmartDashboard.putString("Pot A: ");
-        }
-        if(potB.isEnable()){
-            SmartDashboard.putString("Pot B: ");
+    public static void sendWhichPotInUse() {
+        if (useB) {
+            SmartDashboard.putString("CURRENT POT: ", "POT B");
+        } else {
+            SmartDashboard.putString("CURRENT POT: ", "POT A");
         }
     } 
     
     public boolean isPotAFunctional() {
-        // must be enabled and within possble range
-        if (pidA.isEnable() && Constants.POT_MIN_VALUE <= getPotA() && getPotA() <= Constants.POT_MAX_VALUE) {
+        // must be within possble range
+        if (getPotA() >= Constants.POT_MIN_VALUE  && getPotA() <= Constants.POT_MAX_VALUE) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
     
     public boolean isPotBFunctional() {
         // must be enabled and within possible range
-        if (pidB.isEnable() && Constants.POT_MIN_VALUE <= getPotB() && Constants.POT_MAX_VALUE <= getPotB()) {
+        if (getPotB() >= Constants.POT_MIN_VALUE  && getPotB() <= Constants.POT_MAX_VALUE) {
             return true;
         }
         else {

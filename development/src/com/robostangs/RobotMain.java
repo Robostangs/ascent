@@ -31,7 +31,20 @@ public class RobotMain extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-
+        //avoid null pointers
+        Arm.getInstance();
+        Autonomous.getInstance();
+        Camera.getInstance();
+        DriveTrain.getInstance();
+        FrisbeeTracker.getInstance();
+        Loader.getInstance();
+        Shooter.getInstance();
+        XboxDriver.getInstance();
+        XboxManip.getInstance();
+    }
+    
+    public void autonomousInit() {
+        
     }
 
     /**

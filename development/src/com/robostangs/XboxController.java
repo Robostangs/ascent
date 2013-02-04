@@ -61,27 +61,25 @@ public class XboxController extends Joystick {
     
     public boolean rightTriggerButton(){
         double rtb = triggerAxis();
-        if (rtb > 0.5)
-        {
-            return (true);
+        if (rtb < -0.5) {
+            return true;
+        } else {
+            return false;
         }
-        
-        return getRawButton(11);
     }
     
-    public boolean leftTriggerButton(){
+    public boolean leftTriggerButton() {
         double ltb = triggerAxis();
-        if (ltb < -0.5)
-        {
+        if (ltb > 0.5) {
             return (true);
+        } else {
+            return false;
         }
-        return getRawButton(12);
     }
     
-    public double leftStickXAxis(){
+    public double leftStickXAxis() {
         double lsxa = getRawAxis(1);
-        if(Math.abs(lsxa) < 0.1)
-        {
+        if (Math.abs(lsxa) < 0.1) {
             lsxa = 0;
         }
         return lsxa;
