@@ -62,4 +62,5 @@ public class Constants {
 
     //Timer
     public static final double DT_CONV_VOLT_TO_M_PER_SEC = 0.0;
+    public static final double DT_DELAY_TIME = 1.0;
 }

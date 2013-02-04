@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Timer;
 
 /**
  * DT has 6 jags, encoder on each side, and a gyro
@@ -151,6 +150,8 @@ public class DriveTrain {
      * @return -1 when incomplete, 0 when in progress, 1 when complete
      */
     public static int driveStraight(double power, double angle, double distance) {
+        timer.start();
+        
         /*
          * timer stuff
          * change power(Volts) to speed(distance/time)
@@ -159,7 +160,7 @@ public class DriveTrain {
          */ 
         double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;
         double expectedTime = distance / speed;
-        if (timer.get() > (expectedTime + 1.0)) {
+        if (timer.get() > (expectedTime + Constants.DT_DELAY_TIME)) {
             driveStraight(0, 0);
             timer.stop();
             resetTimer();
@@ -168,7 +169,6 @@ public class DriveTrain {
         }
         
         if (getLeftEncoderDistance() < distance && getRightEncoderDistance() < distance) {
-            timer.start();
             driveStraight(power, angle);
             return 0;
         } else {
@@ -191,12 +191,12 @@ public class DriveTrain {
         
         /*
          * timer stuff
-         * it's a circular motion 
+         * it's a circular motion omega = angle / time
          * t = angle / power
          */ 
         double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;
         double expectedTime = Math.toRadians(angle) / speed;
-        if (timer.get() > (expectedTime + 1.0)) {
+        if (timer.get() > (expectedTime + Constants.DT_DELAY_TIME)) {
             driveStraight(0, 0);
             timer.stop();
             resetTimer();
@@ -204,22 +204,22 @@ public class DriveTrain {
             return -1;
         }
         
-        if (angle > 0) {
+        if (angle >= 0) {
             if(getAngle() < angle) {
                 turn(power, -power);
                 return 0;
-            } else if (getAngle() >= angle) {
+            } else {
                 turn(0, 0);
                 timer.stop();
                 resetTimer();
                 resetEncoders();
                 return 1;
             }
-        } else if (angle < 0) {
+        } else {
             if (getAngle() > angle) {
                 turn (-power, power);
                 return 0;
-            } else if (getAngle() <= angle) {
+            } else {
                 turn (0, 0);
                 timer.stop();
                 resetTimer();
@@ -227,8 +227,6 @@ public class DriveTrain {
                 return 1;
             }
         }
-        
-        return -1;
     }
     
     /**
