@@ -33,11 +33,11 @@ public class Arm {
         return potA.getAverageValue(); 
     }    
 
-    public static int getPotB() {
+    public int getPotB() {
         return potB.getAverageValue(); 
     }
     
-     public static double getAngle() {
+     public double getAngle() {
         double w;
         if (useB == false) {
             w = Constants.INIT_POT_VALUE + getPotA() * Constants.POT_IN_DEGREES;
