@@ -57,12 +57,8 @@ public class Arm {
     }
     
 
-    public void setPosition(double potValue) { 
-        ArmMotors.getAverageValue(potValue); //shows as error
-
-    public static void setPosition(double potValue) {
-        
-    }
+    public static void setPosition(double potValue) { 
+        ArmMotors.getAverageValue(potValue);
     
     public boolean pidEnabled() {
         if( pidA.isEnable() || pidB.isEnable()) {
