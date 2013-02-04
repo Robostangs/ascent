@@ -71,7 +71,7 @@ public class Arm {
         }    
     }
     
-    public static void disablePID() {
+    public void disablePID() {
         if( pidA.isEnable()) {
             pidA.disable();
         }
@@ -80,23 +80,23 @@ public class Arm {
         }
     }
     
-    public static void stop() {
+    public void stop() {
         ArmMotors.set(0);
     }
     
-    public static void usePotA() {
+    public void usePotA() {
         pidA.enable();
         pidB.disable();
         useB = false;
     }
     
-    public static void usePotB() {
+    public void usePotB() {
         pidB.enable();
         pidA.disable();
         useB = true;
     }
     
-    public static void switchPot() {
+    public void switchPot() {
         // if both are disabled then it uses potA
         if (pidA.isEnable() && !pidB.isEnable()) {
             Arm.getInstance().usePotB();
@@ -106,11 +106,11 @@ public class Arm {
         }        
     }
     
-    public static void sendAngle() {
+    public void sendAngle() {
         SmartDashboard.putData("Angle: ", getAngle());
     }
     
-    public static void sendPotData() {
+    public void sendPotData() {
         if(potA.isEnable()) {
             SmartDashboard.putData(getPotA());
         }
@@ -119,7 +119,7 @@ public class Arm {
         }
     }
     
-    public static void sendWhichPotInUse() {
+    public void sendWhichPotInUse() {
         if(potA.isEnable()) {
             SmartDashboard.putString("Pot A: ");
         }
@@ -128,7 +128,7 @@ public class Arm {
         }
     } 
     
-    public static boolean isPotAFunctional() {
+    public boolean isPotAFunctional() {
         // must be enabled and within possble range
         if (pidA.isEnable() && Constants.POT_MIN_VALUE <= getPotA() && getPotA() <= Constants.POT_MAX_VALUE) {
             return true;
