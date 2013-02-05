@@ -23,8 +23,8 @@ public class Constants {
     public static final int POT_B_PORT = 0;
     public static final int POT_MIN_VALUE = 0;
     public static final int POT_MAX_VALUE = 0;
-    public static final double INIT_POT_VALUE = 0.0;
-    public static final double POT_IN_DEGREES = 0.0;
+    public static final double ARM_POT_ZERO = 0.0;
+    public static final double POT_TO_DEGREES = 0.0;
     // arm pid
     public static final double ARM_KP_A = 0.0;
     public static final double ARM_KI_A = 0.0;
