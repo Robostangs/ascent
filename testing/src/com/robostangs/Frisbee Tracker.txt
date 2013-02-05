@@ -2,8 +2,8 @@ Frisbee Tracker: Testing/Requirements
 
 What its supposed to do:
     -Counts Frisbees
-        -This tells shootSwitch whether or not it should add the frisbee or not allow the frisbee in the robot.
-    -Uses a timer in order to see if a frisbee is ingested in the robot
+        -This tells shootSwitch whether (or not) it should add the frisbee or (not) allow the frisbee in the robot. 
+    -Uses a timer in order to see if a frisbee is ingested in the robot 
     -Uses a timer in order to see if a frisbee is about to enter the lift
     -Uses a timer in order to see if a frisbee is going to pass through the shooter
 
@@ -17,6 +17,6 @@ Ways to Test:
     +Physically:
         -Insert the frisbee into the robot at different angles, speeds, and orientations
         -Test the different buttons on the Xbox Controller in different orders
-        -Have the frisbee go into the Ingestpr, Lifter, and Shooter and varying times and orders
+        -Have the frisbee go into the Ingester, Lifter, and Shooter and varying times and orders 
     +Code:
         -Read through code to correct any errors in timers set time.
