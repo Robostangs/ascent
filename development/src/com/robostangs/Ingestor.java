@@ -26,21 +26,34 @@ public class Ingestor {
         return instance;
     }
     
+    /**
+     * Turn on ingestor
+     */
     public static void turnOn() {
         isOn = true;
         ingest.set(Relay.Value.kForward);
     }
     
+    /**
+     * Turn off ingestor
+     */
     public static void turnOff() {
         isOn = false;
         ingest.set(Relay.Value.kOn);
     }
     
+    /**
+     * Ingestor goes in reverse
+     */
     public static void reverse() {
         isOn = true;
         ingest.set(Relay.Value.kReverse);
     }
     
+    /**
+     * return isOn
+     * @return 
+     */
     public static boolean getState() {
         return isOn;
     }

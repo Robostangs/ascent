@@ -27,6 +27,9 @@ public class Lifter {
     return instance;
   }
 
+  /**
+   * Lifter goes up
+   */
   public static void enable() {
         try {
             lift.setX(Constants.LIFTER_POWER);
@@ -35,6 +38,9 @@ public class Lifter {
         }
   }
 
+  /**
+   * Lifter goes down
+   */
   public static void reverse() {
         try {
             lift.setX(-Constants.LIFTER_POWER);
@@ -43,6 +49,9 @@ public class Lifter {
         }
   }
 
+  /**
+   * Stops the lifter
+   */
   public static void stop() {
         try {
             lift.setX(0.0);

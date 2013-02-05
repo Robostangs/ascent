@@ -36,10 +36,12 @@ public class Constants {
     /*
      * Loading System
      */
-    public static final int INGEST_RELAY = 0;
-    public static final int LIFTER_JAG = 0;
-    public static final int INGEST_CONV_JAG = 0;
-    public static final int SHOOT_CONV_JAG = 0;
+    public static final int INGEST_RELAY_POS = 0;
+    public static final int LIFTER_JAG_POS = 0;
+    public static final int CONV_INGEST_JAG_POS = 0;
+    public static final int CONV_SHOOT_JAG_POS = 0;
+    public static final int LIFTER_POWER = 0;
+    public static final int CONV_POWER = 0;
     
     /*
      * DriveTrain

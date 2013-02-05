@@ -29,6 +29,9 @@ public class Conveyors {
         return instance;
     }
     
+    /**
+     * Ingestor conveyor goes forward
+     */
     public static void ingestMode() {
         try {
             ingestConveyor.setX(Constants.CONV_POWER);
@@ -37,6 +40,9 @@ public class Conveyors {
         }
     }
     
+    /**
+     * Ingestor conveyor goes in reverse
+     */
     public static void reverseIngest(){
         try {
             ingestConveyor.setX(-Constants.CONV_POWER);
@@ -45,6 +51,9 @@ public class Conveyors {
         }
     }
     
+    /**
+     * Ingestor conveyor stops
+     */
     public static void stopIngest() {
         try {
             ingestConveyor.setX(0.0);
@@ -53,6 +62,9 @@ public class Conveyors {
         }
     }
 
+    /**
+     * Readies the shooter to shoot
+     */
     public static void readyShooter() {
         try {
             shooterConveyor.setX(Constants.CONV_POWER);
@@ -61,6 +73,9 @@ public class Conveyors {
         }
     }
 
+    /**
+     * Shooter conveyor goes in reverse at feeder station
+     */
     public static void feedMode() { 
         try {
             shooterConveyor.setX(-Constants.CONV_POWER);
@@ -69,6 +84,9 @@ public class Conveyors {
         }
     }
 
+    /**
+     * Stops the shooter
+     */
     public static void stopShooter() { 
         try {
             shooterConveyor.setX(0.0);
@@ -77,11 +95,17 @@ public class Conveyors {
         }
     }
 
+    /**
+     * The ingestor and the shooter both stop
+     */
     public static void stopBoth() {
         stopIngest();
         stopShooter();
     }
 
+    /**
+     * Unjams the ingestor conveyor
+     */
     public static void shakeIngest() {
         StopWatch timer = new StopWatch();
         timer.start();
@@ -104,9 +128,13 @@ public class Conveyors {
         timer.reset();
     }            
 
+    /**
+     * Unjams the shooter conveyor
+     */
     public static void shakeShooter() {
         StopWatch timer = new StopWatch();
-        while (timer.get() < 2) {
+        timer.start();
+        while (timer.getSeconds() < 2) {
             if (direction) {
                 try {
                     shooterConveyor.setX(Constants.CONV_POWER);
