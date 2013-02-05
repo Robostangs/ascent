@@ -1,6 +1,6 @@
 Arm: Testing/requirements
 
-What it is suppose to do: 
+What it is suppose to do (not supposed): 
 
 enable/disable pid
 change pid channels
