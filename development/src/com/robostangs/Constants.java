@@ -65,4 +65,16 @@ public class Constants {
     //Timer
     public static final double DT_CONV_VOLT_TO_M_PER_SEC = 0.0;
     public static final double DT_DELAY_TIME = 1.0;
+    
+        //XBOX Driver + Manipulator
+    public static final double XBOX_DRIVER_DRIFT = 0.1;
+    public static final int XBOX_DRIVER_PORT = 0;
+    public static final int XBOX_MANIP_PORT = 0;
+    public static final double XBOX_MANIP_DRIFT = 0.1;
+    
+    //shooter
+    public static final double SHOOTER_FEED_POWER = 0.0;
+    public static final int SHOOTER_JAG_POS = 0;
+    public static final double SHOOTER_MAX_POWER = 1;
+
 }
