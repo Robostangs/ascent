@@ -23,6 +23,10 @@ public class Shooter {
             System.out.println("CAN ERROR AT SHOOTER");
             ex.printStackTrace();
         }
+        
+        /**
+        *Try catch for jags
+        */
     }
 
     public static Shooter getInstance() {
@@ -30,6 +34,10 @@ public class Shooter {
             instance = new Shooter();
         }
         return instance;
+        
+        /**
+        *setting up singleton
+        */
     }
 
     public static void shoot() {
@@ -39,6 +47,10 @@ public class Shooter {
             ex.printStackTrace();
         }
         feedMode = false;
+        /**
+         * Set shooter to max power
+         * Shut down feedMode
+         */
     }
 
     public static void feed() {
@@ -48,6 +60,10 @@ public class Shooter {
             ex.printStackTrace();
         }
         feedMode = true;
+        /**
+         * Set feeder power to negative
+         * Start feedMode
+         */
     }
 
     public static void stop() {
@@ -56,6 +72,10 @@ public class Shooter {
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+        
+        /**
+         * Shut down shooter jag
+         */
     }
 
     public static boolean isFeedMode() {
