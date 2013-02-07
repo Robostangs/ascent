@@ -10,5 +10,4 @@ package com.robostangs;
  */
 public class Gyro {
     
-    
 }
