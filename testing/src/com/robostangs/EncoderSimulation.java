@@ -2,11 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.robostangs;
 
 /**
  *
- * @author Laptop
+ * @author Silvio
  */
-public class Encoder {
+public class EncoderSimulation {
     
 }
