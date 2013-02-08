@@ -10,11 +10,6 @@ package com.robostangs;
  * TODO: everything pretty much.
  */
 public class Constants {
-    
-    /*
-     * StopWatch
-     */
-    public static final double MICRO_TO_BASE = 0.0;
 
     /*
      * Arm
@@ -25,7 +20,8 @@ public class Constants {
     public static final int POT_MAX_VALUE = 0;
     public static final double ARM_POT_ZERO = 0.0;
     public static final double POT_TO_DEGREES = 0.0;
-    // arm pid
+    
+    // Arm PID
     public static final double ARM_KP_A = 0.0;
     public static final double ARM_KI_A = 0.0;
     public static final double ARM_KD_A = 0.0;
@@ -34,19 +30,16 @@ public class Constants {
     public static final double ARM_KD_B = 0.0;
 
     /*
-     * Loading System
+     * Conveyors
      */
-    public static final int INGEST_RELAY_POS = 0;
-    public static final int LIFTER_JAG_POS = 0;
     public static final int CONV_INGEST_JAG_POS = 0;
     public static final int CONV_SHOOT_JAG_POS = 0;
-    public static final int LIFTER_POWER = 0;
-    public static final int CONV_POWER = 0;
-    
+    public static final double CONV_POWER = 0.0;   
+
     /*
      * DriveTrain
      */
-    //Position
+    //Positions
     public static final int DT_LEFT_ENCODER_FRONT = 0;
     public static final int DT_LEFT_ENCODER_BACK = 0;
     public static final int DT_RIGHT_ENCODER_FRONT = 0;
@@ -66,15 +59,53 @@ public class Constants {
     public static final double DT_CONV_VOLT_TO_M_PER_SEC = 0.0;
     public static final double DT_DELAY_TIME = 1.0;
     
-        //XBOX Driver + Manipulator
+    /*
+     * FrisbeeTracker
+     */
+    //Positions
+    public static final int INGEST_SWITCH_POS = 0;
+    public static final int SHOOT_SWITCH_POS = 0;
+    public static final int LIFT_SWITCH_POS = 0;
+    
+    //Timers
+    public static final double INGEST_FRISBEE_TIMER = 0.0;
+    public static final double LIFT_FRISBEE_TIMER = 0.0;
+    public static final double SHOOT_FRISBEE_TIMER = 0.0;
+    
+    /*
+     * Ingestor
+     */
+    public static final int INGEST_RELAY_POS = 0;
+    
+    /*
+     * Lifter
+     */
+    public static final int LIFTER_JAG_POS = 0;
+    public static final double LIFTER_POWER = 0.0;
+        
+    /*
+     * Shooter
+     */ 
+    public static final int SHOOTER_JAG_POS = 0;
+    public static final double SHOOTER_MAX_POWER = 1.0;
+    public static final double SHOOTER_FEED_POWER = 0.0;
+    
+    /*
+     * StopWatch
+     */
+    public static final double MICRO_TO_BASE = 0.0;
+    
+    /*
+     * XboxController
+     */
+    //Driver
     public static final double XBOX_DRIVER_DRIFT = 0.1;
     public static final int XBOX_DRIVER_PORT = 0;
+    
+    //Manipulator
     public static final int XBOX_MANIP_PORT = 0;
     public static final double XBOX_MANIP_DRIFT = 0.1;
     
-    //shooter
-    public static final double SHOOTER_FEED_POWER = 0.0;
-    public static final int SHOOTER_JAG_POS = 0;
-    public static final double SHOOTER_MAX_POWER = 1;
+
 
 }
