@@ -9,5 +9,5 @@ package com.robostangs;
  * @author Silvio
  */
 public class EncoderSimulation {
-    
+    //TODO: Log past values
 }
