@@ -59,6 +59,46 @@ public class RobotMain extends IterativeRobot {
      */
     public void teleopPeriodic() {
         
+                
+        /*
+         * Driver left trigger: Run the standalone climber
+         */
+        if (XboxDriver.leftTriggerButton()) {
+            //TODO: enable solo climber
+        }
+        
+        /*
+         * Shifting between drive mode and climb mode
+         * Driver a-button: enable climbing mode
+         * Driver b-button: enable drive mode
+         */
+        if (XboxDriver.aButton()) {
+            DriveTrain.enableClimbMode();
+        } else if (XboxDriver.bButton()) {
+            DriveTrain.enableDriveMode();
+        }
+        
+        /*
+         * TODO: Driver Right Bumper *OR* Manip Start: Take Picture
+         */
+        if (XboxDriver.rBumper() || XboxManip.startButton()) {
+            
+        }
+        /*
+         *  TODO: If Driver Right Trigger, Enable Auto Align
+         */
+        if (XboxDriver.rightTriggerButton()) {
+            
+        } else {
+            /*
+             * Drive Slow if Left Bumper, otherwise drive normally
+             */
+            if (XboxDriver.lbumper()) {
+                DriveTrain.driveSlow(XboxDriver.leftStickYAxis(), XboxDriver.rightStickYAxis());
+            } else {
+                DriveTrain.humanDrive(XboxDriver.leftStickYAxis(), XboxDriver.rightStickYAxis());
+            }
+        }
     }
     
 }
