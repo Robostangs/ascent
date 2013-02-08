@@ -14,6 +14,9 @@ public class Loader {
     private static Loader instance = null;
     
     private Loader() {
+        Conveyors.getInstance();
+        Ingestor.getInstance();
+        Lifter.getInstance();
     }
 
     public static Loader getInstance() {

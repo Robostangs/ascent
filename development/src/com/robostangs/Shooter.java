@@ -6,6 +6,7 @@ package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Handles the shooter
@@ -126,5 +127,9 @@ public class Shooter {
     public static boolean readyToShoot() {
         //TODO: get shooter jag current?
         return false;
+    }
+    
+    public static void sendReady() {
+        SmartDashboard.putBoolean("Shooter Ready: ", readyToShoot());
     }
 }

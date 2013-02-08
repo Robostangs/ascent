@@ -41,6 +41,7 @@ public class RobotMain extends IterativeRobot {
         DriveTrain.getInstance();
         FrisbeeTracker.getInstance();
         Loader.getInstance();
+        Log.getInstance();
         Shooter.getInstance();
         driver = XboxDriver.getInstance();
         manip = XboxManip.getInstance();
@@ -61,6 +62,11 @@ public class RobotMain extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        sendDataToDash();
+        
+        //count frisbees
+        FrisbeeTracker.count(Shooter.isFeedMode());
+        
         /*
          * Ingestor/Loader System Control
          * Left Bumper: Run ingestor + conveyors
@@ -128,6 +134,14 @@ public class RobotMain extends IterativeRobot {
                 Arm.stop();
             }
         }
+        
+        /*
+         * Manip Pot Controls
+         * Start: Change Pot
+         */
+        if (manip.startButton()) {
+            Arm.switchPot();
+        }
                 
         /*
          * Driver left trigger: Run the standalone climber
@@ -153,6 +167,7 @@ public class RobotMain extends IterativeRobot {
         if (driver.rBumper() || manip.backButton()) {
             
         }
+        
         /*
          *  TODO: If Driver Right Trigger, Enable Auto Align
          */
@@ -168,6 +183,15 @@ public class RobotMain extends IterativeRobot {
                 DriveTrain.humanDrive(driver.leftStickYAxis(), driver.rightStickYAxis());
             }
         }
+    }
+    
+    /**
+     * Sends data to the dashboard
+     */
+    public void sendDataToDash() {
+        Arm.sendWhichPotInUse();
+        Arm.sendPotData();
+        FrisbeeTracker.sendFrisbeeDataToDash();
     }
     
 }

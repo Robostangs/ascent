@@ -5,6 +5,7 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Counts frisbees, tracks location in robot
@@ -99,5 +100,13 @@ public class FrisbeeTracker {
         return false;
     }
     
-    
+    public static void sendFrisbeeDataToDash() {
+        SmartDashboard.putNumber("Number of frisbees", numberOfFrisbees);
+        if (numberOfFrisbees == 4) {
+            SmartDashboard.putString("AT MAX FRISBEES", "");
+        } else if (numberOfFrisbees > 4) {
+            SmartDashboard.putString("TOO MANY FRISBEES!!1!", "DUMP " 
+                    + (numberOfFrisbees - 4) + " STAT.");
+        }
+    }
 }
