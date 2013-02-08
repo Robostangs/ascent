@@ -6,7 +6,7 @@ package com.robostangs;
 
 /**
  *
- * @author Silvio
+ * @author Haley and Silvio
  */
 public class EncoderSimulation {
     //TODO: Log past values
