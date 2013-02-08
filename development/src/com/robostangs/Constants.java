@@ -28,6 +28,15 @@ public class Constants {
     public static final double ARM_KP_B = 0.0;
     public static final double ARM_KI_B = 0.0;
     public static final double ARM_KD_B = 0.0;
+    public static final double ARM_PYRAMID_POS = 0.0;
+    public static final double ARM_FEED_POS = 0.0;
+    
+    /*
+     * Autonomous
+     */
+    public static final double AUTON_DRIVE_POWER = 0.5;
+    public static final double AUTON_INGEST_DRIVE_POWER = 0.5;
+    public static final double AUTON_TURN_POWER = 0.5;
 
     /*
      * Conveyors
@@ -89,6 +98,10 @@ public class Constants {
     public static final int SHOOTER_JAG_POS = 0;
     public static final double SHOOTER_MAX_POWER = 1.0;
     public static final double SHOOTER_FEED_POWER = 0.0;
+    public static final double TIME_TO_SHOOT_ONE = 0.0;
+    public static final double TIME_TO_SHOOT_TWO = 0.0;
+    public static final double TIME_TO_SHOOT_THREE = 0.0;
+    public static final double TIME_TO_SHOOT_FOUR = 0.0;
     
     /*
      * StopWatch

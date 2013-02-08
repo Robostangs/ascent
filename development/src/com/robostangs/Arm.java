@@ -14,6 +14,7 @@ public class Arm {
     private static ArmMotors motors;
     private static PIDController pidA, pidB; 
     private static boolean useB = false;
+    private static StopWatch timer;
     
     private Arm() {
         potA = new Potentiometer(Constants.POT_A_PORT);
@@ -21,6 +22,7 @@ public class Arm {
         motors = ArmMotors.getInstance();
         pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motors); 
         pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, potB, motors); 
+        timer = new StopWatch();
     }
     
     public static Arm getInstance() {
@@ -75,14 +77,35 @@ public class Arm {
         }
         ArmMotors.set(power);
     }
+    
+    /**
+     * For manual control
+     * @param power 
+     */
+    public static void coarseDrive(double power) {
+        setJags(power);
+    }
+    
+    /**
+     * For fine manual control
+     * @param power 
+     */
+    public static void fineDrive(double power) {
+        setJags(power / 2.0);
+    }
     /**
      * @param potValue value of pot 
      * disables the other pot
      * sets the value of the pot
      * enables the pot
+     * @return 0 if in progress, 1 if done
      */
 
-    public static void setPosition(double potValue) { 
+    public static int setPosition(double potValue) { 
+        if (onTarget()) {
+            return 1;
+        }
+        
         if (useB) {
             pidA.disable();
             pidB.setSetpoint(potValue);
@@ -92,7 +115,42 @@ public class Arm {
             pidA.setSetpoint(potValue);
             pidA.enable();
         }
+        
+        return 0;
     }
+    
+    /**
+     * Uses PID to move to proper angle for pyramid shot
+     * @return 0 if in progress, 1 if done
+     */
+    public static int underPyramidShotPos() {
+        return setPosition(Constants.ARM_PYRAMID_POS);
+    }
+    
+    /**
+     * Uses PID to move to flat angle
+     * @return 0 if in progress, 1 if done
+     */
+    public static int flatPos() {
+        return setPosition(Constants.ARM_POT_ZERO);
+    }
+    
+    /**
+     * Uses PID to move to proper angle for feeding from station
+     * @return 0 if in progress, 1 if done
+     */
+    public static int feedPos() {
+        return setPosition(Constants.ARM_FEED_POS);
+    }
+    
+    /**
+     * TODO: Uses the camera to set arm pos
+     */
+    public static int camPos() {
+        
+        return 0;
+    }
+    
     /**
      * checks if either pid is enabled
      * @return true if either pid is enabled, false if neither is enabled
@@ -115,6 +173,10 @@ public class Arm {
         if (pidB.isEnable()) {
             pidB.disable();
         }
+    }
+    
+    public static boolean onTarget() {
+        return pidA.onTarget() || pidB.onTarget();
     }
     
     /**

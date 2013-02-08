@@ -27,7 +27,7 @@ public class XboxDriver extends XboxController {
     }
     
     public double leftStickXAxis() {
-        double lsxa = getRawAxis(1);
+        double lsxa = super.leftStickXAxis();
         if (Math.abs(lsxa) < Constants.XBOX_DRIVER_DRIFT) {
             lsxa = 0;
         }

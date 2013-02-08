@@ -26,6 +26,9 @@ import edu.wpi.first.wpilibj.IterativeRobot;
  * directory.
  */
 public class RobotMain extends IterativeRobot {
+    private XboxDriver driver;
+    private XboxManip manip;
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -39,8 +42,8 @@ public class RobotMain extends IterativeRobot {
         FrisbeeTracker.getInstance();
         Loader.getInstance();
         Shooter.getInstance();
-        XboxDriver.getInstance();
-        XboxManip.getInstance();
+        driver = XboxDriver.getInstance();
+        manip = XboxManip.getInstance();
     }
     
     public void autonomousInit() {
@@ -51,19 +54,85 @@ public class RobotMain extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
+        Autonomous.run();
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        /*
+         * Ingestor/Loader System Control
+         * Left Bumper: Run ingestor + conveyors
+         * Right Bumper: Run lifter + shooter conveyor
+         */
+        if (!manip.leftTriggerButton() && !manip.lBumper() 
+                && !manip.rBumper()) {
+            //not using loading system, turn off
+            Loader.allOff();
+        } else {
+            if (manip.lBumper()) {
+                Loader.ingest();
+            }
+            if (manip.rBumper()) {
+                Loader.loadShooter();
+            }
+        }
+       
         
+        /*
+         * Shooter Control
+         * Manip Right Trigger: Shoot
+         * Manip Left Trigger: Feed
+         */
+        if (manip.rightTriggerButton()) {
+            Shooter.shoot();
+        } else if (manip.leftTriggerButton()) {
+            Shooter.feed();
+            Loader.feed();
+        } else {
+            Shooter.stop();
+        }
+        
+        /*
+         * Manipulator Arm Control
+         * Left Stick: Coarse Manual
+         * Right Stick: Fine Manual
+         * A: Feeder Station
+         * B: Flat
+         * Y: Under the pyramind shot
+         * X: Use Camera to auto-set angle
+         */        
+        if ((Math.abs(manip.leftStickYAxis()) == 0) 
+                && Math.abs(manip.rightStickYAxis()) == 0) {
+            //not using the joysticks to manual set, use PID
+            if (manip.yButton()) {
+                Arm.underPyramidShotPos();
+            } else if (manip.aButton()) {
+                Arm.flatPos();
+            } else if (manip.bButton()) {
+                Arm.feedPos();
+            } else if (manip.xButton()) {
+                //TODO: manip set arm pos based on camera
+            } else {
+                Arm.stop();
+            }
+        } else {
+            if (Math.abs(manip.leftStickYAxis()) != 0) {
+                //coarse control
+                Arm.coarseDrive(manip.leftStickYAxis());
+            } else if (Math.abs(manip.rightStickYAxis()) != 0) {
+                //fine control
+                Arm.fineDrive(manip.rightStickYAxis());
+            } else {
+                Arm.stop();
+            }
+        }
                 
         /*
          * Driver left trigger: Run the standalone climber
          */
-        if (XboxDriver.leftTriggerButton()) {
+        if (driver.leftTriggerButton()) {
             //TODO: enable solo climber
         }
         
@@ -72,31 +141,31 @@ public class RobotMain extends IterativeRobot {
          * Driver a-button: enable climbing mode
          * Driver b-button: enable drive mode
          */
-        if (XboxDriver.aButton()) {
+        if (driver.aButton()) {
             DriveTrain.enableClimbMode();
-        } else if (XboxDriver.bButton()) {
+        } else if (driver.bButton()) {
             DriveTrain.enableDriveMode();
         }
         
         /*
-         * TODO: Driver Right Bumper *OR* Manip Start: Take Picture
+         * TODO: Driver Right Bumper *OR* Manip Back: Take Picture
          */
-        if (XboxDriver.rBumper() || XboxManip.startButton()) {
+        if (driver.rBumper() || manip.backButton()) {
             
         }
         /*
          *  TODO: If Driver Right Trigger, Enable Auto Align
          */
-        if (XboxDriver.rightTriggerButton()) {
+        if (driver.rightTriggerButton()) {
             
         } else {
             /*
              * Drive Slow if Left Bumper, otherwise drive normally
              */
-            if (XboxDriver.lbumper()) {
-                DriveTrain.driveSlow(XboxDriver.leftStickYAxis(), XboxDriver.rightStickYAxis());
+            if (driver.lBumper()) {
+                DriveTrain.driveSlow(driver.leftStickYAxis(), driver.rightStickYAxis());
             } else {
-                DriveTrain.humanDrive(XboxDriver.leftStickYAxis(), XboxDriver.rightStickYAxis());
+                DriveTrain.humanDrive(driver.leftStickYAxis(), driver.rightStickYAxis());
             }
         }
     }
