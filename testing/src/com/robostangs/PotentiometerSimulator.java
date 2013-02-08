@@ -5,12 +5,10 @@
 package com.robostangs;
 
 /**
+ *
  * @author Silvio and Haley
-*/
-public class EncoderSimulation {
-    //TODO: Log past values
+ */
+public class PotentiometerSimulator {
+    //TODO: Log some integer
     
-    public void Encoder (int left, int right){
-        
-    }
 }
