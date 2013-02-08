@@ -49,13 +49,23 @@ public class Arm {
         }
      }
     
+     /**
+      * @param power power of arm jags
+      * disables pid
+      * sets the power of the arm jags
+      */
     public static void setJags(double power) {
         if (pidEnabled()) {
             disablePID();
         }
         ArmMotors.set(power);
     }
-    
+    /**
+     * @param potValue value of pot 
+     * disables the other pot
+     * sets the value of the pot
+     * enables the pot
+     */
 
     public static void setPosition(double potValue) { 
         if (useB) {
@@ -68,7 +78,10 @@ public class Arm {
             pidA.enable();
         }
     }
-        
+    /**
+     * checks if either pid is enabled
+     * @return true if either pid is enabled, false if neither is enabled
+     */
     public static boolean pidEnabled() {
         if (pidA.isEnable() || pidB.isEnable()) {
             return true;
@@ -129,7 +142,7 @@ public class Arm {
     }
     
     public boolean isPotBFunctional() {
-        // must be enabled and within possible range
+        // must be within possible range
         if (getPotB() >= Constants.POT_MIN_VALUE  && getPotB() <= Constants.POT_MAX_VALUE) {
             return true;
         }
