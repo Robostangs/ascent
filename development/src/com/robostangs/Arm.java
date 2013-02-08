@@ -105,6 +105,9 @@ public class Arm {
         }    
     }
     
+    /**
+     * if either pid is enabled, it disables it
+     */
     public static void disablePID() {
         if( pidA.isEnable()) {
             pidA.disable();
@@ -114,31 +117,51 @@ public class Arm {
         }
     }
     
+    /**
+     * stops the arm motors
+     */
     public static void stop() {
         ArmMotors.set(0);
     }
     
+    /**
+     * makes pot A be in use by pid
+     */
     public static void usePotA() {
         useB = false;
     }
     
+    /**
+     * makes potB be in use by pid
+     */
     public static void usePotB() {
         useB = true;
     }
     
+    /**
+     * switches the pot used by the pid
+     */
     public static void switchPot() {
         useB = !useB;        
     }
     
+    /**
+     * sends value of angle to SmartDashboard
+     */
     public static void sendAngle() {
         SmartDashboard.putNumber("Angle: ", getAngle());
     }
     
+    /**
+     * sends the pot data from both pots to SmartDashboard
+     */
     public static void sendPotData() {
         SmartDashboard.putNumber("Pot A: ", getPotA());
         SmartDashboard.putNumber("Pot B: ", getPotB());
     }
-    
+    /**
+     * sends which pot is in use by pid to SmartDashboard
+     */
     public static void sendWhichPotInUse() {
         if (useB) {
             SmartDashboard.putString("CURRENT POT: ", "POT B");
@@ -147,6 +170,10 @@ public class Arm {
         }
     } 
     
+    /**
+     * checks if pot A is within range
+     * @return true if pot A is within range, false if it isn't
+     */
     public boolean isPotAFunctional() {
         // must be within possble range
         if (getPotA() >= Constants.POT_MIN_VALUE  && getPotA() <= Constants.POT_MAX_VALUE) {
@@ -156,6 +183,10 @@ public class Arm {
         }
     }
     
+    /**
+     * chacks if pot B is within range
+     * @return true if pot B is within range, false if it isn't
+     */
     public boolean isPotBFunctional() {
         // must be within possible range
         if (getPotB() >= Constants.POT_MIN_VALUE  && getPotB() <= Constants.POT_MAX_VALUE) {
