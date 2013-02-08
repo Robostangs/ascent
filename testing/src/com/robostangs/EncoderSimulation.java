@@ -5,6 +5,7 @@
 package com.robostangs;
 
 /**
+ * 
  * @author Silvio and Haley
 */
 public class EncoderSimulation {
