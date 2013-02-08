@@ -26,7 +26,7 @@ public class DriveTrain {
     
     private DriveTrain() {
         leftEncoder = new Encoder (Constants.DT_LEFT_ENCODER_FRONT, Constants.DT_LEFT_ENCODER_BACK);
-        leftEncoder = new Encoder (Constants.DT_RIGHT_ENCODER_FRONT, Constants.DT_RIGHT_ENCODER_BACK);
+        rightEncoder = new Encoder (Constants.DT_RIGHT_ENCODER_FRONT, Constants.DT_RIGHT_ENCODER_BACK);
         
         gyro = new Gyro (Constants.DT_GYRO_POS);
         
