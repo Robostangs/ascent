@@ -30,14 +30,29 @@ public class Arm {
         return instance;
     }
     
+    /**
+     * gets average value of pot A
+     * @return potA.getAverageValue average value of pot A 
+     */
     public static int getPotA() {
         return potA.getAverageValue(); 
     }    
-
+    
+    /**
+     * gets average value of pot B
+     * @return potB.getAverageValue average value of pot B
+     */
     public static int getPotB() {
         return potB.getAverageValue(); 
     }
     
+    /**
+     * set angle equal to zero
+     * retrieves value of getPotA or getPotB
+     * subtracts it by the zero constant
+     * multiplies everything by the constant that converts the values to degrees
+     * @return angle angle of arm
+     */
      public static double getAngle() {
         double angle = 0;
         if (!useB) {
