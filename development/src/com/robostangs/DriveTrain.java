@@ -305,6 +305,13 @@ public class DriveTrain {
     }
     
     /**
+     * stop everything in DriveTrain
+     */
+    public static void stop() {
+        drive(0, 0);
+    }
+    
+    /**
      * check the mode
      * @return climbMode
      */

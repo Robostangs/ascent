@@ -28,6 +28,7 @@ public class Autonomous {
     private static int status = 0;
     private static boolean gyroReady = false;
     private static double angle = 0;
+    private static int step = 0;
     
     
     private Autonomous() {
@@ -43,7 +44,7 @@ public class Autonomous {
         }
         return instance;
     }
-    
+
     /**
      * Sets up the keys array with all the keys from the dash
      * Also sets variables not related to steps
@@ -184,5 +185,55 @@ public class Autonomous {
             gyroReady = true;
         }
     }
-        
+    
+    public static void fallbackMode() {
+        //drive, turn, arm, shoot
+        switch (step) {
+            case 0:
+                timer.start();
+                while (timer.getSeconds() < Constants.AUTON_FALLBACK_DRIVE_TIME) {
+                    DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_ANGLE);
+                }
+                
+                DriveTrain.stop();
+                timer.stop();
+                timer.reset();
+                step++;
+                break;
+            case 1:
+                timer.start();
+                while (timer.getSeconds() < Constants.AUTON_FALLBACK_TURN_TIME) {
+                    DriveTrain.turn(Constants.AUTON_TURN_POWER, Constants.AUTON_TURN_ANGLE);
+                }
+                
+                DriveTrain.stop();
+                timer.stop();
+                timer.reset();
+                step++;
+                break;
+            case 2:
+                timer.start();
+                while (timer.getSeconds() < Constants.AUTON_FALLBACK_ARM_MOVE_TIME) {
+                    Arm.setPosition(Constants.AUTON_ARM_POS);
+                }
+                
+                Arm.stop();
+                timer.stop();
+                timer.reset();
+                step++;
+                break;
+            case 3:
+                timer.start();
+                while (timer.getSeconds() < Constants.AUTON_FALLBACK_SHOOT_TIME) {
+                    Shooter.shoot(Constants.AUTON_SHOOT_DISC_NUM);
+                }
+                
+                Shooter.stop();
+                timer.stop();
+                timer.reset();
+                break;
+            default:
+                break;
+        }
+    }
 }

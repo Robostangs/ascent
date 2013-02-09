@@ -37,7 +37,18 @@ public class Constants {
     public static final double AUTON_DRIVE_POWER = 0.5;
     public static final double AUTON_INGEST_DRIVE_POWER = 0.5;
     public static final double AUTON_TURN_POWER = 0.5;
-
+    
+    //Fallback Mode
+    //also uses AUTON_DRIVE_POWER and AUTON_TURN_POWER
+    public static final double AUTON_FALLBACK_DRIVE_TIME = 0.0;
+    public static final double AUTON_DRIVE_ANGLE = 0.0;
+    public static final double AUTON_FALLBACK_TURN_TIME = 0.0;
+    public static final double AUTON_TURN_ANGLE = 0.0;
+    public static final double AUTON_FALLBACK_ARM_MOVE_TIME = 0.0;
+    public static final double AUTON_ARM_POS = 0.0;
+    public static final double AUTON_FALLBACK_SHOOT_TIME = 0.0;
+    public static final int AUTON_SHOOT_DISC_NUM = 0;
+    
     /*
      * Conveyors
      */
@@ -118,7 +129,4 @@ public class Constants {
     //Manipulator
     public static final int XBOX_MANIP_PORT = 0;
     public static final double XBOX_MANIP_DRIFT = 0.1;
-    
-
-
 }
