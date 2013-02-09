@@ -49,7 +49,8 @@ public class DriveTrain {
             rightBack.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
             climber.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
+            Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
         }
         
         climbMode = false;
@@ -81,7 +82,8 @@ public class DriveTrain {
             rightMid.setX(rightPower);
             rightBack.setX(rightPower);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
+            Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
         }
     }
     
