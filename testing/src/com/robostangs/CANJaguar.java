@@ -32,5 +32,8 @@ public class CANJaguar {
     {
         return Output;
     }
-    public 
+    public double getCurrent()
+    {
+        
+    }
 }
