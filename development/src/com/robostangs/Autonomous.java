@@ -100,6 +100,7 @@ public class Autonomous {
                 }
                 
                 gyroReady = false;
+                DriveTrain.stop();
                 timer.stop();
                 timer.reset();
                 
@@ -115,6 +116,7 @@ public class Autonomous {
                 }
                 
                 Loader.allOff();
+                DriveTrain.stop();
                 gyroReady = false;
                 timer.stop();
                 timer.reset();
@@ -129,6 +131,7 @@ public class Autonomous {
                 }
                 
                 gyroReady = false;
+                DriveTrain.stop();
                 timer.stop();
                 timer.reset();
                 
@@ -138,10 +141,13 @@ public class Autonomous {
                 
             } else if (shooting) {
                 while (status == 0 && timer.getSeconds() < timeForStep) {
-                    status = Shooter.shoot(numberToShoot);                    
+                    status = Shooter.shoot(numberToShoot);   
+                    Loader.loadShooter();
                 }
                 
                 gyroReady = false;
+                Loader.allOff();
+                Shooter.stop();
                 timer.stop();
                 timer.reset();
                 
@@ -151,9 +157,9 @@ public class Autonomous {
                 
             } else if (armMoving) {
                 while (status == 0 && timer.getSeconds() < timeForStep) {
-                    if (armPos.equals("zero")) {
+                    if (armPos.equalsIgnoreCase("zero")) {
                         status = Arm.flatPos();
-                    } else if (armPos.equals("pyramid")) {
+                    } else if (armPos.equalsIgnoreCase("pyramid")) {
                         status = Arm.underPyramidShotPos();
                     } else if (stepData != 0 && stepData != -1) {
                         status = Arm.setPosition(stepData);
@@ -162,6 +168,7 @@ public class Autonomous {
                     }
                 }
                 
+                Arm.stop();
                 timer.stop();
                 timer.reset();
                 
