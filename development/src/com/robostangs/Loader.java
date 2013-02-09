@@ -63,15 +63,15 @@ public class Loader {
     public static void ingestorOff() {
         Ingestor.turnOff();
     }
-
+    //turns off ingest conveyor
     public static void ingestConveyorOff() {
         Conveyors.stopIngest();
     }
-
+    //turns off lifter
     public static void liftOff() {
         Lifter.stop();
     }
-
+    //turne off shooter conveyor
     public static void shooterConveyorOff() {
         Conveyors.stopShooter();
     }
