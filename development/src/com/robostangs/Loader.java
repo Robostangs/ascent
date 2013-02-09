@@ -45,11 +45,11 @@ public class Loader {
     public void runAll(){
         Ingestor.turnOn();
         Conveyors.ingestMode();
-        Conveyors.feedMode();
+        Conveyors.readyShooter();
     }
     //reverses to feed from station
     public static void feed(){
-        Conveyors.readyShooter();
+        Conveyors.feedMode();
     }
     //moves lift down
     public static void liftDown(){
@@ -73,6 +73,6 @@ public class Loader {
     }
 
     public static void shooterConveyorOff() {
-        Conveyors.shakeShooter();
+        Conveyors.stopShooter();
     }
 }
