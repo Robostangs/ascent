@@ -175,6 +175,10 @@ public class Arm {
         }
     }
     
+    /**
+     * 
+     * @return true if either pid is on target, false if neither is
+     */
     public static boolean onTarget() {
         return pidA.onTarget() || pidB.onTarget();
     }
