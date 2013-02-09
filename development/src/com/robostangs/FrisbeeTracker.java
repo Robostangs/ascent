@@ -34,10 +34,19 @@ public class FrisbeeTracker {
         return instance;
     }
     
+    /**
+     * gets the number of discs in the robot
+     * @return number of frisbees
+     */
     public static int getNumberOfFrisbees() {
         return numberOfFrisbees;
     }
     
+    /**
+     * adds a count of discs when in feed mode
+     * subtracts when shot
+     * @param feedMode 
+     */
     public static void count(boolean feedMode) {
         //if in feedMode, adds frisbees; if not, subtracts
         if (feedMode) {
@@ -54,7 +63,12 @@ public class FrisbeeTracker {
             numberOfFrisbees++;
         }
     }
-            
+    
+    /**
+     * counts the time to ingest a frisbee
+     * makes sure that the robot does not ingest 2 frisbees at the same time
+     * @return true when the robot finishes ingesting
+     */
     public static boolean ingestFrisbee() {
         if (ingestSwitch.get()) {
             //accounts for switch being pressed for a period of time
@@ -70,6 +84,10 @@ public class FrisbeeTracker {
         return false;
     }
     
+    /**
+     * counts the time to lift a frisbee
+     * @return true when lifting is done
+     */
     public static boolean liftFrisbee() {
         if (liftSwitch.get() == true) {
              //accounts for switch being pressed for a period of time
@@ -85,6 +103,10 @@ public class FrisbeeTracker {
         return false;
     }
     
+    /**
+     * counts the time to shoot
+     * @return true when finish shooting
+     */
     public static boolean shotFrisbee() {
         if (shootSwitch.get() == true) {
              //accounts for switch being pressed for a period of time
@@ -100,6 +122,9 @@ public class FrisbeeTracker {
         return false;
     }
     
+    /**
+     * sends frisbee data to dashboard
+     */
     public static void sendFrisbeeDataToDash() {
         SmartDashboard.putNumber("Number of frisbees", numberOfFrisbees);
         if (numberOfFrisbees == 4) {

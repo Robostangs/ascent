@@ -17,7 +17,11 @@ public class Loader {
         Ingestor.getInstance();
         Lifter.getInstance();
     }
-    //singleton declaration statement
+    
+    /**
+     * singleton declaration statement
+     * @return
+     */ 
     public static Loader getInstance() {
         if (instance == null) {
             instance = new Loader();
@@ -25,53 +29,86 @@ public class Loader {
 
         return instance;
     }
-    //turns everything under loader control off    
+    
+    /**
+     * turns everything under loader control off
+     */
     public static void allOff(){
         Lifter.stop();
         Conveyors.stopBoth();
         Ingestor.turnOff();
     }
-    //runs ingestor + ingestConveyor
+    
+    /**
+     * runs ingestor + ingestConveyor
+     */
     public static void ingest(){
         Ingestor.turnOn();
         
     }
-    //runs lift, shoot conveyor
+    
+    /**
+     * runs lift, shoot conveyor
+     */
     public static void loadShooter(){
         Lifter.enable();
         Conveyors.feedMode();
     }
-    //runs all in ingest -> shoot dir
+    
+    /**
+     * runs all in ingest -> shoot direction
+     */
     public void runAll(){
         Ingestor.turnOn();
         Conveyors.ingestMode();
         Conveyors.readyShooter();
     }
-    //reverses to feed from station
+    
+    /**
+     * reverses to feed from station
+     */
     public static void feed(){
         Conveyors.feedMode();
     }
-    //moves lift down
+    
+    /**
+     * moves lift down
+     */
     public static void liftDown(){
         Lifter.reverse();
     }
-    //moves lift up
+    
+    /**
+     * moves lift up
+     */
     public static void liftUp() {
         Lifter.enable();
     }
-    //turns off ingestor
+    
+    /**
+     * turns off ingestor
+     */
     public static void ingestorOff() {
         Ingestor.turnOff();
     }
-    //turns off ingest conveyor
+    
+    /**
+     * turns off ingest conveyor
+     */
     public static void ingestConveyorOff() {
         Conveyors.stopIngest();
     }
-    //turns off lifter
+    
+    /**
+     * turns off lifter
+     */
     public static void liftOff() {
         Lifter.stop();
     }
-    //turne off shooter conveyor
+    
+    /**
+     * turn off shooter conveyor
+     */
     public static void shooterConveyorOff() {
         Conveyors.stopShooter();
     }

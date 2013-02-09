@@ -186,6 +186,9 @@ public class Autonomous {
         }
     }
     
+    /**
+     * determine the angle using gyro
+     */
     public static void determineAngle() {
         if (!gyroReady) {
             angle = DriveTrain.getAngle();
@@ -193,6 +196,9 @@ public class Autonomous {
         }
     }
     
+    /**
+     * if fall to get info from the driver's station, backup plan
+     */
     public static void fallbackMode() {
         //drive, turn, arm, shoot
         switch (step) {
