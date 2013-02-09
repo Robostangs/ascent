@@ -8,6 +8,15 @@ package com.robostangs;
  *
  * @author Kevin
  */
-public class Gyro {
+public class Gyro{ 
+    private double gyro;
+
+    public void Gyro(int position){
+        
+    }
+    
+    public double getAngle() {
+        return gyro;
+    }
     
 }
