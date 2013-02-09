@@ -14,22 +14,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Shooter {
     public static Shooter instance = null;
-    private static CANJaguar shooter;
+    private static CANJaguar shooter1, shooter2, shooter3;
     private static boolean feedMode = false;
     private static StopWatch timer;
-    
     
     /**
      * Initializing jags and timer
      */
     private Shooter() {
         try {
-            shooter = new CANJaguar(Constants.SHOOTER_JAG_POS);
+            shooter1 = new CANJaguar(Constants.SHOOTER_JAG1_POS);
+            shooter2 = new CANJaguar(Constants.SHOOTER_JAG2_POS);
+            shooter3 = new CANJaguar(Constants.SHOOTER_JAG3_POS);
         } catch(CANTimeoutException ex) {
             System.out.println("CAN ERROR AT SHOOTER");
             ex.printStackTrace();
         }
-        
         timer = new StopWatch();
     }
     
@@ -49,7 +49,9 @@ public class Shooter {
      */
     public static void shoot() {
         try{
-            shooter.setX(Constants.SHOOTER_MAX_POWER);
+            shooter1.setX(Constants.SHOOTER_MAX_POWER);
+            shooter2.setX(Constants.SHOOTER_MAX_POWER);
+            shooter3.setX(Constants.SHOOTER_MAX_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -101,7 +103,9 @@ public class Shooter {
      */
     public static void feed() {
         try {
-            shooter.setX(-Constants.SHOOTER_FEED_POWER); //feed shouldn't run @ full
+            shooter1.setX(-Constants.SHOOTER_FEED_POWER); //feed shouldn't run @ full
+            shooter2.setX(-Constants.SHOOTER_FEED_POWER);
+            shooter3.setX(-Constants.SHOOTER_FEED_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -110,7 +114,9 @@ public class Shooter {
 
     public static void stop() {
         try{
-            shooter.setX(0.0);
+            shooter1.setX(0.0);
+            shooter2.setX(0.0);
+            shooter3.setX(0.0);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }

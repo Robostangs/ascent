@@ -106,7 +106,10 @@ public class Constants {
     /*
      * Shooter
      */ 
-    public static final int SHOOTER_JAG_POS = 0;
+    public static final int SHOOTER_JAG1_POS = 0;
+    public static final int SHOOTER_JAG2_POS = 0;
+    public static final int SHOOTER_JAG3_POS = 0;
+
     public static final double SHOOTER_MAX_POWER = 1.0;
     public static final double SHOOTER_FEED_POWER = 0.0;
     public static final double TIME_TO_SHOOT_ONE = 0.0;
