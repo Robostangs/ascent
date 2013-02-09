@@ -34,12 +34,12 @@ public class DriveTrain {
         
         try {
             //declare jags here, init jags method not necessary
-            leftFront = new CANJaguar(Constants.DT_JAG_POS);
-            leftMid = new CANJaguar(Constants.DT_JAG_POS);
-            leftBack = new CANJaguar(Constants.DT_JAG_POS);
-            rightFront = new CANJaguar(Constants.DT_JAG_POS);
-            rightMid = new CANJaguar(Constants.DT_JAG_POS);
-            rightBack = new CANJaguar(Constants.DT_JAG_POS);
+            leftFront = new CANJaguar(Constants.DT_JAG_LEFT_FRONT_POS);
+            leftMid = new CANJaguar(Constants.DT_JAG_LEFT_MID_POS);
+            leftBack = new CANJaguar(Constants.DT_JAG_LEFT_BACK_POS);
+            rightFront = new CANJaguar(Constants.DT_JAG_RIGHT_FRONT_POS);
+            rightMid = new CANJaguar(Constants.DT_JAG_RIGHT_MID_POS);
+            rightBack = new CANJaguar(Constants.DT_JAG_RIGHT_BACK_POS);
             climber = new CANJaguar (Constants.DT_JAG_CLIMB_POS);
             leftFront.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
             leftMid.configFaultTime(Constants.DT_JAG_CONFIG_TIME);

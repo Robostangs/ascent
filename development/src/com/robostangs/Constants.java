@@ -14,6 +14,7 @@ public class Constants {
     /*
      * Arm
      */
+    //arm jag 10
     public static final int POT_A_PORT = 0;
     public static final int POT_B_PORT = 0;
     public static final int POT_MIN_VALUE = 0;
@@ -52,8 +53,8 @@ public class Constants {
     /*
      * Conveyors
      */
-    public static final int CONV_INGEST_JAG_POS = 0;
-    public static final int CONV_SHOOT_JAG_POS = 0;
+    public static final int CONV_SHOOT_JAG_POS = 7;
+    public static final int CONV_INGEST_JAG_POS = 8;
     public static final double CONV_POWER = 0.0;   
 
     /*
@@ -65,8 +66,13 @@ public class Constants {
     public static final int DT_RIGHT_ENCODER_FRONT = 0;
     public static final int DT_RIGHT_ENCODER_BACK = 0;
     public static final int DT_GYRO_POS = 0;
-    public static final int DT_JAG_POS = 0;
-    public static final int DT_JAG_CLIMB_POS = 0;
+    public static final int DT_JAG_LEFT_FRONT_POS = 4; //left drive 1
+    public static final int DT_JAG_LEFT_MID_POS = 5; //left drive 2
+    public static final int DT_JAG_LEFT_BACK_POS = 6; //left drive 3
+    public static final int DT_JAG_RIGHT_FRONT_POS = 12; //right drive 1
+    public static final int DT_JAG_RIGHT_MID_POS = 13; // right drive 2
+    public static final int DT_JAG_RIGHT_BACK_POS = 14; //right drive 3
+    public static final int DT_JAG_CLIMB_POS = 9;
     public static final double DT_JAG_CONFIG_TIME = 0.5;
     
     //Drive Straight
@@ -100,15 +106,15 @@ public class Constants {
     /*
      * Lifter
      */
-    public static final int LIFTER_JAG_POS = 0;
+    public static final int LIFTER_JAG_POS = 11;
     public static final double LIFTER_POWER = 0.0;
         
     /*
      * Shooter
      */ 
-    public static final int SHOOTER_JAG1_POS = 0;
-    public static final int SHOOTER_JAG2_POS = 0;
-    public static final int SHOOTER_JAG3_POS = 0;
+    public static final int SHOOTER_JAG1_POS = 1;
+    public static final int SHOOTER_JAG2_POS = 2;
+    public static final int SHOOTER_JAG3_POS = 3;
 
     public static final double SHOOTER_MAX_POWER = 1.0;
     public static final double SHOOTER_FEED_POWER = 0.0;
