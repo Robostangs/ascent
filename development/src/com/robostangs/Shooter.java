@@ -18,6 +18,10 @@ public class Shooter {
     private static boolean feedMode = false;
     private static StopWatch timer;
     
+    
+    /**
+     * Initializing jags and timer
+     */
     private Shooter() {
         try {
             shooter = new CANJaguar(Constants.SHOOTER_JAG_POS);
@@ -27,22 +31,22 @@ public class Shooter {
         }
         
         timer = new StopWatch();
-        /**
-        *Try catch for jags
-        */
     }
-
+    
+    /**
+     *setting up singleton
+     */
     public static Shooter getInstance() {
         if (instance == null) {
             instance = new Shooter();
         }
         return instance;
-        
-        /**
-        *setting up singleton
-        */
     }
 
+    /**
+     * Set shooter to max power
+     * Shut down feedMode
+     */
     public static void shoot() {
         try{
             shooter.setX(Constants.SHOOTER_MAX_POWER);
@@ -50,10 +54,6 @@ public class Shooter {
             ex.printStackTrace();
         }
         feedMode = false;
-        /**
-         * Set shooter to max power
-         * Shut down feedMode
-         */
     }
     
     /**
@@ -94,7 +94,11 @@ public class Shooter {
         
         return 0;
     }
-
+    
+    /**
+     * Set feeder power to negative
+     * Start feedMode
+     */
     public static void feed() {
         try {
             shooter.setX(-Constants.SHOOTER_FEED_POWER); //feed shouldn't run @ full
@@ -102,10 +106,6 @@ public class Shooter {
             ex.printStackTrace();
         }
         feedMode = true;
-        /**
-         * Set feeder power to negative
-         * Start feedMode
-         */
     }
 
     public static void stop() {

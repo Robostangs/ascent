@@ -59,6 +59,10 @@ public class XboxController extends Joystick {
         return getRawButton(10);
     }
     
+    
+    /**
+     * Makes triggers behave as buttons for rightTriggerButton and leftTriggerButton
+     */
     public boolean rightTriggerButton(){
         double rtb = triggerAxis();
         if (rtb < -0.5) {
