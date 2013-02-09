@@ -10,9 +10,11 @@ package com.robostangs;
  */
 public class CANJaguar {
     private int pos;
-    public CANJaguar()
+    public double Output;
+    public CANJaguar(int p)
     {
-        pos = 0;
+        pos = p;
+        Output = 0;
     }
     public void configFaultTime(Double faultTime)
     {
@@ -22,9 +24,13 @@ public class CANJaguar {
     }
     public void setX(Double output)
     {
+    Output = output.doubleValue();
     String logTime = output.toString();
     Log.write("Jag power output configured to: " + logTime);
     }
-    public void 
-    
+    public double getX()
+    {
+        return Output;
+    }
+    public 
 }
