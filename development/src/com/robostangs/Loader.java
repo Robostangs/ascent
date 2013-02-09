@@ -4,7 +4,6 @@
  */
 package com.robostangs;
 
-import edu.wpi.first.wpilibj.CANJaguar;
 
 /**
  * Uses conveyors, lifter, ingestor to get frisbees to shooter
@@ -18,7 +17,7 @@ public class Loader {
         Ingestor.getInstance();
         Lifter.getInstance();
     }
-
+    //singleton declaration statement
     public static Loader getInstance() {
         if (instance == null) {
             instance = new Loader();
@@ -26,42 +25,41 @@ public class Loader {
 
         return instance;
     }
-
-        public static void allOff(){
+    //turns everything under loader control off    
+    public static void allOff(){
         Lifter.stop();
         Conveyors.stopBoth();
         Ingestor.turnOff();
     }
-    
+    //runs ingestor + ingestConveyor
     public static void ingest(){
         Ingestor.turnOn();
         
     }
-    
+    //runs lift, shoot conveyor
     public static void loadShooter(){
         Lifter.enable();
         Conveyors.feedMode();
     }
-    
+    //runs all in ingest -> shoot dir
     public void runAll(){
         Ingestor.turnOn();
         Conveyors.ingestMode();
         Conveyors.feedMode();
     }
-    
+    //reverses to feed from station
     public static void feed(){
+        Conveyors.readyShooter();
+    }
+    //moves lift down
+    public static void liftDown(){
         Lifter.reverse();
     }
-    
-    public static void liftDown(){
-        Lifter.enable(Constants.LIFT_DOWN);
-    }
-    
-
+    //moves lift up
     public static void liftUp() {
-        Lifter.reverse(Constants.LIFT_UP);
+        Lifter.enable();
     }
-
+    //turns off ingestor
     public static void ingestorOff() {
         Ingestor.turnOff();
     }
