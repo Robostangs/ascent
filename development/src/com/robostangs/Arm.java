@@ -5,7 +5,9 @@
 
 package com.robostangs;
 
+import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm {
@@ -19,10 +21,16 @@ public class Arm {
     private Arm() {
         potA = new Potentiometer(Constants.POT_A_PORT);
         potB = new Potentiometer(Constants.POT_B_PORT);
-        motor = new CANJaguar(Constants.ARM_JAG_POS);
         pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motor); 
-        pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, potB, motor); 
+        pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, potB, motor);
+
         timer = new StopWatch();
+
+        try {
+            motor = new CANJaguar(Constants.ARM_JAG_POS);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }   
     }
     
     public static Arm getInstance() {
@@ -77,9 +85,8 @@ public class Arm {
         }
         try {
             motor.setX(power);
-        }
-        catch  (CANTimeoutException ex) {
-            
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
         }
     }
     
@@ -192,12 +199,7 @@ public class Arm {
      * stops the arm motor
      */
     public static void stop() {
-        try {
-            motor.setX(0)
-        } 
-        catch (CANTimeoutException ex) {
-            
-        }
+        setJags(0.0);
     }
     
     /**

@@ -14,7 +14,6 @@ public class Constants {
     /*
      * Arm
      */
-
     public static final int ARM_JAG_POS = 10;
     public static final int POT_A_PORT = 0;
     public static final int POT_B_PORT = 0;
