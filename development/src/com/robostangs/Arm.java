@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Arm {
     private static Arm instance = null;
     private static Potentiometer potA, potB;
-    private static ArmMotors motors;
+    private static CANJaguar motor;
     private static PIDController pidA, pidB; 
     private static boolean useB = false;
     private static StopWatch timer;
@@ -19,9 +19,9 @@ public class Arm {
     private Arm() {
         potA = new Potentiometer(Constants.POT_A_PORT);
         potB = new Potentiometer(Constants.POT_B_PORT);
-        motors = ArmMotors.getInstance();
-        pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motors); 
-        pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, potB, motors); 
+        motor = new CANJaguar(Constants.ARM_JAG_POS);
+        pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motor); 
+        pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, potB, motor); 
         timer = new StopWatch();
     }
     
@@ -75,7 +75,12 @@ public class Arm {
         if (pidEnabled()) {
             disablePID();
         }
-        ArmMotors.set(power);
+        try {
+            motor.setX(power);
+        }
+        catch  (CANTimeoutException ex) {
+            
+        }
     }
     
     /**
@@ -184,10 +189,15 @@ public class Arm {
     }
     
     /**
-     * stops the arm motors
+     * stops the arm motor
      */
     public static void stop() {
-        ArmMotors.set(0);
+        try {
+            motor.setX(0)
+        } 
+        catch (CANTimeoutException ex) {
+            
+        }
     }
     
     /**
