@@ -4,7 +4,6 @@
  */
 package com.robostangs;
 
-
 /**
  *
  * @author Haley
@@ -13,8 +12,8 @@ package com.robostangs;
   public class Potentiometer {
     
     public Potentiometer(int port) {
-        super(port);  //calls AnalogChannel constructor
-        //TODO: Rewrite super
+        //super(port);  //calls AnalogChannel constructor
+        //TODO: Rewrite super??
     }
 
     public double pidGet() {
@@ -31,5 +30,6 @@ package com.robostangs;
         return 3.214;
         //TODO: Let value vary more than average value
     }
+    
 }
 
