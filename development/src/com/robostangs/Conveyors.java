@@ -10,15 +10,17 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 public class Conveyors {
     private static Conveyors instance = null;
     private static CANJaguar ingestConveyor, shooterConveyor;
-    private static boolean direction = false; //false is in
+    private static boolean direction = false; //false is in, used for shake methods
+    private static StopWatch timer;
     
     private Conveyors() {
-        try{
+        try {
             ingestConveyor = new CANJaguar(Constants.CONV_INGEST_JAG_POS);
             shooterConveyor = new CANJaguar(Constants.CONV_SHOOT_JAG_POS);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+        timer = new StopWatch();
     }
     
     public static Conveyors getInstance() {
@@ -107,7 +109,6 @@ public class Conveyors {
      * Unjams the ingestor conveyor
      */
     public static void shakeIngest() {
-        StopWatch timer = new StopWatch();
         timer.start();
         while (timer.getSeconds() < 2) {
             if (direction) {
@@ -132,7 +133,6 @@ public class Conveyors {
      * Unjams the shooter conveyor
      */
     public static void shakeShooter() {
-        StopWatch timer = new StopWatch();
         timer.start();
         while (timer.getSeconds() < 2) {
             if (direction) {

@@ -10,6 +10,10 @@ package com.robostangs;
  * TODO: everything pretty much.
  */
 public class Constants {
+    /*
+     * Used in multiple classes
+     */
+    public static final double JAG_CONFIG_TIME = 0.5;
 
     /*
      * Arm
@@ -31,6 +35,8 @@ public class Constants {
     public static final double ARM_KD_B = 0.0;
     public static final double ARM_PYRAMID_POS = 0.0;
     public static final double ARM_FEED_POS = 0.0;
+    public static final double ARM_MIN_POWER = 0.0;
+    public static final double ARM_MAX_POWER = 0.0;
     
     /*
      * Autonomous
@@ -73,7 +79,7 @@ public class Constants {
     public static final int DT_JAG_RIGHT_MID_POS = 13; // right drive 2
     public static final int DT_JAG_RIGHT_BACK_POS = 14; //right drive 3
     public static final int DT_JAG_CLIMB_POS = 9;
-    public static final double DT_JAG_CONFIG_TIME = 0.5;
+    
     
     //Drive Straight
     public static final double DT_STRAIGHT_LEFT_INC = 0.0;

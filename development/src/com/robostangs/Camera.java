@@ -11,8 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Manages the two axis cameras and image processing
  * maintainer: @sky
+ * (massively TODO)
  */
-public class Camera implements PIDSource{
+public class Camera implements PIDSource {
     private static Camera instance = null;
     private AxisCamera armCam, ingestCam;
     private boolean pyramidMode;
@@ -29,15 +30,15 @@ public class Camera implements PIDSource{
         return instance;
     }
     
-    public void getImage() {
+    public static void getImage() {
         
     }
     
-    public double getTargetAngle() {
+    public static double getTargetAngle() {
         return 0;
     }
     
-    public double getTargetHeading() {
+    public static double getTargetHeading() {
         return 0;
     }
 
@@ -45,11 +46,11 @@ public class Camera implements PIDSource{
         return 0;
     }
     
-    public void enablePyramidMode() {
+    public static void enablePyramidMode() {
         
     }
     
-    public void enableThreePointMode() {
+    public static void enableThreePointMode() {
         
     }
     

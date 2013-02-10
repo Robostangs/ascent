@@ -89,7 +89,7 @@ public class FrisbeeTracker {
      * @return true when lifting is done
      */
     public static boolean liftFrisbee() {
-        if (liftSwitch.get() == true) {
+        if (liftSwitch.get()) {
              //accounts for switch being pressed for a period of time
             liftTimer.start();
             if (liftTimer.getSeconds() >= Constants.LIFT_FRISBEE_TIMER) {
@@ -108,7 +108,7 @@ public class FrisbeeTracker {
      * @return true when finish shooting
      */
     public static boolean shotFrisbee() {
-        if (shootSwitch.get() == true) {
+        if (shootSwitch.get()) {
              //accounts for switch being pressed for a period of time
             shootTimer.start();
             if (shootTimer.getSeconds() >= Constants.SHOOT_FRISBEE_TIMER) {

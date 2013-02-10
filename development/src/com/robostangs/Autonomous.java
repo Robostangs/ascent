@@ -5,7 +5,6 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.Preferences;
-import java.util.Hashtable;
 import java.util.Vector;
 
 /**
@@ -22,6 +21,7 @@ public class Autonomous {
     private static boolean turning = false;
     private static boolean delay = false;
     private static boolean armMoving = false;
+    private static boolean fallbackMode = false;
     private static String[] keys;
     private static double timeForStep = 0.0;
     private static StopWatch timer;
@@ -62,127 +62,135 @@ public class Autonomous {
      * Checks to see if data read from dash is valid
      * @return true if data is good
      */
-    public static boolean checkInfo() {
-        //TODO: AUTON check info method
-        return false;
+    public static void checkInfo() {
+        //TODO: more fallback mode checks?
+        if (keys == null) {
+            fallbackMode = true;
+        } else if (keys.length < 2) {
+            fallbackMode = true;
+        }
     }
     
     public static void run() {
         double stepData = 0;
         int numberToShoot = 0;
         String armPos = "";
-        for (int i = 0; i < keys.length; i++) {    
-            driving = keys[i].endsWith("Distance");
-            turning = keys[i].endsWith("Turn");
-            ingesting = keys[i].startsWith("ingest");
-            shooting = keys[i].startsWith("shoot");
-            armMoving = keys[i].startsWith("arm");
-            delay = keys[i].startsWith("delay");
-            
-            try {
-                if (shooting) {
-                    numberToShoot = pref.getInt(keys[i], 0);
-                } else {
-                    stepData = pref.getDouble(keys[i], 0);
-                }
-            } catch (Preferences.IncompatibleTypeException ex) {
-                armPos = pref.getString(keys[i], "");
-            }
-            
-            status = 0;
-            determineAngle();
-            timer.start();
-            
-            if (driving && !ingesting) {
-                while (status == 0 && timer.getSeconds() < timeForStep) {
-                    status = DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, angle, 
-                            stepData);
-                }
-                
-                gyroReady = false;
-                DriveTrain.stop();
-                timer.stop();
-                timer.reset();
-                
-                if (status != 1) {
-                    Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
-                }
-                
-            } else if (driving && ingesting) {
-                while (status == 0 && timer.getSeconds() < timeForStep) {
-                    status = DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, angle, 
-                            stepData);
-                    Loader.ingest();
-                }
-                
-                Loader.allOff();
-                DriveTrain.stop();
-                gyroReady = false;
-                timer.stop();
-                timer.reset();
-                
-                if (status != 1) {
-                    Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
-                }
-                
-            } else if (turning) {
-                while (status == 0 && timer.getSeconds() < timeForStep) {
-                    status = DriveTrain.turn(Constants.AUTON_TURN_POWER, stepData);
-                }
-                
-                gyroReady = false;
-                DriveTrain.stop();
-                timer.stop();
-                timer.reset();
-                
-                if (status != 1) {
-                    Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
-                }
-                
-            } else if (shooting) {
-                while (status == 0 && timer.getSeconds() < timeForStep) {
-                    status = Shooter.shoot(numberToShoot);   
-                    Loader.loadShooter();
-                }
-                
-                gyroReady = false;
-                Loader.allOff();
-                Shooter.stop();
-                timer.stop();
-                timer.reset();
-                
-                if (status != 1) { 
-                    Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
-                }
-                
-            } else if (armMoving) {
-                while (status == 0 && timer.getSeconds() < timeForStep) {
-                    if (armPos.equalsIgnoreCase("zero")) {
-                        status = Arm.flatPos();
-                    } else if (armPos.equalsIgnoreCase("pyramid")) {
-                        status = Arm.underPyramidShotPos();
-                    } else if (stepData != 0 && stepData != -1) {
-                        status = Arm.setPosition(stepData);
-                    } else if (stepData == -1) {
-                        status = Arm.camPos();
+        if (!fallbackMode) {
+            for (int i = 0; i < keys.length; i++) {    
+                driving = keys[i].endsWith("Distance");
+                turning = keys[i].endsWith("Turn");
+                ingesting = keys[i].startsWith("ingest");
+                shooting = keys[i].startsWith("shoot");
+                armMoving = keys[i].startsWith("arm");
+                delay = keys[i].startsWith("delay");
+
+                try {
+                    if (shooting) {
+                        numberToShoot = pref.getInt(keys[i], 0);
+                    } else {
+                        stepData = pref.getDouble(keys[i], 0);
                     }
+                } catch (Preferences.IncompatibleTypeException ex) {
+                    armPos = pref.getString(keys[i], "");
                 }
-                
-                Arm.stop();
-                timer.stop();
-                timer.reset();
-                
-                if (status != 1) { 
-                    Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
+
+                status = 0;
+                determineAngle();
+                timer.start();
+
+                if (driving && !ingesting) {
+                    while (status == 0 && timer.getSeconds() < timeForStep) {
+                        status = DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, angle, 
+                                stepData);
+                    }
+
+                    gyroReady = false;
+                    DriveTrain.stop();
+                    timer.stop();
+                    timer.reset();
+
+                    if (status != 1) {
+                        Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
+                    }
+
+                } else if (driving && ingesting) {
+                    while (status == 0 && timer.getSeconds() < timeForStep) {
+                        status = DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, angle, 
+                                stepData);
+                        Loader.ingest();
+                    }
+
+                    Loader.allOff();
+                    DriveTrain.stop();
+                    gyroReady = false;
+                    timer.stop();
+                    timer.reset();
+
+                    if (status != 1) {
+                        Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
+                    }
+
+                } else if (turning) {
+                    while (status == 0 && timer.getSeconds() < timeForStep) {
+                        status = DriveTrain.turn(Constants.AUTON_TURN_POWER, stepData);
+                    }
+
+                    gyroReady = false;
+                    DriveTrain.stop();
+                    timer.stop();
+                    timer.reset();
+
+                    if (status != 1) {
+                        Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
+                    }
+
+                } else if (shooting) {
+                    while (status == 0 && timer.getSeconds() < timeForStep) {
+                        status = Shooter.shoot(numberToShoot);   
+                        Loader.loadShooter();
+                    }
+
+                    gyroReady = false;
+                    Loader.allOff();
+                    Shooter.stop();
+                    timer.stop();
+                    timer.reset();
+
+                    if (status != 1) { 
+                        Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
+                    }
+
+                } else if (armMoving) {
+                    while (status == 0 && timer.getSeconds() < timeForStep) {
+                        if (armPos.equalsIgnoreCase("zero")) {
+                            status = Arm.flatPos();
+                        } else if (armPos.equalsIgnoreCase("pyramid")) {
+                            status = Arm.underPyramidShotPos();
+                        } else if (stepData != 0 && stepData != -1) {
+                            status = Arm.setPosition(stepData);
+                        } else if (stepData == -1) {
+                            status = Arm.camPos();
+                        }
+                    }
+
+                    Arm.stop();
+                    timer.stop();
+                    timer.reset();
+
+                    if (status != 1) { 
+                        Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
+                    }
+
+                } else if (delay) {
+                    while (timer.getSeconds() < stepData) { }
+
+                    timer.stop();
+                    timer.reset();
                 }
-                
-            } else if (delay) {
-                while (timer.getSeconds() < stepData) { }
-                
-                timer.stop();
-                timer.reset();
+
             }
-            
+        } else {
+            fallbackMode();
         }
     }
     

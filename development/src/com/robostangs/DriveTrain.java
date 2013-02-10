@@ -41,13 +41,13 @@ public class DriveTrain {
             rightMid = new CANJaguar(Constants.DT_JAG_RIGHT_MID_POS);
             rightBack = new CANJaguar(Constants.DT_JAG_RIGHT_BACK_POS);
             climber = new CANJaguar (Constants.DT_JAG_CLIMB_POS);
-            leftFront.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
-            leftMid.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
-            leftBack.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
-            rightFront.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
-            rightMid.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
-            rightBack.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
-            climber.configFaultTime(Constants.DT_JAG_CONFIG_TIME);
+            leftFront.configFaultTime(Constants.JAG_CONFIG_TIME);
+            leftMid.configFaultTime(Constants.JAG_CONFIG_TIME);
+            leftBack.configFaultTime(Constants.JAG_CONFIG_TIME);
+            rightFront.configFaultTime(Constants.JAG_CONFIG_TIME);
+            rightMid.configFaultTime(Constants.JAG_CONFIG_TIME);
+            rightBack.configFaultTime(Constants.JAG_CONFIG_TIME);
+            climber.configFaultTime(Constants.JAG_CONFIG_TIME);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
             Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");

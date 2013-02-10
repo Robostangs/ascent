@@ -8,6 +8,7 @@ package com.robostangs;
 /**
  * Uses conveyors, lifter, ingestor to get frisbees to shooter
  * maintainer: Tejas
+ * TODO: more throughly check
  */
 public class Loader {
     private static Loader instance = null;
@@ -18,15 +19,10 @@ public class Loader {
         Lifter.getInstance();
     }
     
-    /**
-     * singleton declaration statement
-     * @return
-     */ 
     public static Loader getInstance() {
         if (instance == null) {
             instance = new Loader();
         }
-
         return instance;
     }
     
@@ -44,7 +40,7 @@ public class Loader {
      */
     public static void ingest(){
         Ingestor.turnOn();
-        
+        Conveyors.ingestMode();
     }
     
     /**

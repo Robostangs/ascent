@@ -23,14 +23,20 @@ public class Arm {
         potB = new Potentiometer(Constants.POT_B_PORT);
         pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motor); 
         pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, potB, motor);
-
         timer = new StopWatch();
-
         try {
             motor = new CANJaguar(Constants.ARM_JAG_POS);
+            motor.configFaultTime(Constants.JAG_CONFIG_TIME);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }   
+        
+        //configure PID
+        pidA.setInputRange(Constants.POT_MIN_VALUE, Constants.POT_MAX_VALUE);
+        pidA.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
+        pidB.setInputRange(Constants.POT_MIN_VALUE, Constants.POT_MAX_VALUE);
+        pidB.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
+        disablePID();
     }
     
     public static Arm getInstance() {
@@ -168,18 +174,14 @@ public class Arm {
      * @return true if either pid is enabled, false if neither is enabled
      */
     public static boolean pidEnabled() {
-        if (pidA.isEnable() || pidB.isEnable()) {
-            return true;
-        } else {
-            return false;
-        }    
+        return pidA.isEnable() || pidB.isEnable();   
     }
     
     /**
      * if either pid is enabled, it disables it
      */
     public static void disablePID() {
-        if( pidA.isEnable()) {
+        if (pidA.isEnable()) {
             pidA.disable();
         }
         if (pidB.isEnable()) {
@@ -253,25 +255,14 @@ public class Arm {
      * @return true if pot A is within range, false if it isn't
      */
     public boolean isPotAFunctional() {
-        // must be within possble range
-        if (getPotA() >= Constants.POT_MIN_VALUE  && getPotA() <= Constants.POT_MAX_VALUE) {
-            return true;
-        } else {
-            return false;
-        }
+        return getPotA() >= Constants.POT_MIN_VALUE  && getPotA() <= Constants.POT_MAX_VALUE;
     }
     
     /**
-     * chacks if pot B is within range
+     * checks if pot B is within range
      * @return true if pot B is within range, false if it isn't
      */
     public boolean isPotBFunctional() {
-        // must be within possible range
-        if (getPotB() >= Constants.POT_MIN_VALUE  && getPotB() <= Constants.POT_MAX_VALUE) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return getPotB() >= Constants.POT_MIN_VALUE  && getPotB() <= Constants.POT_MAX_VALUE;
     }     
 }

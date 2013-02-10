@@ -7,7 +7,7 @@ package com.robostangs;
 import edu.wpi.first.wpilibj.PIDSource;
 
 /**
- *
+ * Class that serves as a PIDsource for DTalign code
  * @author sky
  */
 public class DriveCamera implements PIDSource{
@@ -27,6 +27,6 @@ public class DriveCamera implements PIDSource{
     }
     
     public double pidGet() {
-        return cam.getTargetHeading();
+        return Camera.getTargetHeading();
     }
 }

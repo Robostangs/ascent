@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 /**
  * Lifter class
  * maintainer: Sam 
+ * TODO: lifter: timers to always fully raise/lower lift
  */
 
 public class Lifter {

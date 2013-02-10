@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
  *
  * @author sky
  * Combines the 2 arm jags into one PID output
+ * possibly defunct; there might only be one motor on the shooter-arm
+ * if that is confirmed, this class will be deleted.
  */
 public class ArmMotors implements PIDOutput {    
     private static ArmMotors instance = null;
