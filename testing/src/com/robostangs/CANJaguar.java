@@ -34,6 +34,11 @@ public class CANJaguar {
     }
     public double getCurrent()
     {
+        return 230;
         
+    }
+    public double getVoltage()
+    {
+        return 24;
     }
 }
