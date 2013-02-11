@@ -8,15 +8,20 @@ package com.robostangs;
  *
  * @author Kevin
  */
-public class Gyro{ 
-    private double gyro;
-
-    public void Gyro(int position){
-        
+public class Gyro 
+{ 
+    private double position;
+    private double Angle;
+    
+    public void getAngle(Double position)
+    {
+        Angle = position.doubleValue();
+        String logEntry = position.toString();
+        Log.write("Gyro angle is configured to: " + logEntry);
     }
     
-    public double getAngle() {
-        return gyro;
+    public double getAngle()
+    {
+        return Angle;
     }
-    
 }
