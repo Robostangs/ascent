@@ -59,8 +59,8 @@ public class Constants {
     /*
      * Conveyors
      */
-    public static final int CONV_SHOOT_JAG_POS = 7;
-    public static final int CONV_INGEST_JAG_POS = 8;
+    public static final int CONV_SHOOT_JAG_POS = 1;
+    public static final int CONV_INGEST_JAG_POS = 2;
     public static final double CONV_POWER = 0.0;   
 
     /*
@@ -78,7 +78,7 @@ public class Constants {
     public static final int DT_JAG_RIGHT_FRONT_POS = 12; //right drive 1
     public static final int DT_JAG_RIGHT_MID_POS = 13; // right drive 2
     public static final int DT_JAG_RIGHT_BACK_POS = 14; //right drive 3
-    public static final int DT_JAG_CLIMB_POS = 9;
+    public static final int DT_JAG_CLIMB_POS = 3;
     
     
     //Drive Straight
@@ -118,9 +118,9 @@ public class Constants {
     /*
      * Shooter
      */ 
-    public static final int SHOOTER_JAG1_POS = 1;
-    public static final int SHOOTER_JAG2_POS = 2;
-    public static final int SHOOTER_JAG3_POS = 3;
+    public static final int SHOOTER_JAG1_POS = 7;
+    public static final int SHOOTER_JAG2_POS = 8;
+    public static final int SHOOTER_JAG3_POS = 9;
 
     public static final double SHOOTER_MAX_POWER = 1.0;
     public static final double SHOOTER_FEED_POWER = 0.0;
