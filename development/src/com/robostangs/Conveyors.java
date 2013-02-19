@@ -18,7 +18,8 @@ public class Conveyors {
             ingestConveyor = new CANJaguar(Constants.CONV_INGEST_JAG_POS);
             shooterConveyor = new CANJaguar(Constants.CONV_SHOOT_JAG_POS);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("CAN TIMEOUT EXCEPTION ON CONVEYORS");
+            Log.write("CANJag Timeout Exception on Conveyors");
         }
         timer = new StopWatch();
     }
@@ -38,7 +39,8 @@ public class Conveyors {
         try {
             ingestConveyor.setX(Constants.CONV_POWER);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("CAN TIMEOUT EXCEPTION ON INGEST CONVEYOR");
+            Log.write("CANJag Timeout Exception on Ingest Conveyor");
         }
     }
     
@@ -49,7 +51,8 @@ public class Conveyors {
         try {
             ingestConveyor.setX(-Constants.CONV_POWER);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("CAN TIMEOUT EXCEPTION ON INGEST CONVEYOR");
+            Log.write("CANJag Timeout Exception on Ingest Conveyor");
         }
     }
     
@@ -60,7 +63,8 @@ public class Conveyors {
         try {
             ingestConveyor.setX(0.0);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("CAN TIMEOUT EXCEPTION ON INGEST CONVEYOR");
+            Log.write("CANJag Timeout Exception on Ingest Conveyor");
         }
     }
 
@@ -71,7 +75,8 @@ public class Conveyors {
         try {
             shooterConveyor.setX(Constants.CONV_POWER);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("CAN TIMEOUT EXCEPTION ON SHOOTER CONVEYOR");
+            Log.write("CANJag Timeout Exception on Shooter Conveyor");
         }
     }
 
@@ -82,7 +87,8 @@ public class Conveyors {
         try {
             shooterConveyor.setX(-Constants.CONV_POWER);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("CAN TIMEOUT EXCEPTION ON SHOOTER CONVEYOR");
+            Log.write("CANJag Timeout Exception on Shooter Conveyor");
         }
     }
 
@@ -93,7 +99,8 @@ public class Conveyors {
         try {
             shooterConveyor.setX(0.0);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("CAN TIMEOUT EXCEPTION ON SHOOTER CONVEYOR");
+            Log.write("CANJag Timeout Exception on Shooter Conveyor");
         }
     }
 

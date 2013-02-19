@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -17,41 +12,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTrain {
     private static DriveTrain instance = getInstance();
-    private static CANJaguar leftFront, leftMid, leftBack, rightFront, rightMid, 
-            rightBack, climber;
+    private static CANJaguar climber;
     private static Encoder leftEncoder, rightEncoder;
     private static Gyro gyro;
     private static StopWatch timer;
     private static boolean climbMode;
     
     private DriveTrain() {
+        DriveMotors.getInstance();
+        
         leftEncoder = new Encoder (Constants.DT_LEFT_ENCODER_FRONT, Constants.DT_LEFT_ENCODER_BACK);
         rightEncoder = new Encoder (Constants.DT_RIGHT_ENCODER_FRONT, Constants.DT_RIGHT_ENCODER_BACK);
         
         gyro = new Gyro (Constants.DT_GYRO_POS);
         
         timer = new StopWatch();
-        
-        try {
-            //declare jags here, init jags method not necessary
-            leftFront = new CANJaguar(Constants.DT_JAG_LEFT_FRONT_POS);
-            leftMid = new CANJaguar(Constants.DT_JAG_LEFT_MID_POS);
-            leftBack = new CANJaguar(Constants.DT_JAG_LEFT_BACK_POS);
-            rightFront = new CANJaguar(Constants.DT_JAG_RIGHT_FRONT_POS);
-            rightMid = new CANJaguar(Constants.DT_JAG_RIGHT_MID_POS);
-            rightBack = new CANJaguar(Constants.DT_JAG_RIGHT_BACK_POS);
-            climber = new CANJaguar (Constants.DT_JAG_CLIMB_POS);
-            leftFront.configFaultTime(Constants.JAG_CONFIG_TIME);
-            leftMid.configFaultTime(Constants.JAG_CONFIG_TIME);
-            leftBack.configFaultTime(Constants.JAG_CONFIG_TIME);
-            rightFront.configFaultTime(Constants.JAG_CONFIG_TIME);
-            rightMid.configFaultTime(Constants.JAG_CONFIG_TIME);
-            rightBack.configFaultTime(Constants.JAG_CONFIG_TIME);
-            climber.configFaultTime(Constants.JAG_CONFIG_TIME);
-        } catch (CANTimeoutException ex) {
-            System.out.println("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
-            Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
-        }
         
         climbMode = false;
     }
@@ -74,17 +49,7 @@ public class DriveTrain {
      * @param rightPower 
      */
     public static void drive(double leftPower, double rightPower) {
-        try {
-            leftFront.setX(leftPower);
-            leftMid.setX(leftPower);
-            leftBack.setX(leftPower);
-            rightFront.setX(rightPower);
-            rightMid.setX(rightPower);
-            rightBack.setX(rightPower);
-        } catch (CANTimeoutException ex) {
-            System.out.println("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
-            Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
-        }
+        DriveMotors.set(leftPower, rightPower);
     }
     
     /**
@@ -102,7 +67,7 @@ public class DriveTrain {
      */
     public static void humanDrive(double leftPower, double rightPower) {
         //TODO: to be determined
-        drive (leftPower, rightPower);
+        drive(leftPower, rightPower);
     }
     
     /**
@@ -283,6 +248,7 @@ public class DriveTrain {
     public static void resetTimer() {
         timer.reset();
     }
+    
     /**
      * resets all encoders
      */

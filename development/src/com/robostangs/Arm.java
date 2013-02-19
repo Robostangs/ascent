@@ -29,7 +29,8 @@ public class Arm {
             motor = new CANJaguar(Constants.ARM_JAG_POS);
             motor.configFaultTime(Constants.JAG_CONFIG_TIME);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("CAN TIMEOUT EXCEPTION ON ARM");
+            Log.write("CAN TIMEOUT EXCEPTION ON ARM");
         }   
         
         //configure PID
@@ -93,7 +94,8 @@ public class Arm {
         try {
             motor.setX(power);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            System.out.println("CAN TIMEOUT EXCEPTION ON ARM");
+            Log.write("CAN TIMEOUT EXCEPTION ON ARM");
         }
     }
     
