@@ -14,7 +14,7 @@ public class Arm {
     private static Arm instance = null;
     private static Potentiometer potA, potB;
     private static CANJaguar motor;
-    private static PIDController pidA, pidB; 
+    private static PIDController pidA, pidB, pidCam; 
     private static boolean useB = false;
     private static StopWatch timer;
     
@@ -23,6 +23,7 @@ public class Arm {
         potB = new Potentiometer(Constants.POT_B_PORT);
         pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motor); 
         pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, potB, motor);
+        pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
         timer = new StopWatch();
         try {
             motor = new CANJaguar(Constants.ARM_JAG_POS);
@@ -162,10 +163,21 @@ public class Arm {
     }
     
     /**
-     * TODO: Uses the camera to set arm pos
+     * Uses the camera to set arm pos
+     * @return 0 if in progress, 1 if done
      */
     public static int camPos() {
-        
+        if (pidCam.onTarget()) {
+            return 1;
+        }
+        if (pidA.isEnable()) {
+            pidA.disable();
+        }
+        if (pidB.isEnable()) {
+            pidB.disable();
+        }
+        pidCam.setSetpoint(ArmCamera.getTarget());
+        pidCam.enable();
         return 0;
     }
     
@@ -174,7 +186,7 @@ public class Arm {
      * @return true if either pid is enabled, false if neither is enabled
      */
     public static boolean pidEnabled() {
-        return pidA.isEnable() || pidB.isEnable();   
+        return pidA.isEnable() || pidB.isEnable() || pidCam.isEnable();   
     }
     
     /**
@@ -187,6 +199,9 @@ public class Arm {
         if (pidB.isEnable()) {
             pidB.disable();
         }
+        if (pidCam.isEnable()) {
+            pidCam.disable();
+        }
     }
     
     /**
@@ -194,7 +209,7 @@ public class Arm {
      * @return true if either pid is on target, false if neither is
      */
     public static boolean onTarget() {
-        return pidA.onTarget() || pidB.onTarget();
+        return pidA.onTarget() || pidB.onTarget() || pidCam.onTarget();
     }
     
     /**

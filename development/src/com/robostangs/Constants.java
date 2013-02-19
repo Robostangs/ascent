@@ -33,6 +33,9 @@ public class Constants {
     public static final double ARM_KP_B = 0.0;
     public static final double ARM_KI_B = 0.0;
     public static final double ARM_KD_B = 0.0;
+    public static final double ARM_KP_CAM = 0.0;
+    public static final double ARM_KI_CAM = 0.0;
+    public static final double ARM_KD_CAM = 0.0;
     public static final double ARM_PYRAMID_POS = 0.0;
     public static final double ARM_FEED_POS = 0.0;
     public static final double ARM_MIN_POWER = 0.0;
@@ -61,7 +64,13 @@ public class Constants {
      */
     public static final int CONV_SHOOT_JAG_POS = 1;
     public static final int CONV_INGEST_JAG_POS = 2;
-    public static final double CONV_POWER = 0.0;   
+    public static final double CONV_POWER = 0.0; 
+    
+    /*
+     * Camera
+     */
+    public static final int CAM_Y_OFFSET = 0;
+    public static final int CAM_X_OFFSET = 0;
 
     /*
      * DriveTrain

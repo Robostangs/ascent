@@ -37,7 +37,8 @@ public class RobotMain extends IterativeRobot {
         //avoid null pointers
         Arm.getInstance();
         Autonomous.getInstance();
-        Camera.getInstance();
+        ArmCamera.getInstance();
+        DriveCamera.getInstance();
         DriveTrain.getInstance();
         FrisbeeTracker.getInstance();
         Loader.getInstance();
@@ -119,7 +120,7 @@ public class RobotMain extends IterativeRobot {
             } else if (manip.bButton()) {
                 Arm.feedPos();
             } else if (manip.xButton()) {
-                //TODO: manip set arm pos based on camera
+                Arm.camPos();
             } else {
                 Arm.stop();
             }
@@ -142,6 +143,14 @@ public class RobotMain extends IterativeRobot {
         if (manip.startButton()) {
             Arm.switchPot();
         }
+        
+        /*
+         * Manip back button: Switch camera mode
+         * TODO: send this stuff to dash
+         */
+        if (manip.backButton()) {
+            ArmCamera.switchMode();
+        }
                 
         /*
          * Driver left trigger: Run the standalone climber
@@ -159,13 +168,6 @@ public class RobotMain extends IterativeRobot {
             DriveTrain.enableClimbMode();
         } else if (driver.bButton()) {
             DriveTrain.enableDriveMode();
-        }
-        
-        /*
-         * TODO: Driver Right Bumper *OR* Manip Back: Take Picture
-         */
-        if (driver.rBumper() || manip.backButton()) {
-            
         }
         
         /*
