@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 public class DriveMotors implements PIDOutput{
     private static DriveMotors instance = getInstance();
     private static CANJaguar leftFront, leftMid, leftBack, rightFront, rightMid, 
-            rightBack, climber;
+            rightBack;
     
     private DriveMotors() {
         try {
@@ -22,14 +22,12 @@ public class DriveMotors implements PIDOutput{
             rightFront = new CANJaguar(Constants.DT_JAG_RIGHT_FRONT_POS);
             rightMid = new CANJaguar(Constants.DT_JAG_RIGHT_MID_POS);
             rightBack = new CANJaguar(Constants.DT_JAG_RIGHT_BACK_POS);
-            climber = new CANJaguar(Constants.DT_JAG_CLIMB_POS);
             leftFront.configFaultTime(Constants.JAG_CONFIG_TIME);
             leftMid.configFaultTime(Constants.JAG_CONFIG_TIME);
             leftBack.configFaultTime(Constants.JAG_CONFIG_TIME);
             rightFront.configFaultTime(Constants.JAG_CONFIG_TIME);
             rightMid.configFaultTime(Constants.JAG_CONFIG_TIME);
             rightBack.configFaultTime(Constants.JAG_CONFIG_TIME);
-            climber.configFaultTime(Constants.JAG_CONFIG_TIME);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
             Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");  

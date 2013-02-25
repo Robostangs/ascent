@@ -3,6 +3,7 @@ package com.robostangs;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -16,6 +17,7 @@ public class DriveTrain {
     private static Encoder leftEncoder, rightEncoder;
     private static Gyro gyro;
     private static StopWatch timer;
+    private static PIDController pid;
     private static boolean climbMode;
     
     private DriveTrain() {
@@ -27,6 +29,9 @@ public class DriveTrain {
         gyro = new Gyro (Constants.DT_GYRO_POS);
         
         timer = new StopWatch();
+        //TODO: kosh deal with yo pid controller
+        pid = new PIDController(Constants.DT_PID_K_P, Constants.DT_PID_K_I, 
+                Constants.DT_PID_K_D, DriveCamera.getInstance(), DriveMotors.getInstance());
         
         climbMode = false;
     }

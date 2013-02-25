@@ -34,9 +34,9 @@ public class Arm {
         }   
         
         //configure PID
-        pidA.setInputRange(Constants.POT_MIN_VALUE, Constants.POT_MAX_VALUE);
+        pidA.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
         pidA.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
-        pidB.setInputRange(Constants.POT_MIN_VALUE, Constants.POT_MAX_VALUE);
+        pidB.setInputRange(Constants.POT_B_MIN_VALUE, Constants.POT_B_MAX_VALUE);
         pidB.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         disablePID();
     }

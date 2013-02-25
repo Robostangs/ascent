@@ -17,10 +17,14 @@ public class Constants {
     public static final int ARM_JAG_POS = 10;
     public static final int POT_A_PORT = 0;
     public static final int POT_B_PORT = 0;
-    public static final int POT_MIN_VALUE = 0;
-    public static final int POT_MAX_VALUE = 0;
-    public static final double ARM_POT_ZERO = 0.0;
-    public static final double POT_TO_DEGREES = 0.0;
+    public static final int POT_A_MIN_VALUE = 0;
+    public static final int POT_A_MAX_VALUE = 0;
+    public static final int POT_B_MIN_VALUE = 0;
+    public static final int POT_B_MAX_VALUE = 0;
+    public static final double ARM_POT_A_ZERO = 0.0;
+    public static final double POT_A_TO_DEGREES = 0.0;
+    public static final double ARM_POT_B_ZERO = 0.0;
+    public static final double POT_B_TO_DEGREES = 0.0;
     
     // Arm PID
     public static final double ARM_KP_A = 0.0;
@@ -32,8 +36,8 @@ public class Constants {
     public static final double ARM_KP_CAM = 0.0;
     public static final double ARM_KI_CAM = 0.0;
     public static final double ARM_KD_CAM = 0.0;
-    public static final double ARM_PYRAMID_POS = 0.0;
-    public static final double ARM_FEED_POS = 0.0;
+    public static final double ARM_PYRAMID_POS_A = 0.0;
+    public static final double ARM_FEED_POS_A = 0.0;
     public static final double ARM_MIN_POWER = 0.0;
     public static final double ARM_MAX_POWER = 0.0;
     
@@ -95,6 +99,11 @@ public class Constants {
     //Timer
     public static final double DT_CONV_VOLT_TO_M_PER_SEC = 0.0;
     public static final double DT_DELAY_TIME = 1.0;
+    
+    //PID
+    public static final double DT_PID_K_P = 0.0;
+    public static final double DT_PID_K_I = 0.0;
+    public static final double DT_PID_K_D = 0.0;
     
     /*
      * FrisbeeTracker
