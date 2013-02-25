@@ -54,6 +54,10 @@ public class DriveTrain {
      * @param rightPower 
      */
     public static void drive(double leftPower, double rightPower) {
+        if (pid.isEnable()) {
+            pid.disable();
+        }
+        
         DriveMotors.set(leftPower, rightPower);
     }
     
@@ -76,15 +80,6 @@ public class DriveTrain {
     }
     
     /**
-     * TODO: ???
-     * @param power
-     * @param angle 
-     */
-    public static void arcadeDrive(double power, double angle) {
-        
-    }
-    
-    /**
      * drive at a half speed
      * @param leftPower
      * @param rightPower 
@@ -96,7 +91,7 @@ public class DriveTrain {
     /**
      * drive straight
      * @param power
-     * @param angle 
+     * @param angle
      */
     public static void driveStraight(double power, double angle) {
         double leftPower = power;
@@ -159,6 +154,7 @@ public class DriveTrain {
      * @return -1 if incomplete, 0 when in progress, 1 if complete
      */
     public static int turn(double power, double angle) {
+        pid.enable();
         timer.start();
         
         /*
@@ -277,10 +273,19 @@ public class DriveTrain {
         SmartDashboard.putData("Gyro: ", gyro);
     }
     
+    public static void enablePid() {
+        pid.enable();
+    }
+    
+    public static boolean isPidEnabled() {
+        return pid.isEnable();
+    }
+    
     /**
      * stop everything in DriveTrain
      */
     public static void stop() {
+        pid.disable();
         drive(0, 0);
     }
     
