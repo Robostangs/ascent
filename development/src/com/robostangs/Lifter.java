@@ -1,6 +1,7 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
@@ -12,6 +13,8 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 public class Lifter {
   private static Lifter instance = null;
   private static CANJaguar lift;
+  private static DigitalInput topSwitch;
+  private static DigitalInput bottomSwitch;
 
   private Lifter() { 
       try{
@@ -32,22 +35,30 @@ public class Lifter {
    * Lifter goes up
    */
   public static void enable() {
+      if (topSwitch.get()){
         try {
             lift.setX(Constants.LIFTER_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+      } else {
+          stop();
+      }
   }
 
   /**
    * Lifter goes down
    */
   public static void reverse() {
+      if (bottomSwitch.get()){
         try {
             lift.setX(-Constants.LIFTER_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+      } else {
+          stop();
+      }
   }
 
   /**
@@ -60,5 +71,4 @@ public class Lifter {
             ex.printStackTrace();
         }
   }
-
 }
