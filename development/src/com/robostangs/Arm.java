@@ -74,10 +74,10 @@ public class Arm {
      public static double getAngle() {
         double angle = 0;
         if (!useB) {
-            angle = (getPotA() - Constants.ARM_POT_ZERO) * Constants.POT_TO_DEGREES;
+            angle = (getPotA() - Constants.ARM_POT_A_ZERO) * Constants.POT_A_TO_DEGREES;
             return angle;
         } else {
-            angle = (getPotB() - Constants.ARM_POT_ZERO) * Constants.POT_TO_DEGREES;
+            angle = (getPotB() - Constants.ARM_POT_B_ZERO) * Constants.POT_B_TO_DEGREES;
             return angle;
         }
      }
@@ -145,7 +145,12 @@ public class Arm {
      * @return 0 if in progress, 1 if done
      */
     public static int underPyramidShotPos() {
-        return setPosition(Constants.ARM_PYRAMID_POS);
+        if (!useB) {
+        return setPosition(Constants.ARM_PYRAMID_POS_A);
+        }
+        else {
+        return setPosition(Constants.ARM_PYRAMID_POS_B);
+        }
     }
     
     /**
@@ -153,7 +158,13 @@ public class Arm {
      * @return 0 if in progress, 1 if done
      */
     public static int flatPos() {
-        return setPosition(Constants.ARM_POT_ZERO);
+        if (!useB) {
+            return setPosition(Constants.ARM_POT_A_ZERO);
+        }
+        else {
+            return setPosition(Constants.ARM_POT_B_ZERO);
+        }
+        
     }
     
     /**
@@ -161,7 +172,13 @@ public class Arm {
      * @return 0 if in progress, 1 if done
      */
     public static int feedPos() {
-        return setPosition(Constants.ARM_FEED_POS);
+        if (!useB) {
+            return setPosition(Constants.ARM_FEED_POS_A);
+        }
+        else {
+            return setPosition(Constants.ARM_FEED_POS_B);
+        }
+        
     }
     
     /**
@@ -272,7 +289,7 @@ public class Arm {
      * @return true if pot A is within range, false if it isn't
      */
     public boolean isPotAFunctional() {
-        return getPotA() >= Constants.POT_MIN_VALUE  && getPotA() <= Constants.POT_MAX_VALUE;
+        return getPotA() >= Constants.POT_A_MIN_VALUE  && getPotA() <= Constants.POT_A_MAX_VALUE;
     }
     
     /**
@@ -280,6 +297,6 @@ public class Arm {
      * @return true if pot B is within range, false if it isn't
      */
     public boolean isPotBFunctional() {
-        return getPotB() >= Constants.POT_MIN_VALUE  && getPotB() <= Constants.POT_MAX_VALUE;
+        return getPotB() >= Constants.POT_B_MIN_VALUE  && getPotB() <= Constants.POT_B_MAX_VALUE;
     }     
 }
