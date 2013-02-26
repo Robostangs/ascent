@@ -37,7 +37,9 @@ public class Constants {
     public static final double ARM_KI_CAM = 0.0;
     public static final double ARM_KD_CAM = 0.0;
     public static final double ARM_PYRAMID_POS_A = 0.0;
+    public static final double ARM_PYRAMID_POS_B = 0.0;
     public static final double ARM_FEED_POS_A = 0.0;
+    public static final double ARM_FEED_POS_B = 0.0;
     public static final double ARM_MIN_POWER = 0.0;
     public static final double ARM_MAX_POWER = 0.0;
     
