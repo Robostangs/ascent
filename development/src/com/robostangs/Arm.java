@@ -48,6 +48,24 @@ public class Arm {
         return instance;
     }
     
+    public static PIDController PIDInUse() {
+        if (!useB) {
+            return pidA;
+        }
+        else {
+            return pidB;
+        }
+    }
+    
+    public static PIDController PIDNotInUse() {
+        if (useB) {
+            return pidA;
+        }
+        else {
+            return pidB;
+        }
+    }
+    
     /**
      * gets average value of pot A
      * @return potA.getAverageValue average value of pot A 
@@ -127,16 +145,9 @@ public class Arm {
             return 1;
         }
         
-        if (useB) {
-            pidA.disable();
-            pidB.setSetpoint(potValue);
-            pidB.enable();
-        } else {
-            pidB.disable();
-            pidA.setSetpoint(potValue);
-            pidA.enable();
-        }
-        
+        PIDNotInUse().disable();
+        PIDInUse().setSetpoint(potValue);
+        PIDInUse().enable();
         return 0;
     }
     
@@ -189,12 +200,8 @@ public class Arm {
         if (pidCam.onTarget()) {
             return 1;
         }
-        if (pidA.isEnable()) {
-            pidA.disable();
-        }
-        if (pidB.isEnable()) {
-            pidB.disable();
-        }
+        
+        PIDInUse().disable();
         pidCam.setSetpoint(ArmCamera.getTarget());
         pidCam.enable();
         return 0;
@@ -212,11 +219,8 @@ public class Arm {
      * if either pid is enabled, it disables it
      */
     public static void disablePID() {
-        if (pidA.isEnable()) {
-            pidA.disable();
-        }
-        if (pidB.isEnable()) {
-            pidB.disable();
+        if (PIDInUse().isEnable()) {
+            PIDInUse().disable();
         }
         if (pidCam.isEnable()) {
             pidCam.disable();
