@@ -7,38 +7,35 @@ package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm {
     private static Arm instance = null;
     private static Potentiometer potA, potB;
-    private static CANJaguar motor;
+    private static ArmMotor motor;
     private static PIDController pidA, pidB, pidCam; 
     private static boolean useB = false;
-    private static StopWatch timer;
+    private static Timer timer;
 
     
     private Arm() {
+        motor = ArmMotor.getInstance();
         potA = new Potentiometer(Constants.POT_A_PORT);
-        potB = new Potentiometer(Constants.POT_B_PORT);
+        //potB = new Potentiometer(Constants.POT_B_PORT);
         pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motor); 
-        pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, potB, motor);
+        //pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, potB, motor);
         pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
-        timer = new StopWatch();
-        try {
-            motor = new CANJaguar(Constants.ARM_JAG_POS);
-            motor.configFaultTime(Constants.JAG_CONFIG_TIME);
-        } catch (CANTimeoutException ex) {
-            System.out.println("CAN TIMEOUT EXCEPTION ON ARM");
-            Log.write("CAN TIMEOUT EXCEPTION ON ARM");
-        }   
+        timer = new Timer();
         
         //configure PID
-        pidA.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
+        pidA.setInputRange(Constants.ARM_PID_POT_MIN, Constants.ARM_PID_POT_MAX);
         pidA.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
+        /*
         pidB.setInputRange(Constants.POT_B_MIN_VALUE, Constants.POT_B_MAX_VALUE);
         pidB.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
+        */
         disablePID();
     }
     
@@ -71,7 +68,7 @@ public class Arm {
      * gets average value of pot A
      * @return potA.getAverageValue average value of pot A 
      */
-    public static int getPotA() {
+    public static double getPotA() {
         return potA.getAverageValue(); 
     }    
     
@@ -107,14 +104,34 @@ public class Arm {
       * sets the power of the arm jags
       */
     public static void setJags(double power) {
+        double currentPot = getPotA();
+        //add a buffer
+        if (power > 0) {
+            //arm is going up, give it a pot val one higher
+            currentPot++;
+        } else {
+            //arm is going down, give it a pot val one lower
+            currentPot--;
+        }
+
         if (pidEnabled()) {
             disablePID();
         }
-        try {
-            motor.setX(power);
-        } catch (CANTimeoutException ex) {
-            System.out.println("CAN TIMEOUT EXCEPTION ON ARM");
-            Log.write("CAN TIMEOUT EXCEPTION ON ARM");
+
+        if (power > 0) {
+            if (getPotA() >= Constants.POT_A_MAX_VALUE) {
+                motor.setX(0);
+            } else {
+                motor.setX(power);
+            }
+        } else if (power < 0) {
+            if (getPotA() <= Constants.POT_A_MIN_VALUE) {
+                motor.setX(0);
+            } else {
+                motor.setX(power);
+            }
+        } else {
+            motor.setX(0);
         }
     }
     
@@ -143,6 +160,7 @@ public class Arm {
 
     public static int setPosition(double potValue) { 
         if (onTarget()) {
+            disablePID();
             return 1;
         }
         
@@ -208,27 +226,33 @@ public class Arm {
         return 0;
     }
 
-    public static int halfCourtPos() {
-        return setPosition(Constants.ARM_HALF_COURT_POS);
-    }
-
-    public static int minDistancePos() {
-        return setPosition(Constants.ARM_MIN_DIST_POS);
-    }
-
     public static int frontPyramidPos() {
         return setPosition(Constants.ARM_FRONT_PYRAMID_POS);
     }
 
-    //TODO: next 3 methods when getEnabledPID() exists
-    public static void getPIDFromDash() {
-        
-
+    /**
+     * Uses PID to move to proper angle for shooting from back of pyramid
+     * @return 0 if in progress, 1 if done
+     */
+    public static int backPyramidPos() {
+        return setPosition(Constants.ARM_BACK_PYRAMID_POS);
     }
 
+    /**
+     * Enables the pid
+     */
     public static void enablePID() {
-
+        pidA.enable();
     }
+        
+    public static int sidePyramidPos() {
+        return setPosition(Constants.ARM_SIDE_PYRAMID_POS);
+    }
+
+    public static int pidHoldPos() {
+        return setPosition(getPotA());
+    }
+
 
     public static void outputPIDConstants() {
 
@@ -323,11 +347,9 @@ public class Arm {
         return getPotA() >= Constants.POT_A_MIN_VALUE  && getPotA() <= Constants.POT_A_MAX_VALUE;
     }
     
-    /**
-     * checks if pot B is within range
-     * @return true if pot B is within range, false if it isn't
-     */
-    public boolean isPotBFunctional() {
-        return getPotB() >= Constants.POT_B_MIN_VALUE  && getPotB() <= Constants.POT_B_MAX_VALUE;
+    public static void getPIDFromDash() {
+        pidA.startLiveWindowMode();
+        SmartDashboard.putData("PID: ", pidA);
     }     
+
 }

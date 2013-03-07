@@ -2,6 +2,7 @@ package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
@@ -13,7 +14,7 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 public class Lifter {
   private static Lifter instance = null;
   private static CANJaguar lift;
-  private static StopWatch timer;
+  private static Timer timer;
   private static boolean atTop;
   private static DigitalInput topSwitch;
   private static DigitalInput bottomSwitch;
@@ -24,7 +25,9 @@ public class Lifter {
       } catch (CANTimeoutException ex) {
           ex.printStackTrace();
       }
-      timer = new StopWatch();
+      timer = new Timer();
+      topSwitch = new DigitalInput(1, Constants.LIFTER_TOP_SWITCH_POS);
+      //bottomSwitch = new DigitalInput(1, Constants.LIFTER_BOTTOM_SWITCH_POS);
       timer.stop();
       timer.reset();
       atTop = false;
@@ -41,15 +44,22 @@ public class Lifter {
    * Lifter goes up
    */
   public static void raise() {
-      //if (topSwitch.get()){
         try {
             lift.setX(Constants.LIFTER_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
-      //} else {
-       //   stop();
-      //}
+  }
+
+  /**
+   * Lifter goes down
+   */
+  public static void lower() {
+    try {
+        lift.setX(-Constants.LIFTER_POWER);
+    } catch (CANTimeoutException ex) {
+        ex.printStackTrace();
+    }
   }
 
   /**
@@ -58,7 +68,7 @@ public class Lifter {
    */
   public static int timedUp() {
       timer.start();
-	  if (timer.getSeconds() >= Constants.LIFTER_UP_TIME || atTop) {
+	  if (timer.get() >= Constants.LIFTER_UP_TIME || atTop) {
 		  stop();
 		  timer.stop();
 		  timer.reset();
@@ -66,7 +76,7 @@ public class Lifter {
 		  return 1;
 	  } else {
           raise();
-          System.out.println("UP TIMER:" + timer.getSeconds());
+          System.out.println("UP TIMER:" + timer.get());
           return 0;
       }
   }
@@ -77,7 +87,7 @@ public class Lifter {
    */
   public static int timedDown() {
       timer.start();
-	  if (timer.getSeconds() >= Constants.LIFTER_DOWN_TIME || !atTop) {
+	  if (timer.get() >= Constants.LIFTER_DOWN_TIME || !atTop) {
 		  stop();
 		  timer.stop();
 		  timer.reset();
@@ -85,37 +95,25 @@ public class Lifter {
 		  return 1;
 	  } else {
           lower();
-          System.out.println("DOWN TIMER:" + timer.getSeconds());
+          System.out.println("DOWN TIMER:" + timer.get());
           return 0;
       }
   }
 
   /**
-   * Lifter goes down
+   * @return 0 if in progress, 1 if done 
    */
-  public static void lower() {
-      //if (bottomSwitch.get()){
-        try {
-            lift.setX(-Constants.LIFTER_POWER);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
-      //} else {
-          //stop();
-      //}
-  }
-
-  /*
-   * 
-   */
-  public static void switchUp() {
+  public static int switchUp() {
       if (topSwitch.get()) {
-          stop();
-      } else {
           raise();
+          return 0;
+      } else {
+          stop();
+          return 1;
       }
   }
 
+  //TODO: implement
   public static void switchDown() {
       if (bottomSwitch.get()) {
           stop();
@@ -143,6 +141,51 @@ public class Lifter {
           return atTop;
       } else {
           return topSwitch.get();
+      }
+  }
+
+  public static boolean getTopSwitch() {
+      return topSwitch.get();
+}
+  public static boolean getBottomSwitch() {
+      return bottomSwitch.get();
+  }
+
+  public static void manual(double speed) {
+      if (speed > 0) {
+          if (topSwitch.get()) {
+              try {
+                  lift.setX(0);
+              } catch (CANTimeoutException ex) {
+                  ex.printStackTrace();
+              }
+          } else {
+              try {
+                  lift.setX(speed);
+              } catch (CANTimeoutException ex) {
+                  ex.printStackTrace();
+              }
+          }
+      } else if (speed < 0) {
+          if (bottomSwitch.get()) {
+              try {
+                  lift.setX(0);
+              } catch (CANTimeoutException ex) {
+                  ex.printStackTrace();
+              }
+          } else {
+              try {
+                  lift.setX(speed);
+              } catch (CANTimeoutException ex) {
+                  ex.printStackTrace();
+              }
+          }
+      } else {
+          try {
+              lift.setX(0);
+          } catch (CANTimeoutException ex) {
+              ex.printStackTrace();
+          }
       }
   }
 }

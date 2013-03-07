@@ -38,6 +38,7 @@ public class RobotMain extends IterativeRobot {
         //avoid null pointers
         Arm.getInstance();
         ArmCamera.getInstance();
+        Camera.getInstance();
         DriveCamera.getInstance();
         DriveTrain.getInstance();
         Loader.getInstance();
@@ -48,6 +49,9 @@ public class RobotMain extends IterativeRobot {
         dashInit();
     }
 
+    public void dashInit() {
+    }
+    
     public void autonomousInit() {
         Autonomous.getInstance();
     }
@@ -56,13 +60,21 @@ public class RobotMain extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        Autonomous.run();
+        Autonomous.shootThree();
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        sendDataToDash();
+        System.out.println("pot: " + Arm.getPotA());
+        Arm.outputPIDConstants();
+        //System.out.println("top limit switch: " + Lifter.getTopSwitch());
+        //System.out.println("bottom limit switch: " + Lifter.getBottomSwitch());
+        //System.out.println("pot voltage " + Arm.getPotVoltage());
+        //System.out.println("Left Encoder: " + DriveTrain.getLeftEncoderDistance());
+        
         /*
          * Manip loader control
          * Left Trigger: Feed
@@ -98,26 +110,27 @@ public class RobotMain extends IterativeRobot {
          * Y: Under the pyramind shot
          * X: Use Camera to auto-set angle
          */        
-        if (manip.leftStickYAxis() == 0 && manip.rightStickYAxis() == 0) {
+        if (manip.rightStickYAxis() == 0) {
             //not using the joysticks to manual set, use PID
             if (manip.yButton()) {
-                Arm.halfCourtPos();
-            } else if (manip.aButton()) {
-                Arm.minDistancePos();
-            } else if (manip.bButton()) {
                 Arm.frontPyramidPos();
+            } else if (manip.aButton()) {
+                Arm.backPyramidPos();
+            } else if (manip.bButton()) {
+                Arm.sidePyramidPos();
             } else if (manip.xButton()) {
                 //Arm.camPos();
                 Arm.getPIDFromDash();
                 Arm.enablePID();
+            } else if (manip.startButton()) {
+                Arm.setPosition(Arm.getPotA() + 1);
+            } else if (manip.backButton()) {
+                Arm.setPosition(Arm.getPotA() - 1);
             } else {
                 Arm.stop();
             }
         } else {
-            if (Math.abs(manip.leftStickYAxis()) != 0) {
-                //coarse control
-                Arm.coarseDrive(manip.leftStickYAxis());
-            } else if (Math.abs(manip.rightStickYAxis()) != 0) {
+            if (Math.abs(manip.rightStickYAxis()) != 0) {
                 //fine control
                 Arm.fineDrive(manip.rightStickYAxis());
             } else {
@@ -136,25 +149,23 @@ public class RobotMain extends IterativeRobot {
             Loader.ingestorOff();
         }
 
+        Lifter.manual(manip.leftStickYAxis());
         /*
          * Next two if statements are for testing purposes only
          * manip uses timed up and down
          * driver is manual run
          */
-        if (manip.startButton()) {
-            Lifter.raise();
-        } else if (manip.backButton()) {
-            Lifter.lower();
-        } else if (!driver.startButton() && !driver.backButton()) {
-            Lifter.stop();
-        }
 
         if (driver.startButton()) {
-            Lifter.raise();
+            Loader.liftUp();
         } else if (driver.backButton()) {
             Lifter.lower();
         } else if (!manip.startButton() && !manip.backButton()) {
             Lifter.stop();
+        }
+
+        if (driver.yButton()) {
+            Camera.saveImage();
         }
 
         /*
@@ -178,18 +189,18 @@ public class RobotMain extends IterativeRobot {
         /*
          *  TODO: If Driver Right Trigger, Enable Auto Align
          */
-        if (driver.rightTriggerButton()) {
+        //if (driver.rightTriggerButton()) {
             
-        } else {
+        //} else {
             /*
-             * Drive Slow if Left Bumper, otherwise drive normally
+             * Drive Slow if Left Trigger, otherwise drive normally
              */
             if (driver.leftTriggerButton()) {
                 DriveTrain.driveSlow(driver.leftStickYAxis(), driver.rightStickYAxis());
             } else {
                 DriveTrain.humanDrive(driver.leftStickYAxis(), driver.rightStickYAxis());
             }
-        }
+        //}
     }
     
     /**
@@ -198,10 +209,6 @@ public class RobotMain extends IterativeRobot {
     public void sendDataToDash() {
         Arm.sendWhichPotInUse();
         Arm.sendPotData();
-    }
-
-    public void dashInit() {
-        //TODO: initialize dashboard things
     }
 
     public void debugToConsole() {

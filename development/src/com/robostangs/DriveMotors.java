@@ -51,9 +51,9 @@ public class DriveMotors implements PIDOutput{
             leftFront.setX(leftPower);
             leftMid.setX(leftPower);
             leftBack.setX(leftPower);
-            rightFront.setX(rightPower);
-            rightMid.setX(rightPower);
-            rightBack.setX(rightPower);
+            rightFront.setX(-rightPower);
+            rightMid.setX(-rightPower);
+            rightBack.setX(-rightPower);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
             Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
@@ -65,9 +65,9 @@ public class DriveMotors implements PIDOutput{
             leftFront.setX(output);
             leftMid.setX(output);
             leftBack.setX(output);
-            rightFront.setX(output);
-            rightMid.setX(output);
-            rightBack.setX(output);
+            rightFront.setX(-output);
+            rightMid.setX(-output);
+            rightBack.setX(-output);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
             Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");

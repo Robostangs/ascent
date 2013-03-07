@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -15,23 +17,30 @@ public class DriveTrain {
     private static DriveTrain instance = getInstance();
     private static CANJaguar climber;
     private static Encoder leftEncoder, rightEncoder;
-    private static Gyro gyro;
-    private static StopWatch timer;
-    private static PIDController pid;
+    //private static Gyro gyro;
+    private static Timer timer;
+    //private static PIDController pid;
     private static boolean climbMode;
+    private static Servo servo;
     
     private DriveTrain() {
         DriveMotors.getInstance();
         
         leftEncoder = new Encoder (Constants.DT_LEFT_ENCODER_FRONT, Constants.DT_LEFT_ENCODER_BACK);
         rightEncoder = new Encoder (Constants.DT_RIGHT_ENCODER_FRONT, Constants.DT_RIGHT_ENCODER_BACK);
+        resetEncoders();
+        startEncoders();
+
+        servo = new Servo(Constants.DT_SERVO_POS);
         
-        gyro = new Gyro (Constants.DT_GYRO_POS);
+        //gyro = new Gyro (Constants.DT_GYRO_POS);
         
-        timer = new StopWatch();
+        timer = new Timer();
         //TODO: kosh deal with yo pid controller
+        /*
         pid = new PIDController(Constants.DT_PID_K_P, Constants.DT_PID_K_I, 
                 Constants.DT_PID_K_D, DriveCamera.getInstance(), DriveMotors.getInstance());
+                */
         
         climbMode = false;
     }
@@ -54,9 +63,11 @@ public class DriveTrain {
      * @param rightPower 
      */
     public static void drive(double leftPower, double rightPower) {
+        /*
         if (pid.isEnable()) {
             pid.disable();
         }
+        * */
         
         DriveMotors.set(leftPower, rightPower);
     }
@@ -74,9 +85,13 @@ public class DriveTrain {
      * @param leftPower
      * @param rightPower 
      */
-    public static void humanDrive(double leftPower, double rightPower) {
+    public static void humanDrive(double leftStick, double rightStick) {
         //TODO: to be determined
-        drive(leftPower, rightPower);
+	if ((leftStick < -.3 && rightStick > .3) || (leftStick > .3 && rightStick < -.3)) {
+            rightStick = rightStick*rightStick * (rightStick / Math.abs(rightStick));
+            leftStick = leftStick*leftStick * (leftStick / Math.abs(leftStick));
+    }
+        drive(leftStick, rightStick);
     }
     
     /**
@@ -92,7 +107,7 @@ public class DriveTrain {
      * drive straight
      * @param power
      * @param angle
-     */
+     *
     public static void driveStraight(double power, double angle) {
         double leftPower = power;
         double rightPower = power;
@@ -107,7 +122,7 @@ public class DriveTrain {
         }
         
         drive(leftPower, rightPower);
-    }
+    } */
     
     /**
      * drive straight for a certain distance
@@ -115,7 +130,7 @@ public class DriveTrain {
      * @param angle
      * @param distance
      * @return -1 when incomplete, 0 when in progress, 1 when complete
-     */
+     *
     public static int driveStraight(double power, double angle, double distance) {
         timer.start();
         
@@ -124,7 +139,7 @@ public class DriveTrain {
          * change power(Volts) to speed(distance/time)
          * get projected time speed = volt --> distance/time;
          * if the actual time passes expected time +1sec, stop and return -1
-         */ 
+         * 
         double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;
         double expectedTime = distance / speed;
         if (timer.get() > (expectedTime + Constants.DT_DELAY_TIME)) {
@@ -145,23 +160,23 @@ public class DriveTrain {
             resetEncoders();
             return 1;
         }
-    }
+    } */
     
     /**
      * turn around for angle
      * @param power
      * @param angle
      * @return -1 if incomplete, 0 when in progress, 1 if complete
-     */
+     *
     public static int turn(double power, double angle) {
-        pid.enable();
+        //pid.enable();
         timer.start();
         
         /*
          * timer stuff
          * it's a circular motion omega = angle / time
          * t = angle / power
-         */ 
+         * 
         double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;
         double expectedTime = Math.toRadians(angle) / speed;
         if (timer.get() > (expectedTime + Constants.DT_DELAY_TIME)) {
@@ -195,7 +210,7 @@ public class DriveTrain {
                 return 1;
             }
         }
-    }
+    } */
     
     /**
      * drive the robot along a circular arc
@@ -230,18 +245,18 @@ public class DriveTrain {
     /**
      * get distance from the right encoder
      * @return in meters
-     */
+     *
     public static double getRightEncoderDistance() {
         return rightEncoder.getDistance();
-    }
+    }*/
     
     /**
      * get the angle using gyro
      * @return in degrees
-     */
+     *
     public static double getAngle() {
         return gyro.getAngle();
-    }
+    } */
     
     /**
      * reset the timer
@@ -257,6 +272,16 @@ public class DriveTrain {
         leftEncoder.reset();
         rightEncoder.reset();
     }
+
+    public static void startEncoders() {
+        leftEncoder.start();
+        rightEncoder.start();
+    }
+
+    public static void stopEncoders() {
+        leftEncoder.stop();
+        rightEncoder.stop();
+    }
     
     /**
      * sends encoder status to SmartDashboard
@@ -268,24 +293,25 @@ public class DriveTrain {
     
     /**
      * send gyro status to SmartDashboard
-     */
+     *
     public static void sendGyro() {
         SmartDashboard.putData("Gyro: ", gyro);
-    }
+    } */
     
+    /*
     public static void enablePid() {
         pid.enable();
     }
     
     public static boolean isPidEnabled() {
         return pid.isEnable();
-    }
+    } */
     
     /**
      * stop everything in DriveTrain
      */
     public static void stop() {
-        pid.disable();
+        //pid.disable();
         drive(0, 0);
     }
     
@@ -301,6 +327,7 @@ public class DriveTrain {
      * enable climb mode
      */
     public static void enableClimbMode() {
+        servo.set(Constants.DT_CLIMB_POS);
         climbMode = true;
     }
     
@@ -308,6 +335,7 @@ public class DriveTrain {
      * enable drive mode
      */
     public static void enableDriveMode() {
+        servo.set(Constants.DT_DRIVE_POS);
         climbMode = false;
     }
     

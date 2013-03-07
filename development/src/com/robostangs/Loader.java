@@ -9,6 +9,7 @@ package com.robostangs;
 //TODO: reenable ingestor, automatic lifter
 public class Loader {
     private static Loader instance = null;
+    private static boolean lifterMovingUp = false;
     
     private Loader() {
         Conveyors.getInstance();
@@ -43,7 +44,7 @@ public class Loader {
         if (Lifter.getPos()) {
             //liftDown();
         } else {
-            Lifter.stop();
+            //Lifter.stop();
         }
         //Ingestor.turnOn();
         Conveyors.ingest();
@@ -53,46 +54,35 @@ public class Loader {
      * runs shooter conveyor, moves lifter to top pos if not there
      */
     public static void loadShooter(){
-        if (!Lifter.getPos()) {
-            //liftUp();
-        } else {
-            Lifter.stop();
+        liftUp();
+        Conveyors.loadShooter();
         }
-        Conveyors.feedMode();
-    }
     
     /**
      * reverses to feed from station
      */
     public static void feed(){
-        if (!Lifter.getPos()) {
-            //liftUp();
-        } else {
-            Lifter.stop();
-        }
+        liftUp();
         Conveyors.feedMode();
     }
     
-    /**
-     * moves lift down
-     */
-    public static void liftDown(){
-        while(Lifter.timedDown() == 0);
-    }
-    
-    /**
-     * moves lift up
-     */
     public static void liftUp() {
-        while(Lifter.timedUp() == 0);
+        if (Lifter.switchUp() == 0) {
+            lifterMovingUp = true;
+        } else {
+            lifterMovingUp = false;
     }
-    
+        Lifter.raise();
+        Conveyors.ingest();
+    }
     /**
      * turns off ingestor
      */
     public static void ingestorOff() {
         //Ingestor.turnOff();
+        if (!lifterMovingUp) {
         Conveyors.stopIngest();
+    }
     }
     
     public static void stopConveyors() {

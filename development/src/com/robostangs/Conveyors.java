@@ -1,6 +1,7 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
 /**
@@ -11,7 +12,7 @@ public class Conveyors {
     private static Conveyors instance = null;
     private static CANJaguar ingestConveyor, shooterConveyor;
     private static boolean direction = false; //false is in, used for shake methods
-    private static StopWatch timer;
+    private static Timer timer;
     
     private Conveyors() {
         try {
@@ -21,7 +22,7 @@ public class Conveyors {
             System.out.println("CAN TIMEOUT EXCEPTION ON CONVEYORS");
             Log.write("CANJag Timeout Exception on Conveyors");
         }
-        timer = new StopWatch();
+        timer = new Timer();
     }
     
     public static Conveyors getInstance() {
@@ -73,7 +74,7 @@ public class Conveyors {
      */
     public static void loadShooter() {
         try {
-            shooterConveyor.setX(Constants.CONV_SHOOTER_POWER);
+            shooterConveyor.setX(-Constants.CONV_SHOOTER_POWER);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN TIMEOUT EXCEPTION ON SHOOTER CONVEYOR");
             Log.write("CANJag Timeout Exception on Shooter Conveyor");
@@ -85,7 +86,7 @@ public class Conveyors {
      */
     public static void feedMode() { 
         try {
-            shooterConveyor.setX(-Constants.CONV_SHOOTER_POWER);
+            shooterConveyor.setX(Constants.CONV_SHOOTER_POWER);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN TIMEOUT EXCEPTION ON SHOOTER CONVEYOR");
             Log.write("CANJag Timeout Exception on Shooter Conveyor");
@@ -116,7 +117,7 @@ public class Conveyors {
      */
     public static void shakeIngest() {
         timer.start();
-        while (timer.getSeconds() < 2) {
+        while (timer.get() < 2) {
             if (direction) {
                 try {
                     ingestConveyor.setX(Constants.CONV_INGEST_POWER);
@@ -140,7 +141,7 @@ public class Conveyors {
      */
     public static void shakeShooter() {
         timer.start();
-        while (timer.getSeconds() < 2) {
+        while (timer.get() < 2) {
             if (direction) {
                 try {
                     shooterConveyor.setX(Constants.CONV_SHOOTER_POWER);
