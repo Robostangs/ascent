@@ -17,6 +17,7 @@ public class Arm {
     private static PIDController pidA, pidB, pidCam; 
     private static boolean useB = false;
     private static StopWatch timer;
+
     
     private Arm() {
         potA = new Potentiometer(Constants.POT_A_PORT);
@@ -168,7 +169,7 @@ public class Arm {
      * Uses PID to move to flat angle
      * @return 0 if in progress, 1 if done
      */
-    public static int flatPos() {
+    public static int lowestPos() {
         if (!useB) {
             return setPosition(Constants.ARM_POT_A_ZERO);
         }
@@ -205,6 +206,32 @@ public class Arm {
         pidCam.setSetpoint(ArmCamera.getTarget());
         pidCam.enable();
         return 0;
+    }
+
+    public static int halfCourtPos() {
+        return setPosition(Constants.ARM_HALF_COURT_POS);
+    }
+
+    public static int minDistancePos() {
+        return setPosition(Constants.ARM_MIN_DIST_POS);
+    }
+
+    public static int frontPyramidPos() {
+        return setPosition(Constants.ARM_FRONT_PYRAMID_POS);
+    }
+
+    //TODO: next 3 methods when getEnabledPID() exists
+    public static void getPIDFromDash() {
+        
+
+    }
+
+    public static void enablePID() {
+
+    }
+
+    public static void outputPIDConstants() {
+
     }
     
     /**

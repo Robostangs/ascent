@@ -43,6 +43,12 @@ public class Constants {
     public static final double ARM_MIN_POWER = 0.0;
     public static final double ARM_MAX_POWER = 0.0;
     
+    //positions
+    //TODO: organize
+    public static double ARM_HALF_COURT_POS;
+    public static double ARM_MIN_DIST_POS;
+    public static double ARM_FRONT_PYRAMID_POS;
+
     /*
      * Autonomous
      */
@@ -67,6 +73,8 @@ public class Constants {
     public static final int CONV_SHOOT_JAG_POS = 1;
     public static final int CONV_INGEST_JAG_POS = 2;
     public static final double CONV_POWER = 0.0; 
+    public static double CONV_INGEST_POWER = 0.95;
+    public static double CONV_SHOOTER_POWER = 0.95;
     
     /*
      * Camera
@@ -130,6 +138,8 @@ public class Constants {
      */
     public static final int LIFTER_JAG_POS = 11;
     public static final double LIFTER_POWER = 0.0;
+    public static double LIFTER_UP_TIME = 0.0;
+    public static double LIFTER_DOWN_TIME = 0.0;
         
     /*
      * Shooter
@@ -160,4 +170,5 @@ public class Constants {
     //Manipulator
     public static final int XBOX_MANIP_PORT = 0;
     public static final double XBOX_MANIP_DRIFT = 0.1;
+    
 }

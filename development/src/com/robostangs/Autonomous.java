@@ -25,6 +25,9 @@ public class Autonomous {
     private static boolean gyroReady = false;
     private static double angle = 0;
     private static int step = 0;
+    private static double stepData = 0;
+    private static int numberToShoot = 0;
+    private static String armPos = "";
     
     
     private Autonomous() {
@@ -53,6 +56,12 @@ public class Autonomous {
         
         timeForStep = pref.getDouble("timeForStep", 0);
     }
+
+    public static void printKeys() {
+        for (int i = 0; i < keys.length; i++) {
+            System.out.println(keys[i]);
+        }
+    }
     
     /**
      * Checks to see if data read from dash is valid
@@ -68,9 +77,6 @@ public class Autonomous {
     }
     
     public static void run() {
-        double stepData = 0;
-        int numberToShoot = 0;
-        String armPos = "";
         if (!fallbackMode) {
             for (int i = 0; i < keys.length; i++) {    
                 driving = keys[i].endsWith("Distance");
@@ -79,6 +85,9 @@ public class Autonomous {
                 shooting = keys[i].startsWith("shoot");
                 armMoving = keys[i].startsWith("arm");
                 delay = keys[i].startsWith("delay");
+                stepData = 0;
+                numberToShoot = 0;
+                armPos = "";
 
                 try {
                     if (shooting) {
@@ -96,8 +105,10 @@ public class Autonomous {
 
                 if (driving && !ingesting) {
                     while (status == 0 && timer.getSeconds() < timeForStep) {
+                        /*
                         status = DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, angle, 
                                 stepData);
+                                * */
                     }
 
                     gyroReady = false;
@@ -111,8 +122,10 @@ public class Autonomous {
 
                 } else if (driving && ingesting) {
                     while (status == 0 && timer.getSeconds() < timeForStep) {
+                        /*
                         status = DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, angle, 
                                 stepData);
+                                * */
                         Loader.ingest();
                     }
 
@@ -128,7 +141,7 @@ public class Autonomous {
 
                 } else if (turning) {
                     while (status == 0 && timer.getSeconds() < timeForStep) {
-                        status = DriveTrain.turn(Constants.AUTON_TURN_POWER, stepData);
+                        //status = DriveTrain.turn(Constants.AUTON_TURN_POWER, stepData);
                     }
 
                     gyroReady = false;
@@ -159,13 +172,13 @@ public class Autonomous {
                 } else if (armMoving) {
                     while (status == 0 && timer.getSeconds() < timeForStep) {
                         if (armPos.equalsIgnoreCase("zero")) {
-                            status = Arm.flatPos();
+                            status = Arm.lowestPos();
                         } else if (armPos.equalsIgnoreCase("pyramid")) {
                             status = Arm.underPyramidShotPos();
                         } else if (stepData != 0 && stepData != -1) {
                             status = Arm.setPosition(stepData);
                         } else if (stepData == -1) {
-                            status = Arm.camPos();
+                            //status = Arm.camPos();
                         }
                     }
 
@@ -195,7 +208,7 @@ public class Autonomous {
      */
     public static void determineAngle() {
         if (!gyroReady) {
-            angle = DriveTrain.getAngle();
+            //angle = DriveTrain.getAngle();
             gyroReady = true;
         }
     }
@@ -209,7 +222,7 @@ public class Autonomous {
             case 0:
                 timer.start();
                 while (timer.getSeconds() < Constants.AUTON_FALLBACK_DRIVE_TIME) {
-                    DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_ANGLE);
+                    //DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_ANGLE);
                 }
                 
                 DriveTrain.stop();
@@ -220,7 +233,7 @@ public class Autonomous {
             case 1:
                 timer.start();
                 while (timer.getSeconds() < Constants.AUTON_FALLBACK_TURN_TIME) {
-                    DriveTrain.turn(Constants.AUTON_TURN_POWER, Constants.AUTON_TURN_ANGLE);
+                    //DriveTrain.turn(Constants.AUTON_TURN_POWER, Constants.AUTON_TURN_ANGLE);
                 }
                 
                 DriveTrain.stop();

@@ -4,14 +4,15 @@ package com.robostangs;
 /**
  * Uses conveyors, lifter, ingestor to get frisbees to shooter
  * maintainer: Tejas
- * TODO: more throughly check
  */
+
+//TODO: reenable ingestor, automatic lifter
 public class Loader {
     private static Loader instance = null;
     
     private Loader() {
         Conveyors.getInstance();
-        Ingestor.getInstance();
+        //Ingestor.getInstance();
         Lifter.getInstance();
     }
     
@@ -28,38 +29,47 @@ public class Loader {
     public static void allOff(){
         Lifter.stop();
         Conveyors.stopBoth();
-        Ingestor.turnOff();
+        //Ingestor.turnOff();
+    }
+
+    public static void stopShooterConveyor() {
+        Conveyors.stopShooter();
     }
     
     /**
      * runs ingestor + ingestConveyor
      */
     public static void ingest(){
-        Ingestor.turnOn();
-        Conveyors.ingestMode();
+        if (Lifter.getPos()) {
+            //liftDown();
+        } else {
+            Lifter.stop();
+        }
+        //Ingestor.turnOn();
+        Conveyors.ingest();
     }
     
     /**
-     * runs lift, shoot conveyor
+     * runs shooter conveyor, moves lifter to top pos if not there
      */
     public static void loadShooter(){
-        Lifter.enable();
+        if (!Lifter.getPos()) {
+            //liftUp();
+        } else {
+            Lifter.stop();
+        }
         Conveyors.feedMode();
-    }
-    
-    /**
-     * runs all in ingest -> shoot direction
-     */
-    public void runAll(){
-        Ingestor.turnOn();
-        Conveyors.ingestMode();
-        Conveyors.readyShooter();
     }
     
     /**
      * reverses to feed from station
      */
     public static void feed(){
+        if (!Lifter.getPos()) {
+            //liftUp();
+        } else {
+            Lifter.stop();
+        }
         Conveyors.feedMode();
     }
     
@@ -67,41 +77,29 @@ public class Loader {
      * moves lift down
      */
     public static void liftDown(){
-        Lifter.reverse();
+        while(Lifter.timedDown() == 0);
     }
     
     /**
      * moves lift up
      */
     public static void liftUp() {
-        Lifter.enable();
+        while(Lifter.timedUp() == 0);
     }
     
     /**
      * turns off ingestor
      */
     public static void ingestorOff() {
-        Ingestor.turnOff();
-    }
-    
-    /**
-     * turns off ingest conveyor
-     */
-    public static void ingestConveyorOff() {
+        //Ingestor.turnOff();
         Conveyors.stopIngest();
     }
     
-    /**
-     * turns off lifter
-     */
+    public static void stopConveyors() {
+        Conveyors.stopBoth();
+    }
+
     public static void liftOff() {
         Lifter.stop();
-    }
-    
-    /**
-     * turn off shooter conveyor
-     */
-    public static void shooterConveyorOff() {
-        Conveyors.stopShooter();
     }
 }

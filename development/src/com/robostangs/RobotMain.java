@@ -17,6 +17,7 @@ package com.robostangs;
  * Do not make any changes unless you have her explicit permission!
  */
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,20 +37,19 @@ public class RobotMain extends IterativeRobot {
     public void robotInit() {
         //avoid null pointers
         Arm.getInstance();
-        Autonomous.getInstance();
         ArmCamera.getInstance();
         DriveCamera.getInstance();
         DriveTrain.getInstance();
-        FrisbeeTracker.getInstance();
         Loader.getInstance();
         Log.getInstance();
         Shooter.getInstance();
         driver = XboxDriver.getInstance();
         manip = XboxManip.getInstance();
+        dashInit();
     }
-    
+
     public void autonomousInit() {
-        
+        Autonomous.getInstance();
     }
 
     /**
@@ -63,40 +63,28 @@ public class RobotMain extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        sendDataToDash();
-        
-        //count frisbees
-        FrisbeeTracker.count(Shooter.isFeedMode());
-        
         /*
-         * Ingestor/Loader System Control
-         * Left Bumper: Run ingestor + conveyors
-         * Right Bumper: Run lifter + shooter conveyor
+         * Manip loader control
+         * Left Trigger: Feed
+	 	 * R Bumper: Load shooter
          */
-        if (!manip.leftTriggerButton() && !manip.lBumper() 
-                && !manip.rBumper()) {
-            //not using loading system, turn off
-            Loader.allOff();
+        if (manip.rBumper()) {
+			Loader.loadShooter();
+        } else if (manip.lBumper()) {
+            Loader.feed();
         } else {
-            if (manip.lBumper()) {
-                Loader.ingest();
-            }
-            if (manip.rBumper()) {
-                Loader.loadShooter();
-            }
+	    	Loader.stopShooterConveyor();
         }
-       
-        
+
         /*
-         * Shooter Control
-         * Manip Right Trigger: Shoot
-         * Manip Left Trigger: Feed
+         * Manip shooter control
+         * R Trigger: Shoot
+         * L Trigger: Feed
          */
-        if (manip.rightTriggerButton()) {
+        if (manip.rightTriggerButton()) {   
             Shooter.shoot();
         } else if (manip.leftTriggerButton()) {
             Shooter.feed();
-            Loader.feed();
         } else {
             Shooter.stop();
         }
@@ -110,17 +98,18 @@ public class RobotMain extends IterativeRobot {
          * Y: Under the pyramind shot
          * X: Use Camera to auto-set angle
          */        
-        if ((Math.abs(manip.leftStickYAxis()) == 0) 
-                && Math.abs(manip.rightStickYAxis()) == 0) {
+        if (manip.leftStickYAxis() == 0 && manip.rightStickYAxis() == 0) {
             //not using the joysticks to manual set, use PID
             if (manip.yButton()) {
-                Arm.underPyramidShotPos();
+                Arm.halfCourtPos();
             } else if (manip.aButton()) {
-                Arm.flatPos();
+                Arm.minDistancePos();
             } else if (manip.bButton()) {
-                Arm.feedPos();
+                Arm.frontPyramidPos();
             } else if (manip.xButton()) {
-                Arm.camPos();
+                //Arm.camPos();
+                Arm.getPIDFromDash();
+                Arm.enablePID();
             } else {
                 Arm.stop();
             }
@@ -136,22 +125,38 @@ public class RobotMain extends IterativeRobot {
             }
         }
         
+		/*
+		 * Driver Ingestor Controls
+		 */
+    	if (driver.lBumper()) {
+            Loader.ingest();
+        } else if (driver.rBumper()) {
+            Conveyors.exgest();
+        } else {
+            Loader.ingestorOff();
+        }
+
         /*
-         * Manip Pot Controls
-         * Start: Change Pot
+         * Next two if statements are for testing purposes only
+         * manip uses timed up and down
+         * driver is manual run
          */
         if (manip.startButton()) {
-            Arm.switchPot();
+            Lifter.raise();
+        } else if (manip.backButton()) {
+            Lifter.lower();
+        } else if (!driver.startButton() && !driver.backButton()) {
+            Lifter.stop();
         }
-        
-        /*
-         * Manip back button: Switch camera mode
-         * TODO: send this stuff to dash
-         */
-        if (manip.backButton()) {
-            ArmCamera.switchMode();
+
+        if (driver.startButton()) {
+            Lifter.raise();
+        } else if (driver.backButton()) {
+            Lifter.lower();
+        } else if (!manip.startButton() && !manip.backButton()) {
+            Lifter.stop();
         }
-                
+
         /*
          * Driver left trigger: Run the standalone climber
          */
@@ -179,7 +184,7 @@ public class RobotMain extends IterativeRobot {
             /*
              * Drive Slow if Left Bumper, otherwise drive normally
              */
-            if (driver.lBumper()) {
+            if (driver.leftTriggerButton()) {
                 DriveTrain.driveSlow(driver.leftStickYAxis(), driver.rightStickYAxis());
             } else {
                 DriveTrain.humanDrive(driver.leftStickYAxis(), driver.rightStickYAxis());
@@ -193,7 +198,19 @@ public class RobotMain extends IterativeRobot {
     public void sendDataToDash() {
         Arm.sendWhichPotInUse();
         Arm.sendPotData();
-        FrisbeeTracker.sendFrisbeeDataToDash();
     }
-    
+
+    public void dashInit() {
+        //TODO: initialize dashboard things
+    }
+
+    public void debugToConsole() {
+        
+    }
+
+    public void debugToDash() {
+        System.out.println("pot: " + Arm.getPotA());
+        System.out.println("ENCODER TEST: " + DriveTrain.getLeftEncoderDistance());
+        Arm.outputPIDConstants();
+    }
 }

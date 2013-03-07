@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 public class Lifter {
   private static Lifter instance = null;
   private static CANJaguar lift;
+  private static StopWatch timer;
+  private static boolean atTop;
   private static DigitalInput topSwitch;
   private static DigitalInput bottomSwitch;
 
@@ -22,6 +24,10 @@ public class Lifter {
       } catch (CANTimeoutException ex) {
           ex.printStackTrace();
       }
+      timer = new StopWatch();
+      timer.stop();
+      timer.reset();
+      atTop = false;
   }
   
   public static Lifter getInstance() {
@@ -34,30 +40,87 @@ public class Lifter {
   /**
    * Lifter goes up
    */
-  public static void enable() {
-      if (topSwitch.get()){
+  public static void raise() {
+      //if (topSwitch.get()){
         try {
             lift.setX(Constants.LIFTER_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
-      } else {
-          stop();
+      //} else {
+       //   stop();
+      //}
+  }
+
+  /**
+   * Move the lifter from bottom to top using a timer
+   * @return 0 if running, 1 if done 
+   */
+  public static int timedUp() {
+      timer.start();
+	  if (timer.getSeconds() >= Constants.LIFTER_UP_TIME || atTop) {
+		  stop();
+		  timer.stop();
+		  timer.reset();
+		  atTop = true;
+		  return 1;
+	  } else {
+          raise();
+          System.out.println("UP TIMER:" + timer.getSeconds());
+          return 0;
+      }
+  }
+
+  /**
+   * Move the lifter from bottom to top using a timer
+   * @return 0 if running, 1 if done 
+   */
+  public static int timedDown() {
+      timer.start();
+	  if (timer.getSeconds() >= Constants.LIFTER_DOWN_TIME || !atTop) {
+		  stop();
+		  timer.stop();
+		  timer.reset();
+		  atTop = false;
+		  return 1;
+	  } else {
+          lower();
+          System.out.println("DOWN TIMER:" + timer.getSeconds());
+          return 0;
       }
   }
 
   /**
    * Lifter goes down
    */
-  public static void reverse() {
-      if (bottomSwitch.get()){
+  public static void lower() {
+      //if (bottomSwitch.get()){
         try {
             lift.setX(-Constants.LIFTER_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
-      } else {
+      //} else {
+          //stop();
+      //}
+  }
+
+  /*
+   * 
+   */
+  public static void switchUp() {
+      if (topSwitch.get()) {
           stop();
+      } else {
+          raise();
+      }
+  }
+
+  public static void switchDown() {
+      if (bottomSwitch.get()) {
+          stop();
+      } else {
+          lower();
       }
   }
 
@@ -70,5 +133,16 @@ public class Lifter {
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+  }
+
+  /**
+   * @return true if at top, false if at bottom
+   */
+  public static boolean getPos() {
+      if (topSwitch == null) {
+          return atTop;
+      } else {
+          return topSwitch.get();
+      }
   }
 }

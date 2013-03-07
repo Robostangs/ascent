@@ -11,32 +11,30 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
  * possibly defunct; there might only be one motor on the shooter-arm
  * if that is confirmed, this class will be deleted.
  */
-public class ArmMotors implements PIDOutput {    
-    private static ArmMotors instance = null;
-    private static CANJaguar jag1, jag2;
+public class ArmMotor implements PIDOutput {    
+    private static ArmMotor instance = null;
+    private static CANJaguar jag1;
     
-    private ArmMotors() {
+    private ArmMotor() {
         //TODO: Constants
         try {
-            jag1 = new CANJaguar(1);
-            jag2 = new CANJaguar(2);
+            jag1 = new CANJaguar(Constants.ARM_JAG_POS);
         } catch (CANTimeoutException ex) {
 
         }
     }
 
-    public static ArmMotors getInstance() {
+    public static ArmMotor getInstance() {
         if (instance == null) {
-            instance = new ArmMotors();
+            instance = new ArmMotor();
         }
 
         return instance;
     }
     
-    public static void set(double speed) {
+    public static void setX(double speed) {
         try {
             jag1.setX(speed);
-            jag2.setX(speed);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -45,7 +43,6 @@ public class ArmMotors implements PIDOutput {
     public void pidWrite(double output) {
         try {
             jag1.setX(output);
-            jag2.setX(output);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }

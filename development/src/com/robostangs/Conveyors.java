@@ -33,11 +33,11 @@ public class Conveyors {
     }
     
     /**
-     * Ingestor conveyor goes forward
+     * Ingestor conveyor goes in ingest dir
      */
-    public static void ingestMode() {
+    public static void ingest() {
         try {
-            ingestConveyor.setX(Constants.CONV_POWER);
+            ingestConveyor.setX(Constants.CONV_INGEST_POWER);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN TIMEOUT EXCEPTION ON INGEST CONVEYOR");
             Log.write("CANJag Timeout Exception on Ingest Conveyor");
@@ -47,9 +47,9 @@ public class Conveyors {
     /**
      * Ingestor conveyor goes in reverse
      */
-    public static void reverseIngest(){
+    public static void exgest() {
         try {
-            ingestConveyor.setX(-Constants.CONV_POWER);
+            ingestConveyor.setX(-Constants.CONV_INGEST_POWER);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN TIMEOUT EXCEPTION ON INGEST CONVEYOR");
             Log.write("CANJag Timeout Exception on Ingest Conveyor");
@@ -71,9 +71,9 @@ public class Conveyors {
     /**
      * Readies the shooter to shoot
      */
-    public static void readyShooter() {
+    public static void loadShooter() {
         try {
-            shooterConveyor.setX(Constants.CONV_POWER);
+            shooterConveyor.setX(Constants.CONV_SHOOTER_POWER);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN TIMEOUT EXCEPTION ON SHOOTER CONVEYOR");
             Log.write("CANJag Timeout Exception on Shooter Conveyor");
@@ -85,7 +85,7 @@ public class Conveyors {
      */
     public static void feedMode() { 
         try {
-            shooterConveyor.setX(-Constants.CONV_POWER);
+            shooterConveyor.setX(-Constants.CONV_SHOOTER_POWER);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN TIMEOUT EXCEPTION ON SHOOTER CONVEYOR");
             Log.write("CANJag Timeout Exception on Shooter Conveyor");
@@ -103,7 +103,6 @@ public class Conveyors {
             Log.write("CANJag Timeout Exception on Shooter Conveyor");
         }
     }
-
     /**
      * The ingestor and the shooter both stop
      */
@@ -120,13 +119,13 @@ public class Conveyors {
         while (timer.getSeconds() < 2) {
             if (direction) {
                 try {
-                    ingestConveyor.setX(Constants.CONV_POWER);
+                    ingestConveyor.setX(Constants.CONV_INGEST_POWER);
                 } catch (CANTimeoutException ex) {
                     ex.printStackTrace();
                 }           
             } else {
                 try {
-                    ingestConveyor.setX(-Constants.CONV_POWER);
+                    ingestConveyor.setX(-Constants.CONV_INGEST_POWER);
                 } catch (CANTimeoutException ex) {
                     ex.printStackTrace();
                 }
@@ -144,13 +143,13 @@ public class Conveyors {
         while (timer.getSeconds() < 2) {
             if (direction) {
                 try {
-                    shooterConveyor.setX(Constants.CONV_POWER);
+                    shooterConveyor.setX(Constants.CONV_SHOOTER_POWER);
                 } catch (CANTimeoutException ex) {
                     ex.printStackTrace();
                 }           
             } else {
                 try {
-                    shooterConveyor.setX(-Constants.CONV_POWER);
+                    shooterConveyor.setX(-Constants.CONV_SHOOTER_POWER);
                 } catch (CANTimeoutException ex) {
                     ex.printStackTrace();
                 }
