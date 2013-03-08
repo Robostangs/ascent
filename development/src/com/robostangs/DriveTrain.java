@@ -327,7 +327,7 @@ public class DriveTrain {
      * enable climb mode
      */
     public static void enableClimbMode() {
-        servo.set(Constants.DT_CLIMB_POS);
+        //servo.set(Constants.DT_CLIMB_POS);
         climbMode = true;
     }
     
@@ -335,7 +335,7 @@ public class DriveTrain {
      * enable drive mode
      */
     public static void enableDriveMode() {
-        servo.set(Constants.DT_DRIVE_POS);
+        //servo.set(Constants.DT_DRIVE_POS);
         climbMode = false;
     }
     

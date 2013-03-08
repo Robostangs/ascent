@@ -16,7 +16,7 @@ public class Lifter {
   private static CANJaguar lift;
   private static Timer timer;
   private static boolean atTop;
-  private static DigitalInput topSwitch;
+  //private static DigitalInput topSwitch;
   private static DigitalInput bottomSwitch;
 
   private Lifter() { 
@@ -26,8 +26,8 @@ public class Lifter {
           ex.printStackTrace();
       }
       timer = new Timer();
-      topSwitch = new DigitalInput(1, Constants.LIFTER_TOP_SWITCH_POS);
-      //bottomSwitch = new DigitalInput(1, Constants.LIFTER_BOTTOM_SWITCH_POS);
+      //topSwitch = new DigitalInput(1, Constants.LIFTER_TOP_SWITCH_POS);
+      bottomSwitch = new DigitalInput(1, Constants.LIFTER_BOTTOM_SWITCH_POS);
       timer.stop();
       timer.reset();
       atTop = false;
@@ -60,6 +60,14 @@ public class Lifter {
     } catch (CANTimeoutException ex) {
         ex.printStackTrace();
     }
+  }
+
+  public static void constantDown() {
+      try {
+          lift.setX(-0.2);
+      } catch (CANTimeoutException ex) {
+          ex.printStackTrace();
+      }
   }
 
   /**
@@ -102,7 +110,7 @@ public class Lifter {
 
   /**
    * @return 0 if in progress, 1 if done 
-   */
+   *
   public static int switchUp() {
       if (topSwitch.get()) {
           raise();
@@ -112,7 +120,7 @@ public class Lifter {
           return 1;
       }
   }
-
+  */
   //TODO: implement
   public static void switchDown() {
       if (bottomSwitch.get()) {
@@ -135,7 +143,7 @@ public class Lifter {
 
   /**
    * @return true if at top, false if at bottom
-   */
+   *
   public static boolean getPos() {
       if (topSwitch == null) {
           return atTop;
@@ -143,28 +151,31 @@ public class Lifter {
           return topSwitch.get();
       }
   }
-
+  
   public static boolean getTopSwitch() {
       return topSwitch.get();
-}
+  }
+  */
   public static boolean getBottomSwitch() {
       return bottomSwitch.get();
   }
 
   public static void manual(double speed) {
       if (speed > 0) {
+  
+          /*
           if (topSwitch.get()) {
               try {
                   lift.setX(0);
               } catch (CANTimeoutException ex) {
                   ex.printStackTrace();
               }
-          } else {
+          } else {*/
               try {
                   lift.setX(speed);
               } catch (CANTimeoutException ex) {
                   ex.printStackTrace();
-              }
+//              }
           }
       } else if (speed < 0) {
           if (bottomSwitch.get()) {
@@ -186,6 +197,16 @@ public class Lifter {
           } catch (CANTimeoutException ex) {
               ex.printStackTrace();
           }
+      }
+  }
+
+  public static double getSetSpeed() {
+      try {
+          return lift.getX();
+      } catch (CANTimeoutException ex) {
+          ex.printStackTrace();
+      } finally {
+          return 0;
       }
   }
 }

@@ -18,7 +18,6 @@ public class Arm {
     private static PIDController pidA, pidB, pidCam; 
     private static boolean useB = false;
     private static Timer timer;
-
     
     private Arm() {
         motor = ArmMotor.getInstance();
@@ -49,8 +48,7 @@ public class Arm {
     public static PIDController PIDInUse() {
         if (!useB) {
             return pidA;
-        }
-        else {
+        } else {
             return pidB;
         }
     }
@@ -58,8 +56,7 @@ public class Arm {
     public static PIDController PIDNotInUse() {
         if (useB) {
             return pidA;
-        }
-        else {
+        } else {
             return pidB;
         }
     }
@@ -176,10 +173,9 @@ public class Arm {
      */
     public static int underPyramidShotPos() {
         if (!useB) {
-        return setPosition(Constants.ARM_PYRAMID_POS_A);
-        }
-        else {
-        return setPosition(Constants.ARM_PYRAMID_POS_B);
+            return setPosition(Constants.ARM_PYRAMID_POS_A);
+        } else {
+            return setPosition(Constants.ARM_PYRAMID_POS_B);
         }
     }
     
@@ -190,8 +186,7 @@ public class Arm {
     public static int lowestPos() {
         if (!useB) {
             return setPosition(Constants.ARM_POT_A_ZERO);
-        }
-        else {
+        } else {
             return setPosition(Constants.ARM_POT_B_ZERO);
         }
         
@@ -204,8 +199,7 @@ public class Arm {
     public static int feedPos() {
         if (!useB) {
             return setPosition(Constants.ARM_FEED_POS_A);
-        }
-        else {
+        } else {
             return setPosition(Constants.ARM_FEED_POS_B);
         }
         
@@ -255,7 +249,10 @@ public class Arm {
 
 
     public static void outputPIDConstants() {
-
+        System.out.println("KP: " + pidA.getP());
+        System.out.println("KI: " + pidA.getI());
+        System.out.println("KD: " + pidA.getD());
+        System.out.println("setpoint:" + pidA.getSetpoint());
     }
     
     /**
