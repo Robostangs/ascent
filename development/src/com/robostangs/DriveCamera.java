@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 /**
- * Class that serves as a PIDsource for DTalign code
+ * Class that serves as a PIDsource for DTalign 
  * @author sky
  */
 public class DriveCamera implements PIDSource{
