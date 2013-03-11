@@ -47,8 +47,8 @@ public class Shooter {
      */
     public static void shoot() {
         try{
-            shooter1.setX(-Constants.SHOOTER_MAX_POWER);
-            shooter2.setX(Constants.SHOOTER_MAX_POWER);
+            shooter1.setX(Constants.SHOOTER_MAX_POWER);
+            shooter2.setX(-Constants.SHOOTER_MAX_POWER);
             shooter3.setX(-Constants.SHOOTER_MAX_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
@@ -101,8 +101,8 @@ public class Shooter {
      */
     public static void feed() {
         try {
-            shooter1.setX(Constants.SHOOTER_FEED_POWER); //feed shouldn't run @ full
-            shooter2.setX(-Constants.SHOOTER_FEED_POWER);
+            shooter1.setX(-Constants.SHOOTER_FEED_POWER); //feed shouldn't run @ full
+            shooter2.setX(Constants.SHOOTER_FEED_POWER);
             shooter3.setX(Constants.SHOOTER_FEED_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();

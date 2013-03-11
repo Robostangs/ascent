@@ -7,34 +7,32 @@ package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm {
     private static Arm instance = null;
-    private static Potentiometer potA, potB;
+    private static Potentiometer potA;
     private static ArmMotor motor;
-    private static PIDController pidA, pidB, pidCam; 
-    private static boolean useB = false;
+    private static PIDController pidA; // pidCam;
     private static Timer timer;
     
     private Arm() {
-        motor = ArmMotor.getInstance();
         potA = new Potentiometer(Constants.POT_A_PORT);
-        //potB = new Potentiometer(Constants.POT_B_PORT);
-        pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motor); 
-        //pidB = new PIDController(Constants.ARM_KP_B, Constants.ARM_KI_B, Constants.ARM_KD_B, potB, motor);
-        pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
         timer = new Timer();
         
+        motor = ArmMotor.getInstance();
+        pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motor);
+        //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
         //configure PID
-        pidA.setInputRange(Constants.ARM_PID_POT_MIN, Constants.ARM_PID_POT_MAX);
+        pidA.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
         pidA.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
-        /*
-        pidB.setInputRange(Constants.POT_B_MIN_VALUE, Constants.POT_B_MAX_VALUE);
-        pidB.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
-        */
+        pidA.setAbsoluteTolerance(0);
+        //pidCam.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
+        //pidCam.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         disablePID();
     }
     
@@ -45,61 +43,32 @@ public class Arm {
         return instance;
     }
     
-    public static PIDController PIDInUse() {
-        if (!useB) {
-            return pidA;
-        } else {
-            return pidB;
-        }
-    }
-    
-    public static PIDController PIDNotInUse() {
-        if (useB) {
-            return pidA;
-        } else {
-            return pidB;
-        }
-    }
-    
     /**
      * gets average value of pot A
      * @return potA.getAverageValue average value of pot A 
      */
     public static double getPotA() {
-        return potA.getAverageValue(); 
+        return potA.getAverageValue();
     }    
-    
-    /**
-     * gets average value of pot B
-     * @return potB.getAverageValue average value of pot B
-     */
-    public static int getPotB() {
-        return potB.getAverageValue(); 
-    }
-    
+
     /**
      * set angle equal to zero
      * retrieves value of getPotA or getPotB
      * subtracts it by the zero constant
      * multiplies everything by the constant that converts the values to degrees
-     * @return angle angle of arm
+     * @return angle of arm
      */
      public static double getAngle() {
         double angle = 0;
-        if (!useB) {
             angle = (getPotA() - Constants.ARM_POT_A_ZERO) * Constants.POT_A_TO_DEGREES;
             return angle;
-        } else {
-            angle = (getPotB() - Constants.ARM_POT_B_ZERO) * Constants.POT_B_TO_DEGREES;
-            return angle;
-        }
      }
     
      /**
-      * @param power power of arm jags
+      * @param power of arm jags
       * disables pid
       * sets the power of the arm jags
-      */
+      *
     public static void setJags(double power) {
         double currentPot = getPotA();
         //add a buffer
@@ -115,22 +84,31 @@ public class Arm {
             disablePID();
         }
 
-        if (power > 0) {
-            if (getPotA() >= Constants.POT_A_MAX_VALUE) {
-                motor.setX(0);
-            } else {
-                motor.setX(power);
-            }
-        } else if (power < 0) {
-            if (getPotA() <= Constants.POT_A_MIN_VALUE) {
-                motor.setX(0);
-            } else {
-                motor.setX(power);
-            }
-        } else {
-            motor.setX(0);
+        if (currentPot <= (Constants.POT_A_SLOW_VALUE + 10)) {
+            //needs to go slow because of gas strut, go min speed and retain sign
+            power = Constants.ARM_MIN_VOLTAGE * (power / Math.abs(power));
         }
-    }
+
+        if (currentPot >= Constants.POT_A_MAX_VALUE && power > 0) {
+            //at max height, move down slightly
+            System.out.println("AT MAX");
+            power = -0.1;
+        } else if (currentPot <= Constants.POT_A_MIN_VALUE && power < 0) {
+            //at min height, move up slightly
+            System.out.println("AT MIN");
+            power = 0.1;
+        }
+
+        motor.setX(power);
+    } */
+
+     public static void setJags(double power) {
+        if (pidEnabled()) {
+            disablePID();
+        }
+        motor.setX(power);
+         
+     }
     
     /**
      * For manual control
@@ -160,10 +138,10 @@ public class Arm {
             disablePID();
             return 1;
         }
+
+        pidA.setSetpoint(potValue);
+        pidA.enable();
         
-        PIDNotInUse().disable();
-        PIDInUse().setSetpoint(potValue);
-        PIDInUse().enable();
         return 0;
     }
     
@@ -172,24 +150,16 @@ public class Arm {
      * @return 0 if in progress, 1 if done
      */
     public static int underPyramidShotPos() {
-        if (!useB) {
-            return setPosition(Constants.ARM_PYRAMID_POS_A);
-        } else {
-            return setPosition(Constants.ARM_PYRAMID_POS_B);
-        }
+        return setPosition(Constants.ARM_PYRAMID_POS_A);
+
     }
     
     /**
-     * Uses PID to move to flat angle
+     * Uses PID to move to lowest angle
      * @return 0 if in progress, 1 if done
      */
     public static int lowestPos() {
-        if (!useB) {
-            return setPosition(Constants.ARM_POT_A_ZERO);
-        } else {
-            return setPosition(Constants.ARM_POT_B_ZERO);
-        }
-        
+        return setPosition(Constants.POT_A_MIN_VALUE);
     }
     
     /**
@@ -197,29 +167,13 @@ public class Arm {
      * @return 0 if in progress, 1 if done
      */
     public static int feedPos() {
-        if (!useB) {
-            return setPosition(Constants.ARM_FEED_POS_A);
-        } else {
-            return setPosition(Constants.ARM_FEED_POS_B);
-        }
-        
-    }
-    
-    /**
-     * Uses the camera to set arm pos
-     * @return 0 if in progress, 1 if done
-     */
-    public static int camPos() {
-        if (pidCam.onTarget()) {
-            return 1;
-        }
-        
-        PIDInUse().disable();
-        pidCam.setSetpoint(ArmCamera.getTarget());
-        pidCam.enable();
-        return 0;
+        return setPosition(Constants.ARM_FEED_POS_A);
     }
 
+    /**
+     * Uses PID to move to proper angle for shooting from front of pyramid
+     * @return 0 if in progress, 1 if done
+     */
     public static int frontPyramidPos() {
         return setPosition(Constants.ARM_FRONT_PYRAMID_POS);
     }
@@ -238,7 +192,7 @@ public class Arm {
     public static void enablePID() {
         pidA.enable();
     }
-        
+    
     public static int sidePyramidPos() {
         return setPosition(Constants.ARM_SIDE_PYRAMID_POS);
     }
@@ -246,33 +200,43 @@ public class Arm {
     public static int pidHoldPos() {
         return setPosition(getPotA());
     }
-
-
-    public static void outputPIDConstants() {
-        System.out.println("KP: " + pidA.getP());
-        System.out.println("KI: " + pidA.getI());
-        System.out.println("KD: " + pidA.getD());
-        System.out.println("setpoint:" + pidA.getSetpoint());
-    }
+    
+    /**
+     * Uses the camera to set arm pos
+     * @return 0 if in progress, 1 if done
+     *
+    public static int camPos() {
+        if (pidCam.onTarget()) {
+            return 1;
+        }
+        if (pidA.isEnable()) {
+            pidA.disable();
+        }
+        pidCam.setSetpoint(ArmCamera.getTarget());
+        pidCam.enable();
+        return 0;
+    }*/
     
     /**
      * checks if either pid is enabled
      * @return true if either pid is enabled, false if neither is enabled
      */
     public static boolean pidEnabled() {
-        return pidA.isEnable() || pidB.isEnable() || pidCam.isEnable();   
+        return pidA.isEnable(); // || pidCam.isEnable();   
     }
     
     /**
      * if either pid is enabled, it disables it
      */
     public static void disablePID() {
-        if (PIDInUse().isEnable()) {
-            PIDInUse().disable();
+        if (pidA.isEnable()) {
+            pidA.disable();
         }
+        /*
         if (pidCam.isEnable()) {
             pidCam.disable();
         }
+        * */
     }
     
     /**
@@ -280,7 +244,7 @@ public class Arm {
      * @return true if either pid is on target, false if neither is
      */
     public static boolean onTarget() {
-        return pidA.onTarget() || pidB.onTarget() || pidCam.onTarget();
+        return pidA.onTarget(); // || pidCam.onTarget();
     }
     
     /**
@@ -288,27 +252,6 @@ public class Arm {
      */
     public static void stop() {
         setJags(0.0);
-    }
-    
-    /**
-     * makes pot A be in use by pid
-     */
-    public static void usePotA() {
-        useB = false;
-    }
-    
-    /**
-     * makes potB be in use by pid
-     */
-    public static void usePotB() {
-        useB = true;
-    }
-    
-    /**
-     * switches the pot used by the pid
-     */
-    public static void switchPot() {
-        useB = !useB;        
     }
     
     /**
@@ -323,30 +266,31 @@ public class Arm {
      */
     public static void sendPotData() {
         SmartDashboard.putNumber("Pot A: ", getPotA());
-        SmartDashboard.putNumber("Pot B: ", getPotB());
     }
     /**
      * sends which pot is in use by pid to SmartDashboard
      */
     public static void sendWhichPotInUse() {
-        if (useB) {
-            SmartDashboard.putString("CURRENT POT: ", "POT B");
-        } else {
-            SmartDashboard.putString("CURRENT POT: ", "POT A");
-        }
+        SmartDashboard.putString("CURRENT POT: ", "POT A");
     } 
     
     /**
      * checks if pot A is within range
      * @return true if pot A is within range, false if it isn't
      */
-    public boolean isPotAFunctional() {
+    public static boolean isPotAFunctional() {
         return getPotA() >= Constants.POT_A_MIN_VALUE  && getPotA() <= Constants.POT_A_MAX_VALUE;
     }
-    
+
     public static void getPIDFromDash() {
         pidA.startLiveWindowMode();
         SmartDashboard.putData("PID: ", pidA);
-    }     
+    }
 
+    public static void outputPIDConstants() {
+        System.out.println("KP: " + pidA.getP());
+        System.out.println("KI: " + pidA.getI());
+        System.out.println("KD: " + pidA.getD());
+        System.out.println("setpoint:" + pidA.getSetpoint());
+    }
 }

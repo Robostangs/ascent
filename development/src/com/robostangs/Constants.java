@@ -90,10 +90,10 @@ public class Constants {
      * DriveTrain
      */
     //Positions
-    public static final int DT_LEFT_ENCODER_FRONT = 13;
-    public static final int DT_LEFT_ENCODER_BACK = 14;
-    public static final int DT_RIGHT_ENCODER_FRONT = 0;
-    public static final int DT_RIGHT_ENCODER_BACK = 0;
+    public static final int DT_LEFT_ENCODER_FRONT = 2;
+    public static final int DT_LEFT_ENCODER_BACK = 3;
+    public static final int DT_RIGHT_ENCODER_FRONT = 4;
+    public static final int DT_RIGHT_ENCODER_BACK = 5;
     public static final int DT_GYRO_POS = 0;
     public static final int DT_JAG_LEFT_FRONT_POS = 4; //left drive 1
     public static final int DT_JAG_LEFT_MID_POS = 5; //left drive 2
@@ -102,8 +102,8 @@ public class Constants {
     public static final int DT_JAG_RIGHT_MID_POS = 8; // right drive 2
     public static final int DT_JAG_RIGHT_BACK_POS = 9; //right drive 3
     public static final int DT_JAG_CLIMB_POS = 14;
-    public static final int DT_SERVO_POS = 0;
-    public static final int DT_CLIMB_POS = 0;
+    public static final int DT_SERVO_POS = 1;
+    public static final int DT_CLIMB_POS = 180;
     public static final int DT_DRIVE_POS = 0;
     
     
@@ -144,11 +144,12 @@ public class Constants {
      * Lifter
      */
     public static final int LIFTER_JAG_POS = 10;
-    public static final double LIFTER_POWER = 0.7;
+    public static final double LIFTER_UP_POWER = 0.4;
+    public static final double LIFTER_DOWN_POWER = 0.8;
     public static final double LIFTER_UP_TIME = 2;
     public static final double LIFTER_DOWN_TIME = 1.6;
-    public static final int LIFTER_TOP_SWITCH_POS = 3;
-    public static final int LIFTER_BOTTOM_SWITCH_POS = 2;
+    public static final int LIFTER_TOP_SWITCH_POS = 9;
+    public static final int LIFTER_BOTTOM_SWITCH_POS = 1;
         
     /*
      * Shooter

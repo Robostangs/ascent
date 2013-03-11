@@ -19,7 +19,7 @@ public class Autonomous {
     private static boolean delay = false;
     private static boolean armMoving = false;
     private static boolean fallbackMode = false;
-    private static boolean init = false;
+    private static boolean init = true;
     private static String[] keys;
     private static double timeForStep = 0.0;
     private static Timer timer;
@@ -33,10 +33,10 @@ public class Autonomous {
     
     
     private Autonomous() {
-        pref = Preferences.getInstance();
+        //pref = Preferences.getInstance();
         timer = new Timer();
-        getInfo();
-        checkInfo();
+        //getInfo();
+        //checkInfo();
     }
     
     public static Autonomous getInstance() {
@@ -280,11 +280,11 @@ public class Autonomous {
         System.out.println("step timer: " + timer.get() + " " + step);
         Shooter.shoot();
 
-        if (timer.get() > 2.0) {
+        if (timer.get() > 2.5) {
             Loader.loadShooter();
         }
 
-        if (timer.get() > 3.5) {
+        if (timer.get() > 4.0) {
             Loader.allOff();
             timer.reset();
         }

@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotMain extends IterativeRobot {
     private XboxDriver driver;
     private XboxManip manip;
+    private double potValue;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -36,16 +37,17 @@ public class RobotMain extends IterativeRobot {
      */
     public void robotInit() {
         //avoid null pointers
+        Log.getInstance();
         Arm.getInstance();
         ArmCamera.getInstance();
         Camera.getInstance();
         DriveCamera.getInstance();
         DriveTrain.getInstance();
         Loader.getInstance();
-        Log.getInstance();
         Shooter.getInstance();
         driver = XboxDriver.getInstance();
         manip = XboxManip.getInstance();
+        potValue = 0;
         dashInit();
     }
 
@@ -68,12 +70,14 @@ public class RobotMain extends IterativeRobot {
      */
     public void teleopPeriodic() {
         sendDataToDash();
-        System.out.println("pot: " + Arm.getPotA());
-        Arm.outputPIDConstants();
+        //System.out.println("pot: " + Arm.getPotA());
+        //System.out.println("Switch" + Lifter.getPos());
+        //Arm.outputPIDConstants();
         //System.out.println("top limit switch: " + Lifter.getTopSwitch());
         //System.out.println("bottom limit switch: " + Lifter.getBottomSwitch());
         //System.out.println("pot voltage " + Arm.getPotVoltage());
         //System.out.println("Left Encoder: " + DriveTrain.getLeftEncoderDistance());
+
         
         /*
          * Manip loader control
@@ -123,10 +127,17 @@ public class RobotMain extends IterativeRobot {
                 Arm.getPIDFromDash();
                 Arm.enablePID();
             } else if (manip.startButton()) {
-                Arm.setPosition(Arm.getPotA() + 1);
+                if (potValue == 0) {
+                    potValue = Arm.getPotA();
+                }
+                Arm.setPosition(potValue + 1);
             } else if (manip.backButton()) {
-                Arm.setPosition(Arm.getPotA() - 1);
+                if (potValue == 0) {
+                    potValue = Arm.getPotA();
+                }
+                Arm.setPosition(potValue - 1);
             } else {
+                potValue = 0;
                 Arm.stop();
             }
         } else {
@@ -134,7 +145,22 @@ public class RobotMain extends IterativeRobot {
                 //fine control
                 Arm.fineDrive(manip.rightStickYAxis());
             } else {
+                potValue = 0;
                 Arm.stop();
+            }
+        }
+
+        if (manip.leftStickYAxis() != 0) {
+            Lifter.manual(manip.leftStickYAxis());
+        } else {
+            if (manip.startButton()) {
+                //Lifter.timedUp();
+                Lifter.raise();
+            } else if (manip.backButton()) { 
+                //Lifter.timedDown();
+                Lifter.lower();
+            } else {
+                Lifter.stop();
             }
         }
         
@@ -149,23 +175,13 @@ public class RobotMain extends IterativeRobot {
             Loader.ingestorOff();
         }
 
-        Lifter.manual(manip.leftStickYAxis());
         /*
          * Next two if statements are for testing purposes only
          * manip uses timed up and down
          * driver is manual run
          */
-
-        if (driver.startButton()) {
-            Loader.liftUp();
-        } else if (driver.backButton()) {
-            Lifter.lower();
-        } else if (!manip.startButton() && !manip.backButton()) {
-            Lifter.stop();
-        }
-
         if (driver.yButton()) {
-            Camera.saveImage();
+           Camera.saveImage();
         }
 
         /*
@@ -179,13 +195,19 @@ public class RobotMain extends IterativeRobot {
          * Shifting between drive mode and climb mode
          * Driver a-button: enable climbing mode
          * Driver b-button: enable drive mode
-         */
+         *
         if (driver.aButton()) {
             DriveTrain.enableClimbMode();
         } else if (driver.bButton()) {
             DriveTrain.enableDriveMode();
         }
         
+        /*
+        if (DriveTrain.getMode() && !DriveTrain.servoReady()) {
+            DriveTrain.enableClimbMode();
+        } else if (!DriveTrain.getMode() && !DriveTrain.servoReady()) {
+            DriveTrain.enableDriveMode();
+        }*/ 
         /*
          *  TODO: If Driver Right Trigger, Enable Auto Align
          */

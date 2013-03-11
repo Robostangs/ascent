@@ -41,11 +41,13 @@ public class Loader {
      * runs ingestor + ingestConveyor
      */
     public static void ingest(){
+        /*
         if (!Lifter.getBottomSwitch()) {
             Lifter.switchDown();
         } else {
             Lifter.constantDown();
         }
+        */
         //Ingestor.turnOn();
         Conveyors.ingest();
     }
@@ -54,7 +56,7 @@ public class Loader {
      * runs shooter conveyor, moves lifter to top pos if not there
      */
     public static void loadShooter(){
-        liftUp();
+        //liftUp();
         Conveyors.loadShooter();
     }
     
@@ -62,7 +64,7 @@ public class Loader {
      * reverses to feed from station
      */
     public static void feed(){
-        liftUp();
+        //liftUp();
         Conveyors.feedMode();
     }
     

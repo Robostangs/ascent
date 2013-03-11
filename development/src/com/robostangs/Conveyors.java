@@ -38,7 +38,7 @@ public class Conveyors {
      */
     public static void ingest() {
         try {
-            ingestConveyor.setX(Constants.CONV_INGEST_POWER);
+            ingestConveyor.setX(-Constants.CONV_INGEST_POWER);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN TIMEOUT EXCEPTION ON INGEST CONVEYOR");
             Log.write("CANJag Timeout Exception on Ingest Conveyor");
@@ -50,7 +50,7 @@ public class Conveyors {
      */
     public static void exgest() {
         try {
-            ingestConveyor.setX(-Constants.CONV_INGEST_POWER);
+            ingestConveyor.setX(Constants.CONV_INGEST_POWER);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN TIMEOUT EXCEPTION ON INGEST CONVEYOR");
             Log.write("CANJag Timeout Exception on Ingest Conveyor");

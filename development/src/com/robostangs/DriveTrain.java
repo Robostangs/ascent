@@ -21,17 +21,19 @@ public class DriveTrain {
     private static Timer timer;
     //private static PIDController pid;
     private static boolean climbMode;
-    private static Servo servo;
+    //private static Servo servo;
     
     private DriveTrain() {
         DriveMotors.getInstance();
         
+        /*
         leftEncoder = new Encoder (Constants.DT_LEFT_ENCODER_FRONT, Constants.DT_LEFT_ENCODER_BACK);
         rightEncoder = new Encoder (Constants.DT_RIGHT_ENCODER_FRONT, Constants.DT_RIGHT_ENCODER_BACK);
         resetEncoders();
         startEncoders();
+        */
 
-        servo = new Servo(Constants.DT_SERVO_POS);
+        //servo = new Servo(Constants.DT_SERVO_POS);
         
         //gyro = new Gyro (Constants.DT_GYRO_POS);
         
@@ -267,7 +269,7 @@ public class DriveTrain {
     
     /**
      * resets all encoders
-     */
+     *
     public static void resetEncoders() {
         leftEncoder.reset();
         rightEncoder.reset();
@@ -281,15 +283,15 @@ public class DriveTrain {
     public static void stopEncoders() {
         leftEncoder.stop();
         rightEncoder.stop();
-    }
+    }*/
     
     /**
      * sends encoder status to SmartDashboard
-     */
+     *
     public static void sendEncoders() {
         SmartDashboard.putData("Left Encoder: ", leftEncoder);
         SmartDashboard.putData("Rigth Encoder: ", rightEncoder);
-    }
+    }*/
     
     /**
      * send gyro status to SmartDashboard
@@ -325,21 +327,34 @@ public class DriveTrain {
     
     /**
      * enable climb mode
-     */
+     *
     public static void enableClimbMode() {
-        //servo.set(Constants.DT_CLIMB_POS);
+        //servo.setAngle(Constants.DT_CLIMB_POS);
+        System.out.println("going to climb mode: " + servo.get());
         climbMode = true;
     }
     
     /**
      * enable drive mode
-     */
+     *
     public static void enableDriveMode() {
-        //servo.set(Constants.DT_DRIVE_POS);
+        //servo.setAngle(Constants.DT_DRIVE_POS);
+        System.out.println("going to drive mode: " + servo.get());
         climbMode = false;
     }
     
-    /**
+    public static boolean servoReady() {
+        if (climbMode && !(servo.get() == (Constants.DT_CLIMB_POS / 180.0))) {
+            enableClimbMode();
+           return true;
+        } else if (!climbMode && !(servo.get() == (Constants.DT_DRIVE_POS / 180.0))) {
+            enableDriveMode();
+            return true;
+        } else {
+            return false;
+        }
+    }
+    **
      * TODO: climbing stuff if climbMode = true
      */
 }

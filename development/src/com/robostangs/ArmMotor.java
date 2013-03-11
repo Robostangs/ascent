@@ -34,7 +34,7 @@ public class ArmMotor implements PIDOutput {
     
     public static void setX(double speed) {
         try {
-            jag1.setX(speed);
+            jag1.setX(-speed);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -42,7 +42,7 @@ public class ArmMotor implements PIDOutput {
 
     public void pidWrite(double output) {
         try {
-            jag1.setX(output);
+            jag1.setX(-output);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
