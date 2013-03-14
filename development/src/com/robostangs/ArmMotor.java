@@ -7,20 +7,18 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 /**
  *
  * @author sky
- * Combines the 2 arm jags into one PID output
- * possibly defunct; there might only be one motor on the shooter-arm
- * if that is confirmed, this class will be deleted.
+ * flips the set power for PID
  */
 public class ArmMotor implements PIDOutput {    
     private static ArmMotor instance = null;
     private static CANJaguar jag1;
     
     private ArmMotor() {
-        //TODO: Constants
         try {
             jag1 = new CANJaguar(Constants.ARM_JAG_POS);
         } catch (CANTimeoutException ex) {
-
+            System.out.println("CAN EX @ ARM JAG");
+            Log.write("CAN EX @ ARM JAG");
         }
     }
 
@@ -28,7 +26,6 @@ public class ArmMotor implements PIDOutput {
         if (instance == null) {
             instance = new ArmMotor();
         }
-
         return instance;
     }
     

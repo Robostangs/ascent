@@ -11,7 +11,7 @@ import java.util.Vector;
 
 public class Autonomous {
     private static Autonomous instance = null;    
-    private static Preferences pref;
+    private static Timer timer;
     private static boolean driving = false;
     private static boolean ingesting = false;
     private static boolean shooting = false;
@@ -21,22 +21,18 @@ public class Autonomous {
     private static boolean fallbackMode = false;
     private static boolean init = true;
     private static String[] keys;
+    private static double[] stepData;
     private static double timeForStep = 0.0;
-    private static Timer timer;
     private static int status = 0;
     private static boolean gyroReady = false;
     private static double angle = 0;
     private static int step = 0;
-    private static double stepData = 0;
-    private static int numberToShoot = 0;
-    private static String armPos = "";
     
     
     private Autonomous() {
-        //pref = Preferences.getInstance();
         timer = new Timer();
-        //getInfo();
-        //checkInfo();
+        getInfo();
+        checkInfo();
     }
     
     public static Autonomous getInstance() {
@@ -51,12 +47,7 @@ public class Autonomous {
      * Also sets variables not related to steps
      */
     public static void getInfo() {
-        Vector vKeys = pref.getKeys();
-        vKeys.trimToSize();  //for proper array length
-        keys = new String[vKeys.capacity()];
-        vKeys.copyInto(keys);
-        
-        timeForStep = pref.getDouble("timeForStep", 0);
+        //TODO: read from text file
     }
 
     public static void printKeys() {
@@ -87,19 +78,6 @@ public class Autonomous {
                 shooting = keys[i].startsWith("shoot");
                 armMoving = keys[i].startsWith("arm");
                 delay = keys[i].startsWith("delay");
-                stepData = 0;
-                numberToShoot = 0;
-                armPos = "";
-
-                try {
-                    if (shooting) {
-                        numberToShoot = pref.getInt(keys[i], 0);
-                    } else {
-                        stepData = pref.getDouble(keys[i], 0);
-                    }
-                } catch (Preferences.IncompatibleTypeException ex) {
-                    armPos = pref.getString(keys[i], "");
-                }
 
                 status = 0;
                 determineAngle();
@@ -109,7 +87,7 @@ public class Autonomous {
                     while (status == 0 && timer.get() < timeForStep) {
                         /*
                         status = DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, angle, 
-                                stepData);
+                                stepData[i]);
                                 * */
                     }
 
@@ -126,7 +104,7 @@ public class Autonomous {
                     while (status == 0 && timer.get() < timeForStep) {
                         /*
                         status = DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, angle, 
-                                stepData);
+                                stepData[i]);
                                 * */
                         Loader.ingest();
                     }
@@ -143,7 +121,7 @@ public class Autonomous {
 
                 } else if (turning) {
                     while (status == 0 && timer.get() < timeForStep) {
-                        //status = DriveTrain.turn(Constants.AUTON_TURN_POWER, stepData);
+                        //status = DriveTrain.turn(Constants.AUTON_TURN_POWER, stepData[i]);
                     }
 
                     gyroReady = false;
@@ -157,7 +135,7 @@ public class Autonomous {
 
                 } else if (shooting) {
                     while (status == 0 && timer.get() < timeForStep) {
-                        status = Shooter.shoot(numberToShoot);   
+                        status = Shooter.shoot( (int) stepData[i]);
                         Loader.loadShooter();
                     }
 
@@ -173,13 +151,13 @@ public class Autonomous {
 
                 } else if (armMoving) {
                     while (status == 0 && timer.get() < timeForStep) {
-                        if (armPos.equalsIgnoreCase("zero")) {
+                        if (stepData[i] == Constants.AUTON_ARM_LOW_POS) {
                             status = Arm.lowestPos();
-                        } else if (armPos.equalsIgnoreCase("pyramid")) {
+                        } else if (stepData[i] == Constants.AUTON_ARM_UNDER_PYRAMID_POS) {
                             status = Arm.underPyramidShotPos();
-                        } else if (stepData != 0 && stepData != -1) {
+                        } else if (stepData[i] != 0 && stepData[i] != -1) {
                             status = Arm.setPosition(stepData);
-                        } else if (stepData == -1) {
+                        } else if (stepData[i] == -1) {
                             //status = Arm.camPos();
                         }
                     }
@@ -193,7 +171,7 @@ public class Autonomous {
                     }
 
                 } else if (delay) {
-                    while (timer.get() < stepData) { }
+                    while (timer.get() < stepData[i]) { }
 
                     timer.stop();
                     timer.reset();
