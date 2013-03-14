@@ -154,9 +154,8 @@ public class Autonomous {
                         if (stepData[i] == Constants.AUTON_ARM_LOW_POS) {
                             status = Arm.lowestPos();
                         } else if (stepData[i] == Constants.AUTON_ARM_UNDER_PYRAMID_POS) {
-                            status = Arm.underPyramidShotPos();
                         } else if (stepData[i] != 0 && stepData[i] != -1) {
-                            status = Arm.setPosition(stepData);
+                            status = Arm.setPosition(stepData[i]);
                         } else if (stepData[i] == -1) {
                             //status = Arm.camPos();
                         }
