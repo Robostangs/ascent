@@ -181,7 +181,7 @@ public class RobotMain extends IterativeRobot {
          * driver is manual run
          */
         if (driver.yButton()) {
-           Camera.saveImage();
+//           Camera.saveImage();
         }
 
         /*
