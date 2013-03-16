@@ -148,8 +148,10 @@ public class Constants {
     public static final double LIFTER_DOWN_POWER = 0.8;
     public static final double LIFTER_UP_TIME = 2;
     public static final double LIFTER_DOWN_TIME = 1.6;
-    public static final int LIFTER_TOP_SWITCH_POS = 9;
-    public static final int LIFTER_BOTTOM_SWITCH_POS = 1;
+    public static final int LIFTER_TOP_PROX_DIGITAL_PORT = 1;
+    public static final int LIFTER_TOP_PROX_SOLENOID_PORT = 1;
+    public static final int LIFTER_BOTTOM_PROX_DIGITAL_PORT = 2;
+    public static final int LIFTER_BOTTOM_PROX_SOLENOID_PORT = 2;
         
     /*
      * Shooter

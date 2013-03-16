@@ -19,8 +19,9 @@ public class Lifter {
   private static boolean atBottom;
   private static boolean goingToTop;
   private static boolean goingToBottom;
-  private static DigitalInput topSwitch;
-  //private static DigitalInput bottomSwitch;
+  private static ProximitySensor topProx;
+  private static ProximitySensor bottomProx;
+
 
   private Lifter() { 
       try{
@@ -29,10 +30,12 @@ public class Lifter {
           ex.printStackTrace();
       }
       timer = new Timer();
-      topSwitch = new DigitalInput(1, Constants.LIFTER_TOP_SWITCH_POS);
-      //bottomSwitch = new DigitalInput(1, Constants.LIFTER_BOTTOM_SWITCH_POS);
       timer.stop();
       timer.reset();
+      topProx = new ProximitySensor(Constants.LIFTER_TOP_PROX_DIGITAL_PORT, 
+              Constants.LIFTER_TOP_PROX_SOLENOID_PORT);
+      bottomProx = new ProximitySensor(Constants.LIFTER_BOTTOM_PROX_DIGITAL_PORT, 
+              Constants.LIFTER_BOTTOM_PROX_SOLENOID_PORT);
       atTop = false;
       atBottom = true;
       goingToBottom = false;
@@ -105,6 +108,12 @@ public class Lifter {
       }
   }
 
+  public static boolean getTopSensor() {
+      return topProx.get();
+  }
+  public static boolean getBottomSensor() {
+      return bottomProx.get();
+  }
   public static void constantDown() {
       try {
           lift.setX(0.2);
@@ -195,61 +204,8 @@ public class Lifter {
    * @return true if at top, false if at bottom
    */
   public static boolean getPos() {
-      if (topSwitch == null) {
-          return atTop;
-      } else {
-          return topSwitch.get();
-      }
+      return false;
   }
-  
-  public static boolean getTopSwitch() {
-      return topSwitch.get();
-  }
-  /*
-  public static boolean getBottomSwitch() {
-      return bottomSwitch.get();
-  }
-
-  public static void manual(double speed) {
-      if (speed > 0) {
-          
-          if (!topSwitch.get()) {
-              try {
-                  System.out.println("stopped at top switch");
-                  lift.setX(0);
-              } catch (CANTimeoutException ex) {
-                  ex.printStackTrace();
-              }
-          } else {
-              try {
-                  lift.setX(speed);
-              } catch (CANTimeoutException ex) {
-                  ex.printStackTrace();
-              }
-          }
-      } else if (speed < 0) {
-          if (!bottomSwitch.get()) {
-              try {
-                  System.out.println("stopped at bot switch");
-                  lift.setX(0);
-              } catch (CANTimeoutException ex) {
-                  ex.printStackTrace();
-              }
-          } else {
-              try {
-                  lift.setX(speed);
-              } catch (CANTimeoutException ex) {
-                  ex.printStackTrace();
-              }
-          }
-      } else {
-          try {
-              lift.setX(0);
-          } catch (CANTimeoutException ex) {
-              ex.printStackTrace();
-          }
-      }
-  } */
 
   public static void manual(double speed) {
       timer.stop();

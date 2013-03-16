@@ -77,6 +77,8 @@ public class RobotMain extends IterativeRobot {
         //System.out.println("bottom limit switch: " + Lifter.getBottomSwitch());
         //System.out.println("pot voltage " + Arm.getPotVoltage());
         //System.out.println("Left Encoder: " + DriveTrain.getLeftEncoderDistance());
+        //System.out.println("Top?? " + Lifter.getTopSensor());
+        //System.out.println("Bottom?? " + Lifter.getBottomSensor());
 
         
         /*
