@@ -110,6 +110,9 @@ public class Shooter {
         feedMode = true;
     }
 
+    /**
+     * Shut down shooter jag
+     */
     public static void stop() {
         try{
             shooter1.setX(0.0);
@@ -118,10 +121,6 @@ public class Shooter {
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
-        
-        /**
-         * Shut down shooter jag
-         */
     }
 
     public static boolean isFeedMode() {

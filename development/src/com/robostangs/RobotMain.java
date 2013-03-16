@@ -5,17 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-/*
- * Development group's code. please don't change anything unless you have the permission of the maintainer
- * Maintainer list:
- * @sky : RobotMain
- */
 package com.robostangs;
 
-/*
- * This class is maintained by @sky! (Sydney) 
- * Do not make any changes unless you have her explicit permission!
- */
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -52,6 +43,7 @@ public class RobotMain extends IterativeRobot {
     }
 
     public void dashInit() {
+        //TODO: init dashboard things if needed
     }
     
     public void autonomousInit() {
@@ -109,10 +101,12 @@ public class RobotMain extends IterativeRobot {
          * Manipulator Arm Control
          * Left Stick: Coarse Manual
          * Right Stick: Fine Manual
-         * A: Feeder Station
-         * B: Flat
-         * Y: Under the pyramind shot
+         * A: Back pyramid pos 
+         * B: Side pyramid pos
+         * Y: Front pyramid pos
          * X: Use Camera to auto-set angle
+         * Start: raise by one pot value
+         * Back: lower by one pot value
          */        
         if (manip.rightStickYAxis() == 0) {
             //not using the joysticks to manual set, use PID
@@ -128,14 +122,14 @@ public class RobotMain extends IterativeRobot {
                 Arm.enablePID();
             } else if (manip.startButton()) {
                 if (potValue == 0) {
-                    potValue = Arm.getPotA();
+                    potValue = Arm.getPotA() + 1;
                 }
-                Arm.setPosition(potValue + 1);
+                Arm.setPosition(potValue);
             } else if (manip.backButton()) {
                 if (potValue == 0) {
-                    potValue = Arm.getPotA();
+                    potValue = Arm.getPotA() - 1;
                 }
-                Arm.setPosition(potValue - 1);
+                Arm.setPosition(potValue);
             } else {
                 potValue = 0;
                 Arm.stop();
