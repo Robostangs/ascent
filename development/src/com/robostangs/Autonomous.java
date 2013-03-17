@@ -37,7 +37,7 @@ public class Autonomous {
     private static String armPos = "";
     
     //Read From TXT
-    private static String inputFileName = "C:\\Users\\Kou\\Documents\\input.txt";
+    private static String inputFileName = "C:\\Users\\FUCK\\PORN\\input.txt"; //CHANGE
     private static String line;
     private static String contents = "";
     private static int commaPos = 0;
