@@ -318,24 +318,29 @@ public class Autonomous {
             constantName = contents.substring(i, commaPos);
             
             if (constantName.startsWith("driveT")) {
-                driveTime = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+                driveTime = getValue();
             } else if (constantName.startsWith("driveA")) {
-                driveAngle = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+                driveAngle = getValue();
             } else if (constantName.startsWith("turnT")) {
-                turnTime = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+                turnTime = getValue();
             } else if (constantName.startsWith("turnA")) {
-                turnAngle = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+                turnAngle = getValue();
             } else if (constantName.startsWith("arm")) {
-                armAngle = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+                armAngle = getValue();
             } else if (constantName.startsWith("shootT")) {
-                shootTime = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+                shootTime = getValue();
             } else if (constantName.startsWith("ShootN")) {
-                shootNum = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+                shootNum = getValue();
             } else {
                 System.out.println("Error");
             }
             
             i = semiPos;
         }
+    }
+    
+    public static int getValue() {
+        int num = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+        return num;
     }
 }
