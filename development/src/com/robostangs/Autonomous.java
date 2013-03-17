@@ -1,8 +1,13 @@
 package com.robostangs;
 
+import com.sun.squawk.io.BufferedReader;
+import com.sun.squawk.microedition.io.FileConnection;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Vector;
+import javax.microedition.io.Connector;
 
 /**
  * All functionality is read from dash; if that fails, runs a fallback mode
@@ -31,6 +36,14 @@ public class Autonomous {
     private static int numberToShoot = 0;
     private static String armPos = "";
     
+    //Read From TXT
+    private static String inputFileName = "C:\\Users\\Kou\\Documents\\input.txt";
+    private static String line;
+    private static String contents = "";
+    private static int commaPos = 0;
+    private static int semiPos = 0;
+    private static String constantName = "";
+    private static int driveTime, driveAngle, turnTime, turnAngle, armAngle, shootTime, shootNum;
     
     private Autonomous() {
         //pref = Preferences.getInstance();
@@ -287,6 +300,42 @@ public class Autonomous {
         if (timer.get() > 4.0) {
             Loader.allOff();
             timer.reset();
+        }
+    }
+    
+    public static void getInfoFromTxt() throws IOException{
+        FileConnection fc = (FileConnection) Connector.open(inputFileName);
+        BufferedReader in = new BufferedReader(new InputStreamReader(fc.openInputStream()));
+        
+        while ((line = in.readLine()) != null) {
+            contents+=line;
+        }
+        fc.close();
+        
+        for (int i = 0; i < contents.length(); i++) {
+            commaPos = contents.indexOf(",", i);
+            semiPos = contents.indexOf(";", i);            
+            constantName = contents.substring(i, commaPos);
+            
+            if (constantName.startsWith("driveT")) {
+                driveTime = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+            } else if (constantName.startsWith("driveA")) {
+                driveAngle = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+            } else if (constantName.startsWith("turnT")) {
+                turnTime = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+            } else if (constantName.startsWith("turnA")) {
+                turnAngle = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+            } else if (constantName.startsWith("arm")) {
+                armAngle = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+            } else if (constantName.startsWith("shootT")) {
+                shootTime = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+            } else if (constantName.startsWith("ShootN")) {
+                shootNum = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+            } else {
+                System.out.println("Error");
+            }
+            
+            i = semiPos;
         }
     }
 }
