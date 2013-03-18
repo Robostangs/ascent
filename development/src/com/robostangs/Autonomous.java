@@ -34,7 +34,7 @@ public class Autonomous {
     private static int step = 0;
     
     //Read From TXT
-    private static String inputFileName = "C:\\Users\\FUCK\\PORN\\input.txt"; //CHANGE
+    private static String inputFileName = "C:\\Users\\input.txt"; //CHANGE
     private static String line;
     private static String contents = "";
     private static int commaPos = 0;
@@ -184,7 +184,7 @@ public class Autonomous {
                     }
 
                 } else if (delay) {
-                    while (timer.get() < stepData[i]) { }
+                    while (timer.get() < stepData[i]);
 
                     timer.stop();
                     timer.reset();
@@ -289,36 +289,23 @@ public class Autonomous {
             contents+=line;
         }
         fc.close();
+        keys = new String[contents.length];
+        stepData = new Double[contents.length];
         
         for (int i = 0; i < contents.length(); i++) {
             commaPos = contents.indexOf(",", i);
             semiPos = contents.indexOf(";", i);            
             constantName = contents.substring(i, commaPos);
-            
-            if (constantName.startsWith("driveT")) {
-                driveTime = getValue();
-            } else if (constantName.startsWith("driveA")) {
-                driveAngle = getValue();
-            } else if (constantName.startsWith("turnT")) {
-                turnTime = getValue();
-            } else if (constantName.startsWith("turnA")) {
-                turnAngle = getValue();
-            } else if (constantName.startsWith("arm")) {
-                armAngle = getValue();
-            } else if (constantName.startsWith("shootT")) {
-                shootTime = getValue();
-            } else if (constantName.startsWith("ShootN")) {
-                shootNum = getValue();
-            } else {
-                System.out.println("Error");
-            }
+
+            keys[i] = constantName;
+            stepData[i] = getValue();
             
             i = semiPos;
         }
     }
     
-    public static int getValue() {
-        int num = Integer.parseInt(contents.substring(commaPos + 1, semiPos));
+    public static double getValue() {
+        double num = Double.parseDouble(contents.substring(commaPos + 1, semiPos));
         return num;
     }
 }
