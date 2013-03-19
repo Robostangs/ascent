@@ -40,6 +40,8 @@ public class Lifter {
       atBottom = true;
       goingToBottom = false;
       goingToTop = false;
+      topProx.turnOn();
+      bottomProx.turnOn();
   }
   
   public static Lifter getInstance() {
@@ -109,10 +111,10 @@ public class Lifter {
   }
 
   public static boolean getTopSensor() {
-      return topProx.get();
+      return topProx.getState();
   }
   public static boolean getBottomSensor() {
-      return bottomProx.get();
+      return bottomProx.getState();
   }
   public static void constantDown() {
       try {
