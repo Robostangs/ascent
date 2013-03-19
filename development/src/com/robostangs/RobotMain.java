@@ -120,7 +120,9 @@ public class RobotMain extends IterativeRobot {
                 //Arm.camPos();
                 Arm.getPIDFromDash();
                 Arm.enablePID();
-            } else if (manip.startButton()) {
+            }
+            /*
+            else if (manip.startButton()) {
                 if (potValue == 0) {
                     potValue = Arm.getPotA() + 1;
                 }
@@ -130,7 +132,9 @@ public class RobotMain extends IterativeRobot {
                     potValue = Arm.getPotA() - 1;
                 }
                 Arm.setPosition(potValue);
-            } else {
+            }
+            */
+            else {
                 potValue = 0;
                 Arm.stop();
             }
@@ -144,18 +148,15 @@ public class RobotMain extends IterativeRobot {
             }
         }
 
-        if (manip.leftStickYAxis() != 0) {
-            Lifter.manual(manip.leftStickYAxis());
+        if (manip.startButton()) {
+            //Lifter.timedUp();
+            Lifter.raise();
+        } else if (manip.backButton()) { 
+            //Lifter.timedDown();
+            Lifter.currentDown();
+            //Lifter.lower();
         } else {
-            if (manip.startButton()) {
-                //Lifter.timedUp();
-                Lifter.raise();
-            } else if (manip.backButton()) { 
-                //Lifter.timedDown();
-                Lifter.lower();
-            } else {
-                Lifter.stop();
-            }
+            Lifter.stop();
         }
         
 		/*

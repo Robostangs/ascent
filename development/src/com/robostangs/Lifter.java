@@ -14,6 +14,7 @@ public class Lifter {
   private static Lifter instance = null;
   private static CANJaguar lift;
   private static Timer timer;
+  private static ProximitySensor prox;
   private static boolean atTop;
   private static boolean atBottom;
   private static boolean goingToTop;
@@ -28,6 +29,7 @@ public class Lifter {
       timer = new Timer();
       timer.stop();
       timer.reset();
+      prox = new ProximitySensor(Constants.LIFTER_TOP_PROX_SENSOR_POS, Constants.LIFTER_TOP_PROX_SENSOR_POWER_POS);
       atTop = false;
       atBottom = true;
       goingToBottom = false;

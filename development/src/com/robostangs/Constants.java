@@ -99,7 +99,7 @@ public class Constants {
 
     //servo
     public static final int DT_SERVO_POS = 1;
-    public static final int DT_CLIMB_POS = 180;
+    public static final int DT_CLIMB_POS = 1;
     public static final int DT_DRIVE_POS = 0;
     
     
@@ -131,8 +131,8 @@ public class Constants {
     public static final double LIFTER_DOWN_POWER = 0.8;
     public static final double LIFTER_UP_TIME = 2;
     public static final double LIFTER_DOWN_TIME = 1.6;
-    public static final double LIFTER_TOP_PROX_SENSOR_POWER_POS = 0;
-    public static final double LIFTER_TOP_PROX_SENSOR_POS = 0;
+    public static final int LIFTER_TOP_PROX_SENSOR_POWER_POS = 0;
+    public static final int LIFTER_TOP_PROX_SENSOR_POS = 0;
         
     /*
      * Shooter

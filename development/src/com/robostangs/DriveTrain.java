@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -17,14 +18,21 @@ public class DriveTrain {
     private static CANJaguar climber;
     private static Encoder leftEncoder, rightEncoder;
     private static Timer timer;
+    private static Servo servo;
     private static boolean climbMode;
     //private static PIDController pid;
     //private static Gyro gyro;
-    //private static Servo servo;
     
     private DriveTrain() {
         DriveMotors.getInstance();
+        try {
+            climber = new CANJaguar(Constants.DT_JAG_CLIMB_POS);
+            climber.configFaultTime(Constants.JAG_CONFIG_TIME);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
         timer = new Timer();
+        servo = new Servo(Constants.DT_SERVO_POS);
         climbMode = false;
         
         /*
@@ -34,7 +42,6 @@ public class DriveTrain {
         startEncoders();
         */
 
-        //servo = new Servo(Constants.DT_SERVO_POS);
         
         //gyro = new Gyro (Constants.DT_GYRO_POS);
         
@@ -116,6 +123,21 @@ public class DriveTrain {
         drive(0, 0);
     }
     
+    public static void moveClimber(double power) {
+        try {
+            climber.setX(power);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void stopClimber() {
+        try {
+            climber.setX(0);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+    }
     /**
      * check the mode
      * @return climbMode
@@ -124,6 +146,23 @@ public class DriveTrain {
         return climbMode;
     }
     
+    /**
+     * enable climb mode
+     */
+    public static void enableClimbMode() {
+        servo.set(Constants.DT_CLIMB_POS);
+        System.out.println("going to climb mode: " + servo.get());
+        climbMode = true;
+    }
+    
+    /**
+     * enable drive mode
+     */
+    public static void enableDriveMode() {
+        servo.set(Constants.DT_DRIVE_POS);
+        System.out.println("going to drive mode: " + servo.get());
+        climbMode = false;
+    }
     /**
      * get distance from the left encoder
      * @return in meters
@@ -190,39 +229,6 @@ public class DriveTrain {
     public static boolean isPidEnabled() {
         return pid.isEnable();
     } */
-    
-    /**
-     * enable climb mode
-     *
-    public static void enableClimbMode() {
-        //servo.setAngle(Constants.DT_CLIMB_POS);
-        System.out.println("going to climb mode: " + servo.get());
-        climbMode = true;
-    }
-    
-    /**
-     * enable drive mode
-     *
-    public static void enableDriveMode() {
-        //servo.setAngle(Constants.DT_DRIVE_POS);
-        System.out.println("going to drive mode: " + servo.get());
-        climbMode = false;
-    }
-    
-    public static boolean servoReady() {
-        if (climbMode && !(servo.get() == (Constants.DT_CLIMB_POS / 180.0))) {
-            enableClimbMode();
-           return true;
-        } else if (!climbMode && !(servo.get() == (Constants.DT_DRIVE_POS / 180.0))) {
-            enableDriveMode();
-            return true;
-        } else {
-            return false;
-        }
-    }
-    **
-     * TODO: climbing stuff if climbMode = true
-     */
     /**
      * drive straight
      * @param power

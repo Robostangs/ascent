@@ -7,8 +7,8 @@ public class ProximitySensor extends DigitalInput {
     private Solenoid powerSource;
 
     public ProximitySensor(int digitalPort, int solenoidPort) {
-        super(digitalPort);
-        powerSource = new Solenoid(1, solenoidPort);
+        super(1, digitalPort);
+        powerSource = new Solenoid(solenoidPort);
         powerSource.set(true);  //give the prox sensor power
     }
 }
