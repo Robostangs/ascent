@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 /**
  * Lifter class
  * maintainer: Sam 
- * TODO: lifter: timers to always fully raise/lower lift
  */
 
 public class Lifter {
@@ -62,6 +61,30 @@ public class Lifter {
     } catch (CANTimeoutException ex) {
         ex.printStackTrace();
     }
+  }
+
+  public static double getJagCurrent() {
+      try {
+          return Math.abs(lift.getOutputCurrent());
+      } catch (CANTimeoutException ex) {
+          ex.printStackTrace();
+          return -1;
+      }
+  }
+
+  public static void currentDown() {
+      if(atTop) {
+          atTop = false;
+      }
+
+      if (getJagCurrent() <= 0.1 && !atBottom) {
+          lower();
+          goingToBottom = true;
+      } else {
+          stop();
+          atBottom = true;
+          goingToBottom = false;
+      }
   }
 
   public static void timedDown() {
