@@ -180,17 +180,15 @@ public class RobotMain extends IterativeRobot {
         }
 
         /*
-         * Driver left trigger: Run the standalone climber
+         * manip moves climber arm
          */
-        if (driver.leftTriggerButton()) {
-            //TODO: enable solo climber
-        }
-        
+        DriveTrain.moveClimber(manip.leftStickYAxis());
+
         /*
          * Shifting between drive mode and climb mode
          * Driver a-button: enable climbing mode
          * Driver b-button: enable drive mode
-         *
+         */
         if (driver.aButton()) {
             DriveTrain.enableClimbMode();
         } else if (driver.bButton()) {
