@@ -38,7 +38,7 @@ public class Lifter {
   
   public static Lifter getInstance() {
     if (instance == null) {
-      instance = new Lifter();
+        instance = new Lifter();
     }
     return instance;
   }
@@ -47,11 +47,11 @@ public class Lifter {
    * Lifter goes up
    */
   public static void raise() {
-        try {
-            lift.setX(-Constants.LIFTER_UP_POWER);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
+    try {
+        lift.setX(-Constants.LIFTER_UP_POWER);
+    } catch (CANTimeoutException ex) {
+        ex.printStackTrace();
+    }
   }
 
   /**
@@ -79,7 +79,7 @@ public class Lifter {
           atTop = false;
       }
 
-      if (getJagCurrent() <= 0.1 && !atBottom) {
+      if (getJagCurrent() >= 0.1 && !atBottom) {
           lower();
           goingToBottom = true;
       } else {
@@ -104,6 +104,21 @@ public class Lifter {
           stop();
           atBottom = true;
           goingToBottom = false;
+      }
+  }
+
+  public static void sensorUp() {
+      if(atBottom) {
+          atBottom = false;
+      }
+
+      if (timer.get() <= Constants.LIFTER_UP_TIME && !atTop) {
+          goingToTop = true;
+          raise();
+      } else {
+          stop();
+          atTop = true;
+          goingToTop = false;
       }
   }
 
