@@ -149,7 +149,9 @@ public class Constants {
     public static final double TIME_TO_SHOOT_TWO = 0.0;
     public static final double TIME_TO_SHOOT_THREE = 0.0;
     public static final double TIME_TO_SHOOT_FOUR = 0.0;
-    
+
+    public static final double SHOOTER_FULL_BATTERY_VOLTAGE = 0;
+    public static final double SHOOTER_VOLTAGE_TOLERANCE = 0;
     /*
      * XboxController
      */

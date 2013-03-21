@@ -56,6 +56,31 @@ public class Shooter {
         feedMode = false;
     }
     
+    public static double getVoltage() {
+        try {
+            return shooter1.getBusVoltage();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }
+
+    public static void voltageShoot() {
+        if (getVoltage() < (Constants.SHOOTER_FULL_BATTERY_VOLTAGE
+                - Constants.SHOOTER_VOLTAGE_TOLERANCE)) {
+            try{
+                shooter1.setX(Constants.SHOOTER_MAX_POWER);
+                shooter2.setX(Constants.SHOOTER_MAX_POWER);
+                shooter3.setX(Constants.SHOOTER_MAX_POWER * 0.9);
+            } catch (CANTimeoutException ex) {
+                ex.printStackTrace();
+            }
+            feedMode = false;
+        } else {
+            shoot();
+        }
+        
+    }
     /**
      * Shoots a certain number of frisbees
      * @param number 
