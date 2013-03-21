@@ -21,14 +21,14 @@ public class Arm {
     private static Timer timer;
     
     private Arm() {
-        potA = new Potentiometer(Constants.POT_A_PORT);
+        potA = new Potentiometer(Constants.ARM_POT_A_PORT);
         timer = new Timer();
         motor = ArmMotor.getInstance();
         pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motor);
         //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
         
         //configure PID
-        pidA.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
+        pidA.setInputRange(Constants.ARM_POT_A_MIN_VALUE, Constants.ARM_POT_A_MAX_VALUE);
         pidA.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         pidA.setAbsoluteTolerance(0);
         //pidCam.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
@@ -114,21 +114,13 @@ public class Arm {
         return 0;
     }
     
-    /**
-     * Uses PID to move to proper angle for pyramid shot
-     * @return 0 if in progress, 1 if done
-     */
-    public static int underPyramidShotPos() {
-        return setPosition(Constants.ARM_PYRAMID_POS_A);
-
-    }
     
     /**
      * Uses PID to move to lowest angle
      * @return 0 if in progress, 1 if done
      */
     public static int lowestPos() {
-        return setPosition(Constants.POT_A_MIN_VALUE);
+        return setPosition(Constants.ARM_POT_A_MIN_VALUE);
     }
     
     /**
@@ -239,7 +231,8 @@ public class Arm {
      * @return true if pot A is within range, false if it isn't
      */
     public static boolean isPotAFunctional() {
-        return getPotA() >= Constants.POT_A_MIN_VALUE  && getPotA() <= Constants.POT_A_MAX_VALUE;
+        return getPotA() >= Constants.ARM_POT_A_MIN_VALUE  
+                && getPotA() <= Constants.ARM_POT_A_MAX_VALUE;
     }
 
     public static void getPIDFromDash() {

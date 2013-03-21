@@ -19,8 +19,6 @@ public class Lifter {
   private static boolean atBottom;
   private static boolean goingToTop;
   private static boolean goingToBottom;
-  private static DigitalInput topSwitch;
-  //private static DigitalInput bottomSwitch;
 
   private Lifter() { 
       try{
@@ -29,8 +27,6 @@ public class Lifter {
           ex.printStackTrace();
       }
       timer = new Timer();
-      topSwitch = new DigitalInput(1, Constants.LIFTER_TOP_SWITCH_POS);
-      //bottomSwitch = new DigitalInput(1, Constants.LIFTER_BOTTOM_SWITCH_POS);
       timer.stop();
       timer.reset();
       atTop = false;
@@ -190,66 +186,6 @@ public class Lifter {
             ex.printStackTrace();
         }
   }
-
-  /**
-   * @return true if at top, false if at bottom
-   */
-  public static boolean getPos() {
-      if (topSwitch == null) {
-          return atTop;
-      } else {
-          return topSwitch.get();
-      }
-  }
-  
-  public static boolean getTopSwitch() {
-      return topSwitch.get();
-  }
-  /*
-  public static boolean getBottomSwitch() {
-      return bottomSwitch.get();
-  }
-
-  public static void manual(double speed) {
-      if (speed > 0) {
-          
-          if (!topSwitch.get()) {
-              try {
-                  System.out.println("stopped at top switch");
-                  lift.setX(0);
-              } catch (CANTimeoutException ex) {
-                  ex.printStackTrace();
-              }
-          } else {
-              try {
-                  lift.setX(speed);
-              } catch (CANTimeoutException ex) {
-                  ex.printStackTrace();
-              }
-          }
-      } else if (speed < 0) {
-          if (!bottomSwitch.get()) {
-              try {
-                  System.out.println("stopped at bot switch");
-                  lift.setX(0);
-              } catch (CANTimeoutException ex) {
-                  ex.printStackTrace();
-              }
-          } else {
-              try {
-                  lift.setX(speed);
-              } catch (CANTimeoutException ex) {
-                  ex.printStackTrace();
-              }
-          }
-      } else {
-          try {
-              lift.setX(0);
-          } catch (CANTimeoutException ex) {
-              ex.printStackTrace();
-          }
-      }
-  } */
 
   public static void manual(double speed) {
       timer.stop();

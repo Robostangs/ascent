@@ -2,11 +2,9 @@ package com.robostangs;
 
 import com.sun.squawk.io.BufferedReader;
 import com.sun.squawk.microedition.io.FileConnection;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Vector;
 import javax.microedition.io.Connector;
 
 /**
@@ -167,9 +165,9 @@ public class Autonomous {
                         if (stepData[i] == Constants.AUTON_ARM_LOW_POS) {
                             status = Arm.lowestPos();
                         } else if (stepData[i] == Constants.AUTON_ARM_UNDER_PYRAMID_POS) {
-                            status = Arm.underPyramidShotPos();
+                            status = Arm.sidePyramidPos();
                         } else if (stepData[i] != 0 && stepData[i] != -1) {
-                            status = Arm.setPosition(stepData);
+                            status = Arm.setPosition(stepData[i]);
                         } else if (stepData[i] == -1) {
                             //status = Arm.camPos();
                         }
@@ -289,8 +287,8 @@ public class Autonomous {
             contents+=line;
         }
         fc.close();
-        keys = new String[contents.length];
-        stepData = new Double[contents.length];
+        keys = new String[contents.length()];
+        stepData = new double[contents.length()];
         
         for (int i = 0; i < contents.length(); i++) {
             commaPos = contents.indexOf(",", i);

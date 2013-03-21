@@ -239,7 +239,6 @@ public class RobotMain extends IterativeRobot {
 
     public void debugToDash() {
         System.out.println("pot: " + Arm.getPotA());
-        System.out.println("ENCODER TEST: " + DriveTrain.getLeftEncoderDistance());
         Arm.outputPIDConstants();
     }
 }

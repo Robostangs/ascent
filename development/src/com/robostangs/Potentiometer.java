@@ -13,9 +13,9 @@ public class Potentiometer extends AnalogChannel implements PIDSource {
     
     public Potentiometer(int port) {
         super(port);  //calls AnalogChannel constructor
-        if (port == Constants.POT_A_PORT) {
+        if (port == Constants.ARM_POT_A_PORT) {
             degreeConstant = Constants.POT_A_TO_DEGREES;
-    }
+        }
     }
 
     //TODO: check logic
