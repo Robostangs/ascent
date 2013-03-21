@@ -151,9 +151,9 @@ public class RobotMain extends IterativeRobot {
         }
 
         if (manip.startButton()) {
-            //Lifter.timedUp();
+            Lifter.timedUp();
             //Lifter.raise();
-            Lifter.sensorUp();
+            //Lifter.sensorUp();
         } else if (manip.backButton()) { 
             //Lifter.timedDown();
             Lifter.currentDown();

@@ -81,7 +81,7 @@ public class Loader {
         } else {
             lifterMovingUp = false;
         }
-        Lifter.sensorUp();
+        Lifter.timedUp();
         //run ingestor as to not lose frisbees
         Conveyors.ingest();
     }

@@ -17,8 +17,8 @@ public class Lifter {
     private static boolean atBottom;
     private static boolean goingToTop;
     private static boolean goingToBottom;
-    private static ProximitySensor topProx;
-    private static ProximitySensor bottomProx;
+    //private static ProximitySensor topProx;
+    //private static ProximitySensor bottomProx;
 
     private Lifter() { 
         try{
@@ -29,10 +29,12 @@ public class Lifter {
         timer = new Timer();
         timer.stop();
         timer.reset();
+        /*
         topProx = new ProximitySensor(Constants.LIFTER_TOP_PROX_DIGITAL_PORT, 
                   Constants.LIFTER_TOP_PROX_SOLENOID_PORT);
         bottomProx = new ProximitySensor(Constants.LIFTER_BOTTOM_PROX_DIGITAL_PORT, 
                   Constants.LIFTER_BOTTOM_PROX_SOLENOID_PORT);
+        */
         atTop = true;
         atBottom = false;
         goingToBottom = false;
@@ -115,7 +117,7 @@ public class Lifter {
 
 
   public static void timedUp() {
-      if(atBottom) {
+      if (atBottom) {
           timer.stop();
           timer.reset();
           timer.start();
@@ -133,6 +135,7 @@ public class Lifter {
       }
   }
 
+  /*
   public static boolean getTopSensor() {
       return topProx.get();
   }
@@ -155,7 +158,7 @@ public class Lifter {
       } else {
           stop();
       }
-  }
+  } */
 
   /**
    * Stops the lifter
