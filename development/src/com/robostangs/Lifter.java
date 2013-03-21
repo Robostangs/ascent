@@ -19,6 +19,8 @@ public class Lifter {
   private static boolean atBottom;
   private static boolean goingToTop;
   private static boolean goingToBottom;
+  private static ProximitySensor topProx;
+  private static ProximitySensor bottomProx;
 
   private Lifter() { 
       try{
@@ -29,9 +31,12 @@ public class Lifter {
       timer = new Timer();
       timer.stop();
       timer.reset();
-      prox = new ProximitySensor(Constants.LIFTER_TOP_PROX_SENSOR_POS, Constants.LIFTER_TOP_PROX_SENSOR_POWER_POS);
-      atTop = false;
-      atBottom = true;
+      topProx = new ProximitySensor(Constants.LIFTER_TOP_PROX_DIGITAL_PORT, 
+              Constants.LIFTER_TOP_PROX_SOLENOID_PORT);
+      bottomProx = new ProximitySensor(Constants.LIFTER_BOTTOM_PROX_DIGITAL_PORT, 
+              Constants.LIFTER_BOTTOM_PROX_SOLENOID_PORT);
+      atTop = true;
+      atBottom = false;
       goingToBottom = false;
       goingToTop = false;
   }
@@ -47,11 +52,11 @@ public class Lifter {
    * Lifter goes up
    */
   public static void raise() {
-    try {
-        lift.setX(-Constants.LIFTER_UP_POWER);
-    } catch (CANTimeoutException ex) {
-        ex.printStackTrace();
-    }
+        try {
+            lift.setX(Constants.LIFTER_UP_POWER);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
   }
 
   /**
@@ -59,7 +64,7 @@ public class Lifter {
    */
   public static void lower() {
     try {
-        lift.setX(Constants.LIFTER_DOWN_POWER);
+        lift.setX(-Constants.LIFTER_DOWN_POWER);
     } catch (CANTimeoutException ex) {
         ex.printStackTrace();
     }
@@ -141,6 +146,24 @@ public class Lifter {
       }
   }
 
+  public static boolean getTopSensor() {
+      return topProx.get();
+  }
+
+  public static void sensorUp() {
+      if (topProx.get()) {
+          raise();
+      } else {
+          stop();
+      }
+  }
+  public static void sensorDown() { 
+      if (bottomProx.get()) {
+          lower();
+      } else {
+          stop();
+      }
+  }
   public static void constantDown() {
       try {
           lift.setX(0.2);
@@ -225,6 +248,13 @@ public class Lifter {
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+  }
+
+  /**
+   * @return true if at top, false if at bottom
+   */
+  public static boolean getPos() {
+      return false;
   }
 
   public static void manual(double speed) {

@@ -45,8 +45,10 @@ public class Loader {
     }
     
     /**
-     * runs shooter conveyor
-     * TODO: moves lifter to top pos if not there
+     * ingest, run lifter down if not there
+     */
+    /**
+     * runs shooter conveyor, moves lifter to top pos if not there
      */
     public static void loadShooter(){
         Conveyors.loadShooter();

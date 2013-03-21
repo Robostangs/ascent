@@ -65,10 +65,11 @@ public class RobotMain extends IterativeRobot {
         //System.out.println("pot: " + Arm.getPotA());
         //System.out.println("Switch" + Lifter.getPos());
         //Arm.outputPIDConstants();
-        //System.out.println("top limit switch: " + Lifter.getTopSwitch());
-        //System.out.println("bottom limit switch: " + Lifter.getBottomSwitch());
+        System.out.println("top limit switch: " + Lifter.getTopSensor());
         //System.out.println("pot voltage " + Arm.getPotVoltage());
         //System.out.println("Left Encoder: " + DriveTrain.getLeftEncoderDistance());
+        //System.out.println("Top?? " + Lifter.getTopSensor());
+        //System.out.println("Bottom?? " + Lifter.getBottomSensor());
 
         
         /*
@@ -157,7 +158,17 @@ public class RobotMain extends IterativeRobot {
             Lifter.currentDown();
             //Lifter.lower();
         } else {
-            Lifter.stop();
+            if (manip.startButton()) {
+                //Lifter.timedUp();
+                //Lifter.raise();
+                Lifter.sensorUp();
+            } else if (manip.backButton()) { 
+                //Lifter.timedDown();
+                //Lifter.lower();
+                Lifter.sensorDown();
+            } else {
+                Lifter.stop();
+            }
         }
         
 		/*
@@ -177,7 +188,7 @@ public class RobotMain extends IterativeRobot {
          * driver is manual run
          */
         if (driver.yButton()) {
-           Camera.saveImage();
+//           Camera.saveImage();
         }
 
         /*
