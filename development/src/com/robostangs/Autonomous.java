@@ -1,8 +1,6 @@
 package com.robostangs;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
-import java.util.Vector;
 
 /**
  * All functionality is read from dash; if that fails, runs a fallback mode

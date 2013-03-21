@@ -70,6 +70,7 @@ public class RobotMain extends IterativeRobot {
         //System.out.println("Left Encoder: " + DriveTrain.getLeftEncoderDistance());
         //System.out.println("Top?? " + Lifter.getTopSensor());
         //System.out.println("Bottom?? " + Lifter.getBottomSensor());
+        System.out.println("shooter status: " + Shooter.readyToShoot());
 
         
         /*

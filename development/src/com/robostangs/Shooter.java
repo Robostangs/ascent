@@ -1,7 +1,6 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,7 +31,7 @@ public class Shooter {
     }
     
     /**
-     *setting up singleton
+     * setting up singleton
      */
     public static Shooter getInstance() {
         if (instance == null) {
@@ -153,7 +152,14 @@ public class Shooter {
     }
 
     public static boolean readyToShoot() {
-        //TODO: get shooter jag current?
+        try {
+            if (shooter3.getOutputCurrent() <= Constants.SHOOTER_READY_CURRENT_MAX 
+                    && shooter3.getOutputCurrent() >= Constants.SHOOTER_READY_CURRENT_MIN) {
+                return true;
+            }
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
         return false;
     }
     

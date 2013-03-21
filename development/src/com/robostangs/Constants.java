@@ -152,6 +152,9 @@ public class Constants {
 
     public static final double SHOOTER_FULL_BATTERY_VOLTAGE = 0;
     public static final double SHOOTER_VOLTAGE_TOLERANCE = 0;
+
+    public static final double SHOOTER_READY_CURRENT_MAX = 0;
+    public static final double SHOOTER_READY_CURRENT_MIN = 0;
     /*
      * XboxController
      */
