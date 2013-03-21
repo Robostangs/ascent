@@ -5,12 +5,8 @@
 
 package com.robostangs;
 
-import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.can.CANTimeoutException;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm {
@@ -247,45 +243,6 @@ public class Arm {
     }
 
     /**
-     * @param power of arm jags
-     * disables pid
-     * sets the power of the arm jags
-     * this method for use when we have a working pot
-     *
-    public static void setJags(double power) {
-        double currentPot = getPotA();
-        //add a buffer
-        if (power > 0) {
-            //arm is going up, give it a pot val one higher
-            currentPot++;
-        } else {
-            //arm is going down, give it a pot val one lower
-            currentPot--;
-        }
-
-        if (pidEnabled()) {
-            disablePID();
-        }
-
-        if (currentPot <= (Constants.POT_A_SLOW_VALUE + 10)) {
-            //needs to go slow because of gas strut, go min speed and retain sign
-            power = Constants.ARM_MIN_VOLTAGE * (power / Math.abs(power));
-        }
-
-        if (currentPot >= Constants.POT_A_MAX_VALUE && power > 0) {
-            //at max height, move down slightly
-            System.out.println("AT MAX");
-            power = -0.1;
-        } else if (currentPot <= Constants.POT_A_MIN_VALUE && power < 0) {
-            //at min height, move up slightly
-            System.out.println("AT MIN");
-            power = 0.1;
-        }
-
-        motor.setX(power);
-    } */
-
-    /**
      * Uses the camera to set arm pos
      * for use when camera has been tuned
      * @return 0 if in progress, 1 if done
@@ -301,4 +258,24 @@ public class Arm {
         pidCam.enable();
         return 0;
     }*/
+     /**
+      * @param power of arm jags
+      * disables pid
+      * sets the power of the arm jags
+      *
+     public static void setJags(double power) {
+        if (pidEnabled()) {
+            disablePID();
+        }
+        if (power > 0) {
+            if (getPotA() >= Constants.ARM_POT_A_MAX_VALUE) {
+                power = 0;
+            }
+        } else if (power < 0) {
+            if (getPotA() <= Constants.ARM_POT_A_MIN_VALUE) {
+                power = 0;
+            }
+        }
+        motor.setX(power);
+     }*/
 }

@@ -14,7 +14,6 @@ public class Lifter {
   private static Lifter instance = null;
   private static CANJaguar lift;
   private static Timer timer;
-  private static ProximitySensor prox;
   private static boolean atTop;
   private static boolean atBottom;
   private static boolean goingToTop;
@@ -52,11 +51,11 @@ public class Lifter {
    * Lifter goes up
    */
   public static void raise() {
-        try {
-            lift.setX(Constants.LIFTER_UP_POWER);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
+    try {
+        lift.setX(Constants.LIFTER_UP_POWER);
+    } catch (CANTimeoutException ex) {
+        ex.printStackTrace();
+    }
   }
 
   /**
@@ -112,20 +111,6 @@ public class Lifter {
       }
   }
 
-  public static void sensorUp() {
-      if(atBottom) {
-          atBottom = false;
-      }
-
-      if (timer.get() <= Constants.LIFTER_UP_TIME && !atTop) {
-          goingToTop = true;
-          raise();
-      } else {
-          stop();
-          atTop = true;
-          goingToTop = false;
-      }
-  }
 
   public static void timedUp() {
       if(atBottom) {
