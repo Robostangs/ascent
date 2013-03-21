@@ -3,13 +3,13 @@ package com.robostangs;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DigitalInput;
 
-public class ProximitySensor {
-    private DigitalInput sensor;
+public class ProximitySensor extends DigitalInput{
     private Solenoid power;
 
     public ProximitySensor(int digitalPort, int solenoidPort) {
+        super(digitalPort);
         power = new Solenoid(solenoidPort);
-        sensor = new DigitalInput(digitalPort);
+        turnOn();
     }
 
     public void turnOn() {
@@ -18,10 +18,6 @@ public class ProximitySensor {
 
     public void turnOff() {
         power.set(false);
-    }
-
-    public boolean getState() {
-        return sensor.get();
     }
 }
 

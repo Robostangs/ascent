@@ -22,7 +22,6 @@ public class Lifter {
   private static ProximitySensor topProx;
   private static ProximitySensor bottomProx;
 
-
   private Lifter() { 
       try{
         lift = new CANJaguar(Constants.LIFTER_JAG_POS);
@@ -36,12 +35,10 @@ public class Lifter {
               Constants.LIFTER_TOP_PROX_SOLENOID_PORT);
       bottomProx = new ProximitySensor(Constants.LIFTER_BOTTOM_PROX_DIGITAL_PORT, 
               Constants.LIFTER_BOTTOM_PROX_SOLENOID_PORT);
-      atTop = false;
-      atBottom = true;
+      atTop = true;
+      atBottom = false;
       goingToBottom = false;
       goingToTop = false;
-      topProx.turnOn();
-      bottomProx.turnOn();
   }
   
   public static Lifter getInstance() {
@@ -56,7 +53,7 @@ public class Lifter {
    */
   public static void raise() {
         try {
-            lift.setX(-Constants.LIFTER_UP_POWER);
+            lift.setX(Constants.LIFTER_UP_POWER);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -67,7 +64,7 @@ public class Lifter {
    */
   public static void lower() {
     try {
-        lift.setX(Constants.LIFTER_DOWN_POWER);
+        lift.setX(-Constants.LIFTER_DOWN_POWER);
     } catch (CANTimeoutException ex) {
         ex.printStackTrace();
     }
@@ -111,10 +108,22 @@ public class Lifter {
   }
 
   public static boolean getTopSensor() {
-      return topProx.getState();
+      return topProx.get();
   }
-  public static boolean getBottomSensor() {
-      return bottomProx.getState();
+
+  public static void sensorUp() {
+      if (topProx.get()) {
+          raise();
+      } else {
+          stop();
+      }
+  }
+  public static void sensorDown() { 
+      if (bottomProx.get()) {
+          lower();
+      } else {
+          stop();
+      }
   }
   public static void constantDown() {
       try {
