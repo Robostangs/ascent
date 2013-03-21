@@ -65,7 +65,7 @@ public class RobotMain extends IterativeRobot {
         //System.out.println("pot: " + Arm.getPotA());
         //System.out.println("Switch" + Lifter.getPos());
         //Arm.outputPIDConstants();
-        System.out.println("top sensor: " + Lifter.getTopSensor());
+        //System.out.println("top sensor: " + Lifter.getTopSensor());
         //System.out.println("pot voltage " + Arm.getPotVoltage());
         //System.out.println("Left Encoder: " + DriveTrain.getLeftEncoderDistance());
         //System.out.println("Top?? " + Lifter.getTopSensor());
