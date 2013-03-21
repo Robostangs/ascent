@@ -47,10 +47,18 @@ public class Loader {
     /**
      * ingest, run lifter down if not there
      */
+    public static void lifterIngest() {
+        if (!Lifter.atBottom()) {
+            Lifter.currentDown();
+        }
+        ingest();
+    }
+
     /**
      * runs shooter conveyor, moves lifter to top pos if not there
      */
     public static void loadShooter(){
+        //liftUp();
         Conveyors.loadShooter();
     }
     
@@ -59,12 +67,13 @@ public class Loader {
      * TODO: moves lifter to top pos if not there
      */
     public static void feed(){
+        //liftUp();
         Conveyors.feedMode();
     }
     
     /**
      * Moves lifter to up position
-     * TODO: implement/test
+     * TODO: test
      */
     public static void liftUp() {
         if (Lifter.getSetSpeed() > 0) {
@@ -72,7 +81,8 @@ public class Loader {
         } else {
             lifterMovingUp = false;
         }
-        Lifter.raise();
+        Lifter.sensorUp();
+        //run ingestor as to not lose frisbees
         Conveyors.ingest();
     }
 
