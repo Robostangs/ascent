@@ -42,7 +42,12 @@ public class Autonomous {
     
     private Autonomous() {
         timer = new Timer();
-        getInfo();
+        try {
+            getInfo();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            fallbackMode = true;
+        }
         checkInfo();
     }
     
@@ -57,9 +62,30 @@ public class Autonomous {
      * Sets up the keys array with all the keys from the dash
      * Also sets variables not related to steps
      */
-    public static void getInfo() {
-        //TODO: read from text file
+    public static void getInfo() throws IOException{
+        FileConnection fc = (FileConnection) Connector.open(inputFileName);
+        BufferedReader in = new BufferedReader(new InputStreamReader(fc.openInputStream()));
+        
+        while ((line = in.readLine()) != null) {
+            contents+=line;
+        }
+
+        fc.close();
+        keys = new String[contents.length()];
+        stepData = new double[contents.length()];
+        
+        for (int i = 0; i < contents.length(); i++) {
+            commaPos = contents.indexOf(",", i);
+            semiPos = contents.indexOf(";", i);            
+            constantName = contents.substring(i, commaPos);
+
+            keys[i] = constantName;
+            stepData[i] = Double.parseDouble(contents.substring(commaPos + 1, semiPos));
+            
+            i = semiPos;
+        }
     }
+    
 
     public static void printKeys() {
         for (int i = 0; i < keys.length; i++) {
@@ -190,7 +216,8 @@ public class Autonomous {
 
             }
         } else {
-            fallbackMode();
+            //fallbackMode();
+            shootThree();
         }
     }
     
@@ -279,31 +306,4 @@ public class Autonomous {
         }
     }
     
-    public static void getInfoFromTxt() throws IOException{
-        FileConnection fc = (FileConnection) Connector.open(inputFileName);
-        BufferedReader in = new BufferedReader(new InputStreamReader(fc.openInputStream()));
-        
-        while ((line = in.readLine()) != null) {
-            contents+=line;
-        }
-        fc.close();
-        keys = new String[contents.length()];
-        stepData = new double[contents.length()];
-        
-        for (int i = 0; i < contents.length(); i++) {
-            commaPos = contents.indexOf(",", i);
-            semiPos = contents.indexOf(";", i);            
-            constantName = contents.substring(i, commaPos);
-
-            keys[i] = constantName;
-            stepData[i] = getValue();
-            
-            i = semiPos;
-        }
-    }
-    
-    public static double getValue() {
-        double num = Double.parseDouble(contents.substring(commaPos + 1, semiPos));
-        return num;
-    }
 }
