@@ -150,8 +150,10 @@ public class DriveTrain {
      * enable climb mode
      */
     public static void enableClimbMode() {
-        servo.set(Constants.DT_CLIMB_POS);
-        System.out.println("going to climb mode: " + servo.get());
+        if (servo.get() != Constants.DT_CLIMB_POS) {
+            servo.set(Constants.DT_CLIMB_POS);
+            System.out.println("going to climb mode: " + servo.get());
+        }
         climbMode = true;
     }
     
@@ -159,9 +161,20 @@ public class DriveTrain {
      * enable drive mode
      */
     public static void enableDriveMode() {
-        servo.set(Constants.DT_DRIVE_POS);
-        System.out.println("going to drive mode: " + servo.get());
+        if (servo.get() != Constants.DT_DRIVE_POS) {
+            servo.set(Constants.DT_DRIVE_POS);
+            System.out.println("going to drive mode: " + servo.get());
+        }
         climbMode = false;
+    }
+
+    public static double getClimberPower() {
+        try {
+            return climber.getX();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+            return 0;
+        }
     }
     /**
      * get distance from the left encoder

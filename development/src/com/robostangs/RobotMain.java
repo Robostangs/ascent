@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class RobotMain extends IterativeRobot {
     private XboxDriver driver;
+    private boolean fullShootMode;
     private XboxManip manip;
     private double potValue;
     
@@ -39,7 +40,9 @@ public class RobotMain extends IterativeRobot {
         driver = XboxDriver.getInstance();
         manip = XboxManip.getInstance();
         potValue = 0;
+        fullShootMode = false;
         dashInit();
+        DriveTrain.enableDriveMode();
     }
 
     public void dashInit() {
@@ -70,7 +73,8 @@ public class RobotMain extends IterativeRobot {
         //System.out.println("Left Encoder: " + DriveTrain.getLeftEncoderDistance());
         //System.out.println("Top?? " + Lifter.getTopSensor());
         //System.out.println("Bottom?? " + Lifter.getBottomSensor());
-        System.out.println("shooter status: " + Shooter.readyToShoot());
+        //System.out.println("shooter status: " + Shooter.readyToShoot());
+        //System.out.println("Bottom?? " + Lifter.atBottom());
 
         
         /*
@@ -92,13 +96,22 @@ public class RobotMain extends IterativeRobot {
          * L Trigger: Feed
          */
         if (manip.rightTriggerButton()) {   
-            Shooter.shoot();
+            if (fullShootMode) {
+                Shooter.fullShoot();
+            } else {
+                Shooter.shoot();
+            }
         } else if (manip.leftTriggerButton()) {
             Shooter.feed();
         } else {
             Shooter.stop();
         }
         
+        if (manip.bButton()) {
+            fullShootMode = false;
+        } else if (manip.aButton()) {
+            fullShootMode = true;
+        }
         /*
          * Manipulator Arm Control
          * Left Stick: Coarse Manual
@@ -109,7 +122,7 @@ public class RobotMain extends IterativeRobot {
          * X: Use Camera to auto-set angle
          * Start: raise by one pot value
          * Back: lower by one pot value
-         */        
+         *        
         if (manip.rightStickYAxis() == 0) {
             //not using the joysticks to manual set, use PID
             if (manip.yButton()) {
@@ -135,12 +148,12 @@ public class RobotMain extends IterativeRobot {
                 }
                 Arm.setPosition(potValue);
             }
-            */
+            *
             else {
                 potValue = 0;
                 Arm.stop();
             }
-        } else {
+        } else { */
             if (Math.abs(manip.rightStickYAxis()) != 0) {
                 //fine control
                 Arm.fineDrive(manip.rightStickYAxis());
@@ -148,16 +161,19 @@ public class RobotMain extends IterativeRobot {
                 potValue = 0;
                 Arm.stop();
             }
-        }
+        //}
 
         if (manip.startButton()) {
-            Lifter.timedUp();
-            //Lifter.raise();
+            //Lifter.timedUp();
+            Lifter.raise();
             //Lifter.sensorUp();
         } else if (manip.backButton()) { 
             //Lifter.timedDown();
             Lifter.currentDown();
             //Lifter.lower();
+        } else if (Lifter.atBottom()) {
+            //Lifter.constantDown();
+            Lifter.stop();
         } else {
             Lifter.stop();
         }
@@ -180,7 +196,14 @@ public class RobotMain extends IterativeRobot {
         /*
          * manip moves climber arm
          */
-        DriveTrain.moveClimber(manip.leftStickYAxis());
+        if (driver.yButton()) {
+            DriveTrain.enableDriveMode();
+            DriveTrain.moveClimber(Constants.DT_DRIVER_CLIMB_POWER);
+        } else if (driver.xButton()) {
+            DriveTrain.moveClimber(-Constants.DT_DRIVER_CLIMB_POWER);
+        } else {
+            DriveTrain.moveClimber(manip.leftStickYAxis());
+        }
 
         /*
          * Shifting between drive mode and climb mode
@@ -190,6 +213,8 @@ public class RobotMain extends IterativeRobot {
         if (driver.aButton()) {
             DriveTrain.enableClimbMode();
         } else if (driver.bButton()) {
+            DriveTrain.enableDriveMode();
+        } else if (DriveTrain.getClimberPower() > 0) {
             DriveTrain.enableDriveMode();
         }
         
@@ -209,9 +234,9 @@ public class RobotMain extends IterativeRobot {
              * Drive Slow if Left Trigger, otherwise drive normally
              */
             if (driver.leftTriggerButton()) {
-                DriveTrain.driveSlow(driver.leftStickYAxis(), driver.rightStickYAxis());
+                //DriveTrain.driveSlow(driver.leftStickYAxis(), driver.rightStickYAxis());
             } else {
-                DriveTrain.humanDrive(driver.leftStickYAxis(), driver.rightStickYAxis());
+                DriveTrain.drive(driver.leftStickYAxis(), driver.rightStickYAxis());
             }
         //}
     }

@@ -102,6 +102,8 @@ public class Constants {
     public static final int DT_CLIMB_POS = 1;
     public static final int DT_DRIVE_POS = 0;
     
+    //climber
+    public static final double DT_DRIVER_CLIMB_POWER = 0.95;
     
     //Drive Straight
     public static final double DT_STRAIGHT_LEFT_INC = 0.0;
@@ -127,9 +129,9 @@ public class Constants {
      * Lifter
      */
     public static final int LIFTER_JAG_POS = 10;
-    public static final double LIFTER_UP_POWER = 0.4;
+    public static final double LIFTER_UP_POWER = 0.8;
     public static final double LIFTER_DOWN_POWER = 0.8;
-    public static final double LIFTER_UP_TIME = 2;
+    public static final double LIFTER_UP_TIME = 2.5;
     public static final double LIFTER_DOWN_TIME = 1.6;
     public static final int LIFTER_TOP_PROX_DIGITAL_PORT = 2;
     public static final int LIFTER_TOP_PROX_SOLENOID_PORT = 2;
