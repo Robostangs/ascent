@@ -68,7 +68,7 @@ public class Arm {
       * @param power of arm jags
       * disables pid
       * sets the power of the arm jags
-      *
+      */
     public static void setJags(double power) {
         double currentPot = getPotA();
         //add a buffer
@@ -84,7 +84,7 @@ public class Arm {
             disablePID();
         }
 
-        if (currentPot <= (Constants.POT_A_SLOW_VALUE + 10)) {
+        if (currentPot <= (Constants.POT_A_SLOW_VALUE + 10) && power > 0) {
             //needs to go slow because of gas strut, go min speed and retain sign
             power = Constants.ARM_MIN_VOLTAGE * (power / Math.abs(power));
         }
@@ -92,23 +92,23 @@ public class Arm {
         if (currentPot >= Constants.POT_A_MAX_VALUE && power > 0) {
             //at max height, move down slightly
             System.out.println("AT MAX");
-            power = -0.1;
+            power = 0.0;
         } else if (currentPot <= Constants.POT_A_MIN_VALUE && power < 0) {
             //at min height, move up slightly
             System.out.println("AT MIN");
-            power = 0.1;
+            power = 0.0;
         }
 
         motor.setX(power);
-    } */
-
+     }
+    /*
      public static void setJags(double power) {
         if (pidEnabled()) {
             disablePID();
         }
         motor.setX(power);
          
-     }
+     }*/
     
     /**
      * For manual control

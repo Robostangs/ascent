@@ -16,16 +16,17 @@ public class Constants {
      * Arm
      */
     public static final int ARM_JAG_POS = 11;
-    public static final int POT_A_PORT = 1;
+    public static final int POT_A_PORT = 2;
     public static final int POT_B_PORT = 0;
-    public static final int POT_A_MIN_VALUE = 0;
-    public static final int POT_A_MAX_VALUE = 0;
+    public static final int POT_A_MIN_VALUE = 187;
+    public static final int POT_A_MAX_VALUE = 725;
+    public static final int POT_A_SLOW_VALUE = 318;
     public static final int POT_B_MIN_VALUE = 0;
     public static final int POT_B_MAX_VALUE = 0;
     public static final double ARM_POT_A_ZERO = 0.0;
     public static final double ARM_POT_B_ZERO = 0.0;
     public static final double POT_B_TO_DEGREES = 0.0;
-    
+    public static final double ARM_MIN_VOLTAGE = 0.14;
     // Arm PID
     public static final double ARM_KP_A = 0.02;
     public static final double ARM_KI_A = 0.000021;
@@ -42,8 +43,8 @@ public class Constants {
     public static final double ARM_FEED_POS_B = 0.0;
     public static final double ARM_MIN_POWER = -0.95;
     public static final double ARM_MAX_POWER = 0.95;
-    public static final double ARM_PID_POT_MIN = 220;
-    public static final double ARM_PID_POT_MAX = 250;
+    public static final double ARM_PID_POT_MIN = 318;
+    public static final double ARM_PID_POT_MAX = 725;
     
     //positions
     //TODO: organize
@@ -51,7 +52,7 @@ public class Constants {
     public static final double ARM_AUTON_START_POS = 229;
     public static final double ARM_FRONT_PYRAMID_POS = 237;
     public static final double ARM_SIDE_PYRAMID_POS = 237;
-    public static final double ARM_POT_45_A = 0;
+    public static final double ARM_POT_45_A = 695;
     public static final double POT_A_TO_DEGREES = 45.0 / ARM_POT_45_A;
 
     /*
