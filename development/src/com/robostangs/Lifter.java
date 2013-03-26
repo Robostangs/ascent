@@ -17,6 +17,7 @@ public class Lifter {
     private static boolean atBottom;
     private static boolean goingToTop;
     private static boolean goingToBottom;
+    private static int downcount = 0;
     //private static ProximitySensor topProx;
     //private static ProximitySensor bottomProx;
 
@@ -35,8 +36,8 @@ public class Lifter {
         bottomProx = new ProximitySensor(Constants.LIFTER_BOTTOM_PROX_DIGITAL_PORT, 
                   Constants.LIFTER_BOTTOM_PROX_SOLENOID_PORT);
         */
-        atTop = true;
-        atBottom = false;
+        atTop = false;
+        atBottom = true;
         goingToBottom = false;
         goingToTop = false;
     }
@@ -70,6 +71,14 @@ public class Lifter {
         }
     }
 
+    public static void constantDown() {
+        try {
+            lift.setX(-0.15);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     /**
      * @return the absolute value of the current on the lifter jag
      */
@@ -85,16 +94,21 @@ public class Lifter {
     public static void currentDown() {
         if(atTop) {
           atTop = false;
+          lower();
         }
 
-        if (getJagCurrent() >= 0.1 && !atBottom) {
+        System.out.println("jag current: " + getJagCurrent());
+        if ((getJagCurrent() >= 1.7 && !atBottom) || downcount < 20) {
           lower();
           goingToBottom = true;
+            downcount++;
         } else {
           stop();
           atBottom = true;
           goingToBottom = false;
+          downcount = 0;
         }
+
     }
 
   public static void timedDown() {
