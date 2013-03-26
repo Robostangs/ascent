@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class RobotMain extends IterativeRobot {
     private XboxDriver driver;
+    private boolean fullShootMode;
     private XboxManip manip;
     private double potValue;
     
@@ -39,6 +40,7 @@ public class RobotMain extends IterativeRobot {
         driver = XboxDriver.getInstance();
         manip = XboxManip.getInstance();
         potValue = 0;
+        fullShootMode = false;
         dashInit();
         DriveTrain.enableDriveMode();
     }
@@ -72,7 +74,7 @@ public class RobotMain extends IterativeRobot {
         //System.out.println("Top?? " + Lifter.getTopSensor());
         //System.out.println("Bottom?? " + Lifter.getBottomSensor());
         //System.out.println("shooter status: " + Shooter.readyToShoot());
-        System.out.println("Bottom?? " + Lifter.atBottom());
+        //System.out.println("Bottom?? " + Lifter.atBottom());
 
         
         /*
@@ -94,13 +96,22 @@ public class RobotMain extends IterativeRobot {
          * L Trigger: Feed
          */
         if (manip.rightTriggerButton()) {   
-            Shooter.shoot();
+            if (fullShootMode) {
+                Shooter.fullShoot();
+            } else {
+                Shooter.shoot();
+            }
         } else if (manip.leftTriggerButton()) {
             Shooter.feed();
         } else {
             Shooter.stop();
         }
         
+        if (manip.bButton()) {
+            fullShootMode = false;
+        } else if (manip.aButton()) {
+            fullShootMode = true;
+        }
         /*
          * Manipulator Arm Control
          * Left Stick: Coarse Manual
@@ -111,7 +122,7 @@ public class RobotMain extends IterativeRobot {
          * X: Use Camera to auto-set angle
          * Start: raise by one pot value
          * Back: lower by one pot value
-         */        
+         *        
         if (manip.rightStickYAxis() == 0) {
             //not using the joysticks to manual set, use PID
             if (manip.yButton()) {
@@ -137,12 +148,12 @@ public class RobotMain extends IterativeRobot {
                 }
                 Arm.setPosition(potValue);
             }
-            */
+            *
             else {
                 potValue = 0;
                 Arm.stop();
             }
-        } else {
+        } else { */
             if (Math.abs(manip.rightStickYAxis()) != 0) {
                 //fine control
                 Arm.fineDrive(manip.rightStickYAxis());
@@ -150,7 +161,7 @@ public class RobotMain extends IterativeRobot {
                 potValue = 0;
                 Arm.stop();
             }
-        }
+        //}
 
         if (manip.startButton()) {
             //Lifter.timedUp();
