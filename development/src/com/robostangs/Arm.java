@@ -19,6 +19,7 @@ public class Arm {
     private static ArmMotor motor;
     private static PIDController pidA; // pidCam;
     private static Timer timer;
+    private static boolean init;
     
     private Arm() {
         potA = new Potentiometer(Constants.POT_A_PORT);
@@ -34,6 +35,7 @@ public class Arm {
         //pidCam.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
         //pidCam.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         disablePID();
+        init = true;
     }
     
     public static Arm getInstance() {
@@ -72,7 +74,6 @@ public class Arm {
     public static void setJags(double power) {
         double currentPot = getPotA();
         //add a buffer
-	/*
         if (power > 0) {
             //arm is going up, give it a pot val one higher
             currentPot++;
@@ -80,7 +81,6 @@ public class Arm {
             //arm is going down, give it a pot val one lower
             currentPot--;
         }
-	*/
 
         if (pidEnabled()) {
             disablePID();
@@ -92,11 +92,9 @@ public class Arm {
         }
 
         if (currentPot >= Constants.POT_A_MAX_VALUE && power > 0) {
-            //at max height, move down slightly
             System.out.println("AT MAX");
             power = 0.0;
         } else if (currentPot <= Constants.POT_A_MIN_VALUE && power < 0) {
-            //at min height, move up slightly
             System.out.println("AT MIN");
             power = 0.0;
         }
@@ -139,6 +137,22 @@ public class Arm {
         if (onTarget()) {
             disablePID();
             return 1;
+        }
+
+        //TODO: test
+        //should allow for automatic constant adjustment based on starting loc
+        if (init) {
+            double diff = Math.abs(getPotA() - potValue); 
+            
+            if (diff <= 50) {
+                setPIDSmall();
+            } else if (diff <= 200) {
+                setPIDMedium();
+            } else {
+                setPIDLarge();
+            }
+
+            init = false;
         }
 
         pidA.setSetpoint(potValue);
@@ -214,21 +228,6 @@ public class Arm {
         return setPosition(getPotA());
     }
     
-    /**
-     * Uses the camera to set arm pos
-     * @return 0 if in progress, 1 if done
-     *
-    public static int camPos() {
-        if (pidCam.onTarget()) {
-            return 1;
-        }
-        if (pidA.isEnable()) {
-            pidA.disable();
-        }
-        pidCam.setSetpoint(ArmCamera.getTarget());
-        pidCam.enable();
-        return 0;
-    }*/
     
     /**
      * checks if either pid is enabled
@@ -245,6 +244,7 @@ public class Arm {
         if (pidA.isEnable()) {
             pidA.disable();
         }
+        init = true;
         /*
         if (pidCam.isEnable()) {
             pidCam.disable();
@@ -306,4 +306,20 @@ public class Arm {
         System.out.println("KD: " + pidA.getD());
         System.out.println("setpoint:" + pidA.getSetpoint());
     }
+
+    /**
+     * Uses the camera to set arm pos
+     * @return 0 if in progress, 1 if done
+     *
+    public static int camPos() {
+        if (pidCam.onTarget()) {
+            return 1;
+        }
+        if (pidA.isEnable()) {
+            pidA.disable();
+        }
+        pidCam.setSetpoint(ArmCamera.getTarget());
+        pidCam.enable();
+        return 0;
+    }*/
 }
