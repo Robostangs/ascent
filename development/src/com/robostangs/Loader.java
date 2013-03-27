@@ -1,12 +1,10 @@
 package com.robostangs;
 
-
 /**
  * Uses conveyors, lifter, ingestor to get frisbees to shooter
  * maintainer: Tejas
  */
 
-//TODO: reenable ingestor, automatic lifter
 public class Loader {
     private static Loader instance = null;
     private static boolean lifterMovingUp = false;
@@ -39,15 +37,9 @@ public class Loader {
     
     /**
      * runs ingestor + ingestConveyor
+     * TODO: automatically move lifter down
      */
     public static void ingest(){
-        /*
-        if (!Lifter.getBottomSwitch()) {
-            Lifter.switchDown();
-        } else {
-            Lifter.constantDown();
-        }
-        */
         //Ingestor.turnOn();
         Conveyors.ingest();
     }
@@ -55,6 +47,13 @@ public class Loader {
     /**
      * ingest, run lifter down if not there
      */
+    public static void lifterIngest() {
+        if (!Lifter.atBottom()) {
+            Lifter.currentDown();
+        }
+        ingest();
+    }
+
     /**
      * runs shooter conveyor, moves lifter to top pos if not there
      */
@@ -65,29 +64,36 @@ public class Loader {
     
     /**
      * reverses to feed from station
+     * TODO: moves lifter to top pos if not there
      */
     public static void feed(){
         //liftUp();
         Conveyors.feedMode();
     }
     
+    /**
+     * Moves lifter to up position
+     * TODO: test
+     */
     public static void liftUp() {
         if (Lifter.getSetSpeed() > 0) {
             lifterMovingUp = true;
         } else {
             lifterMovingUp = false;
         }
-        Lifter.raise();
+        Lifter.timedUp();
+        //run ingestor as to not lose frisbees
         Conveyors.ingest();
     }
+
     /**
      * turns off ingestor
      */
     public static void ingestorOff() {
         //Ingestor.turnOff();
         if (!lifterMovingUp) {
-        Conveyors.stopIngest();
-    }
+            Conveyors.stopIngest();
+        }
     }
     
     public static void stopConveyors() {

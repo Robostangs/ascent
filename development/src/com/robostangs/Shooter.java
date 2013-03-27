@@ -1,7 +1,6 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,7 +31,7 @@ public class Shooter {
     }
     
     /**
-     *setting up singleton
+     * setting up singleton
      */
     public static Shooter getInstance() {
         if (instance == null) {
@@ -47,15 +46,51 @@ public class Shooter {
      */
     public static void shoot() {
         try{
-            shooter1.setX(Constants.SHOOTER_MAX_POWER);
-            shooter2.setX(Constants.SHOOTER_MAX_POWER);
-            shooter3.setX(Constants.SHOOTER_MAX_POWER * 0.8);
+            shooter1.setX(Constants.SHOOTER_MAX_POWER * 0.8);
+            shooter2.setX(Constants.SHOOTER_MAX_POWER * 0.8);
+            shooter3.setX(Constants.SHOOTER_MAX_POWER * 0.7);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
         feedMode = false;
     }
     
+    public static void fullShoot() {
+        try{
+            shooter1.setX(Constants.SHOOTER_MAX_POWER);
+            shooter2.setX(Constants.SHOOTER_MAX_POWER);
+            shooter3.setX(Constants.SHOOTER_MAX_POWER);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        feedMode = false;
+
+    }
+    public static double getVoltage() {
+        try {
+            return shooter1.getBusVoltage();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+    }
+
+    public static void voltageShoot() {
+        if (getVoltage() < (Constants.SHOOTER_FULL_BATTERY_VOLTAGE
+                - Constants.SHOOTER_VOLTAGE_TOLERANCE)) {
+            try{
+                shooter1.setX(Constants.SHOOTER_MAX_POWER);
+                shooter2.setX(Constants.SHOOTER_MAX_POWER);
+                shooter3.setX(Constants.SHOOTER_MAX_POWER * 0.9);
+            } catch (CANTimeoutException ex) {
+                ex.printStackTrace();
+            }
+            feedMode = false;
+        } else {
+            shoot();
+        }
+        
+    }
     /**
      * Shoots a certain number of frisbees
      * @param number 
@@ -110,6 +145,9 @@ public class Shooter {
         feedMode = true;
     }
 
+    /**
+     * Shut down shooter jag
+     */
     public static void stop() {
         try{
             shooter1.setX(0.0);
@@ -118,10 +156,6 @@ public class Shooter {
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
-        
-        /**
-         * Shut down shooter jag
-         */
     }
 
     public static boolean isFeedMode() {
@@ -129,7 +163,14 @@ public class Shooter {
     }
 
     public static boolean readyToShoot() {
-        //TODO: get shooter jag current?
+        try {
+            if (shooter3.getOutputCurrent() <= Constants.SHOOTER_READY_CURRENT_MAX 
+                    && shooter3.getOutputCurrent() >= Constants.SHOOTER_READY_CURRENT_MIN) {
+                return true;
+            }
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
         return false;
     }
     

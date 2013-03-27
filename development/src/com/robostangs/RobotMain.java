@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotMain extends IterativeRobot {
     private XboxDriver driver;
     private XboxManip manip;
+    private boolean fullShootMode;
     private double potValue;
     
     /**
@@ -48,6 +49,7 @@ public class RobotMain extends IterativeRobot {
         driver = XboxDriver.getInstance();
         manip = XboxManip.getInstance();
         potValue = 0;
+        fullShootMode = false;
         dashInit();
     }
 
@@ -86,9 +88,9 @@ public class RobotMain extends IterativeRobot {
 	 	 * R Bumper: Load shooter
          */
         if (manip.rBumper()) {
-		Loader.loadShooter();
+            Loader.loadShooter();
         } else if (manip.lBumper()) {
-		Loader.feed();
+            Loader.feed();
         } else {
 	    	Loader.stopShooterConveyor();
         }
@@ -99,11 +101,21 @@ public class RobotMain extends IterativeRobot {
          * L Trigger: Feed
          */
         if (manip.rightTriggerButton()) {   
-            Shooter.shoot();
+            if (fullShootMode) {
+                Shooter.fullShoot();
+            } else {
+                Shooter.shoot();
+            }
         } else if (manip.leftTriggerButton()) {
             Shooter.feed();
         } else {
             Shooter.stop();
+        }
+        
+        if (manip.bButton()) {
+            fullShootMode = false;
+        } else if (manip.aButton()) {
+            fullShootMode = true;
         }
         
         /*

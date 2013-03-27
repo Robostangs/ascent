@@ -15,7 +15,6 @@ public class DriveMotors implements PIDOutput{
     
     private DriveMotors() {
         try {
-            //declare jags here, init jags method not necessary
             leftFront = new CANJaguar(Constants.DT_JAG_LEFT_FRONT_POS);
             leftMid = new CANJaguar(Constants.DT_JAG_LEFT_MID_POS);
             leftBack = new CANJaguar(Constants.DT_JAG_LEFT_BACK_POS);
@@ -30,7 +29,7 @@ public class DriveMotors implements PIDOutput{
             rightBack.configFaultTime(Constants.JAG_CONFIG_TIME);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
-            //Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");  
+            Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");  
         }
     }
     
@@ -56,7 +55,7 @@ public class DriveMotors implements PIDOutput{
             rightBack.setX(-rightPower);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
-            //Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
+            Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
         }    
     }
     
@@ -70,7 +69,7 @@ public class DriveMotors implements PIDOutput{
             rightBack.setX(-output);
         } catch (CANTimeoutException ex) {
             System.out.println("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
-            //Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
+            Log.write("CAN JAG TIMEOUT EXCEPTION ON DRIVE TRAIN");
         }
     }
 }

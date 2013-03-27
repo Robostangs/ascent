@@ -5,12 +5,8 @@
 
 package com.robostangs;
 
-import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.can.CANTimeoutException;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm {
@@ -22,18 +18,19 @@ public class Arm {
     private static boolean init;
     
     private Arm() {
-        potA = new Potentiometer(Constants.POT_A_PORT);
+        potA = new Potentiometer(Constants.ARM_POT_A_PORT);
         timer = new Timer();
-        
         motor = ArmMotor.getInstance();
         pidA = new PIDController(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED, potA, motor);
         //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
+        
         //configure PID
         pidA.setInputRange(Constants.POT_A_SLOW_VALUE, Constants.POT_A_MAX_VALUE);
         pidA.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         pidA.setAbsoluteTolerance(0);
         //pidCam.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
         //pidCam.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
+        
         disablePID();
         init = true;
     }
@@ -101,15 +98,6 @@ public class Arm {
 
         motor.setX(power);
      }
-    /*
-     public static void setJags(double power) {
-        if (pidEnabled()) {
-            disablePID();
-        }
-        motor.setX(power);
-         
-     }*/
-    
     /**
      * For manual control
      * @param power 
@@ -125,6 +113,7 @@ public class Arm {
     public static void fineDrive(double power) {
         setJags(power / 2.0);
     }
+
     /**
      * @param potValue value of pot 
      * disables the other pot
@@ -135,6 +124,7 @@ public class Arm {
 
     public static int setPosition(double potValue) { 
         if (onTarget()) {
+            //this might not be an intelligent idea, maybe get rid of disable
             disablePID();
             return 1;
         }
@@ -186,7 +176,7 @@ public class Arm {
      * @return 0 if in progress, 1 if done
      */
     public static int lowestPos() {
-        return setPosition(Constants.POT_A_MIN_VALUE);
+        return setPosition(Constants.ARM_POT_A_MIN_VALUE);
     }
     
     /**
@@ -214,21 +204,27 @@ public class Arm {
     }
 
     /**
+     * Uses PID to move to proper angle for shooting from side of pyramid
+     * @return 0 if in progress, 1 if done
+     */
+    public static int sidePyramidPos() {
+        return setPosition(Constants.ARM_SIDE_PYRAMID_POS);
+    }
+
+    /**
+     * Uses PID to hold the current position
+     */
+    public static void pidHoldPos() {
+        setPosition(getPotA());
+    }
+
+    /**
      * Enables the pid
      */
     public static void enablePID() {
         pidA.enable();
     }
-    
-    public static int sidePyramidPos() {
-        return setPosition(Constants.ARM_SIDE_PYRAMID_POS);
-    }
 
-    public static int pidHoldPos() {
-        return setPosition(getPotA());
-    }
-    
-    
     /**
      * checks if either pid is enabled
      * @return true if either pid is enabled, false if neither is enabled
@@ -253,7 +249,6 @@ public class Arm {
     }
     
     /**
-     * 
      * @return true if either pid is on target, false if neither is
      */
     public static boolean onTarget() {
@@ -280,6 +275,7 @@ public class Arm {
     public static void sendPotData() {
         SmartDashboard.putNumber("Pot A: ", getPotA());
     }
+
     /**
      * sends which pot is in use by pid to SmartDashboard
      */
@@ -292,7 +288,7 @@ public class Arm {
      * @return true if pot A is within range, false if it isn't
      */
     public static boolean isPotAFunctional() {
-        return getPotA() >= Constants.POT_A_MIN_VALUE  && getPotA() <= Constants.POT_A_MAX_VALUE;
+        return getPotA() >= Constants.ARM_POT_A_MIN_VALUE  && getPotA() <= Constants.ARM_POT_A_MAX_VALUE;
     }
 
     public static void getPIDFromDash() {
