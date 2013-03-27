@@ -25,10 +25,10 @@ public class Arm {
         timer = new Timer();
         
         motor = ArmMotor.getInstance();
-        pidA = new PIDController(Constants.ARM_KP_A, Constants.ARM_KI_A, Constants.ARM_KD_A, potA, motor);
+        pidA = new PIDController(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED, potA, motor);
         //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
         //configure PID
-        pidA.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
+        pidA.setInputRange(Constants.POT_A_SLOW_VALUE, Constants.POT_A_MAX_VALUE);
         pidA.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         pidA.setAbsoluteTolerance(0);
         //pidCam.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
@@ -72,6 +72,7 @@ public class Arm {
     public static void setJags(double power) {
         double currentPot = getPotA();
         //add a buffer
+	/*
         if (power > 0) {
             //arm is going up, give it a pot val one higher
             currentPot++;
@@ -79,6 +80,7 @@ public class Arm {
             //arm is going down, give it a pot val one lower
             currentPot--;
         }
+	*/
 
         if (pidEnabled()) {
             disablePID();
@@ -145,6 +147,17 @@ public class Arm {
         return 0;
     }
     
+    public static void setPIDSmall() {
+	    pidA.setPID(Constants.ARM_KP_SMALL, Constants.ARM_KI_SMALL, Constants.ARM_KD_SMALL);
+    }
+
+    public static void setPIDMedium() {
+	    pidA.setPID(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED);
+    }
+
+    public static void setPIDLarge() {
+	    pidA.setPID(Constants.ARM_KP_LARGE, Constants.ARM_KI_LARGE, Constants.ARM_KD_LARGE);
+    }
     /**
      * Uses PID to move to proper angle for pyramid shot
      * @return 0 if in progress, 1 if done

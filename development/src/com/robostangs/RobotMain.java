@@ -72,8 +72,8 @@ public class RobotMain extends IterativeRobot {
         sendDataToDash();
         //System.out.println("pot: " + Arm.getPotA());
         //System.out.println("Switch" + Lifter.getPos());
-        //Arm.outputPIDConstants();
-        System.out.println("top limit switch: " + Lifter.getTopSensor());
+        Arm.outputPIDConstants();
+        //System.out.println("top limit switch: " + Lifter.getTopSensor());
         //System.out.println("pot voltage " + Arm.getPotVoltage());
         //System.out.println("Left Encoder: " + DriveTrain.getLeftEncoderDistance());
         //System.out.println("Top?? " + Lifter.getTopSensor());
@@ -86,9 +86,9 @@ public class RobotMain extends IterativeRobot {
 	 	 * R Bumper: Load shooter
          */
         if (manip.rBumper()) {
-			Loader.loadShooter();
+		Loader.loadShooter();
         } else if (manip.lBumper()) {
-            Loader.feed();
+		Loader.feed();
         } else {
 	    	Loader.stopShooterConveyor();
         }
