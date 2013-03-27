@@ -31,11 +31,11 @@ public class Constants {
     public static final double ARM_KP_SMALL = 0.0128;
     public static final double ARM_KI_SMALL = 0.0000009;
     public static final double ARM_KD_SMALL = 0.0;
-    public static final double ARM_KP_MED = 0.0128;
-    public static final double ARM_KI_MED = 0.0128;
-    public static final double ARM_KD_MED = 0.0000009;
-    public static final double ARM_KP_LARGE = 0.0;
-    public static final double ARM_KI_LARGE = 0.0000009;
+    public static final double ARM_KP_MED = 0.0157;
+    public static final double ARM_KI_MED = 0.00000001;
+    public static final double ARM_KD_MED = 0.0;
+    public static final double ARM_KP_LARGE = 0.0161;
+    public static final double ARM_KI_LARGE = 0.0;
     public static final double ARM_KD_LARGE = 0.0;
     public static final double ARM_KP_CAM = 0.0;
     public static final double ARM_KI_CAM = 0.0;
@@ -48,6 +48,12 @@ public class Constants {
     public static final double ARM_MAX_POWER = 0.95;
     public static final double ARM_PID_POT_MIN = 318;
     public static final double ARM_PID_POT_MAX = 725;
+
+    /**
+     * 0.015
+     * 1.0 * 10 ^ -6
+     * 0
+     */
     
     //positions
     public static final double ARM_BACK_PYRAMID_POS = 451;

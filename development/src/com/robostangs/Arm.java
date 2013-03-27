@@ -124,13 +124,12 @@ public class Arm {
 
     public static int setPosition(double potValue) { 
         if (onTarget()) {
-            //this might not be an intelligent idea, maybe get rid of disable
-            disablePID();
             return 1;
         }
 
         //TODO: test
         //should allow for automatic constant adjustment based on starting loc
+	/*
         if (init) {
             double diff = Math.abs(getPotA() - potValue); 
             
@@ -144,6 +143,7 @@ public class Arm {
 
             init = false;
         }
+	*/
 
         pidA.setSetpoint(potValue);
         pidA.enable();
