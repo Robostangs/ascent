@@ -148,6 +148,7 @@ public class Autonomous {
                     }
 
                 } else if (armMoving) {
+			/*
                     while (status == 0 && timer.get() < timeForStep) {
                         if (stepData[i] == Constants.AUTON_ARM_LOW_POS) {
                             status = Arm.lowestPos();
@@ -158,6 +159,7 @@ public class Autonomous {
                             //status = Arm.camPos();
                         }
                     }
+		    * */
 
                     Arm.stop();
                     timer.stop();

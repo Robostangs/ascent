@@ -75,6 +75,7 @@ public class Shooter {
         }
     }
 
+    /*
     public static void voltageShoot() {
         if (getVoltage() < (Constants.SHOOTER_FULL_BATTERY_VOLTAGE
                 - Constants.SHOOTER_VOLTAGE_TOLERANCE)) {
@@ -91,6 +92,7 @@ public class Shooter {
         }
         
     }
+
     /**
      * Shoots a certain number of frisbees
      * @param number 
@@ -162,6 +164,7 @@ public class Shooter {
         return feedMode;
     }
 
+    /*
     public static boolean readyToShoot() {
         try {
             if (shooter3.getOutputCurrent() <= Constants.SHOOTER_READY_CURRENT_MAX 
@@ -173,9 +176,11 @@ public class Shooter {
         }
         return false;
     }
+    * *
     
     public static void sendReady() {
         SmartDashboard.putBoolean("Shooter Ready: ", readyToShoot());
     }
+    * */
 
 }

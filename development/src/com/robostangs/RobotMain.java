@@ -166,17 +166,7 @@ public class RobotMain extends IterativeRobot {
         if (manip.leftStickYAxis() != 0) {
             Lifter.manual(manip.leftStickYAxis());
         } else {
-            if (manip.startButton()) {
-                //Lifter.timedUp();
-                //Lifter.raise();
-                Lifter.sensorUp();
-            } else if (manip.backButton()) { 
-                //Lifter.timedDown();
-                //Lifter.lower();
-                Lifter.sensorDown();
-            } else {
-                Lifter.stop();
-            }
+		Lifter.stop();
         }
         
 		/*
@@ -254,7 +244,6 @@ public class RobotMain extends IterativeRobot {
 
     public void debugToDash() {
         System.out.println("pot: " + Arm.getPotA());
-        System.out.println("ENCODER TEST: " + DriveTrain.getLeftEncoderDistance());
         Arm.outputPIDConstants();
     }
 }
