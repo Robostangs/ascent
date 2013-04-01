@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTrain {
     private static DriveTrain instance = null;
-    private static CANJaguar climber;
     private static Encoder leftEncoder, rightEncoder;
     private static Timer timer;
     private static Servo servo;
@@ -25,12 +24,6 @@ public class DriveTrain {
     
     private DriveTrain() {
         DriveMotors.getInstance();
-        try {
-            climber = new CANJaguar(Constants.DT_JAG_CLIMB_POS);
-            climber.configFaultTime(Constants.JAG_CONFIG_TIME);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
         timer = new Timer();
         servo = new Servo(Constants.DT_SERVO_POS);
         climbMode = false;
@@ -123,21 +116,6 @@ public class DriveTrain {
         drive(0, 0);
     }
     
-    public static void moveClimber(double power) {
-        try {
-            climber.setX(power);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public static void stopClimber() {
-        try {
-            climber.setX(0);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
-    }
     /**
      * check the mode
      * @return climbMode
@@ -168,14 +146,6 @@ public class DriveTrain {
         climbMode = false;
     }
 
-    public static double getClimberPower() {
-        try {
-            return climber.getX();
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-            return 0;
-        }
-    }
     /**
      * get distance from the left encoder
      * @return in meters

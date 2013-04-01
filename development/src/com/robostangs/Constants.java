@@ -19,8 +19,8 @@ public class Constants {
     public static final int POT_A_PORT = 2;
     public static final int POT_B_PORT = 0;
     public static final int POT_A_MIN_VALUE = 47;
-    public static final int POT_A_MAX_VALUE = 850;
-    public static final int POT_A_SLOW_VALUE = 278;
+    public static final int POT_A_MAX_VALUE = 700;
+    public static final int POT_A_SLOW_VALUE = 330;
     public static final int POT_B_MIN_VALUE = 0;
     public static final int POT_B_MAX_VALUE = 0;
     public static final double ARM_POT_A_ZERO = 0.0;
@@ -55,6 +55,16 @@ public class Constants {
      * 0
      */
     
+    /**
+     * 0.0151
+     * 1.0 * 10 ^ -8
+     * 0
+     */
+    /**
+     * 0.012
+     * 1.0 * 10 ^ -6
+     * 0
+     */
     //positions
     public static final double ARM_BACK_PYRAMID_POS = 451;
     public static final double ARM_AUTON_START_POS = 400;
@@ -191,5 +201,5 @@ public class Constants {
     
     //Manipulator
     public static final int XBOX_MANIP_PORT = 2;
-    public static final double XBOX_MANIP_DRIFT = 0.3;
+    public static final double XBOX_MANIP_DRIFT = 0.15;
 }
