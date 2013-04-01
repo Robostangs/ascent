@@ -18,7 +18,7 @@ public class Arm {
     private static boolean init;
     
     private Arm() {
-        potA = new Potentiometer(Constants.ARM_POT_A_PORT);
+        potA = new Potentiometer(Constants.POT_A_PORT);
         timer = new Timer();
         motor = ArmMotor.getInstance();
         pidA = new PIDController(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED, potA, motor);
@@ -176,7 +176,7 @@ public class Arm {
      * @return 0 if in progress, 1 if done
      */
     public static int lowestPos() {
-        return setPosition(Constants.ARM_POT_A_MIN_VALUE);
+        return setPosition(Constants.POT_A_MIN_VALUE);
     }
     
     /**
@@ -288,7 +288,7 @@ public class Arm {
      * @return true if pot A is within range, false if it isn't
      */
     public static boolean isPotAFunctional() {
-        return getPotA() >= Constants.ARM_POT_A_MIN_VALUE  && getPotA() <= Constants.ARM_POT_A_MAX_VALUE;
+        return getPotA() >= Constants.POT_A_MIN_VALUE  && getPotA() <= Constants.POT_A_MAX_VALUE;
     }
 
     public static void getPIDFromDash() {

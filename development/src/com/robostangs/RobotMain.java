@@ -169,11 +169,11 @@ public class RobotMain extends IterativeRobot {
             if (manip.startButton()) {
                 //Lifter.timedUp();
                 //Lifter.raise();
-                Lifter.sensorUp();
+                Lifter.raise();
             } else if (manip.backButton()) { 
                 //Lifter.timedDown();
                 //Lifter.lower();
-                Lifter.sensorDown();
+                Lifter.lower();
             } else {
                 Lifter.stop();
             }
@@ -254,7 +254,7 @@ public class RobotMain extends IterativeRobot {
 
     public void debugToDash() {
         System.out.println("pot: " + Arm.getPotA());
-        System.out.println("ENCODER TEST: " + DriveTrain.getLeftEncoderDistance());
+        //System.out.println("ENCODER TEST: " + DriveTrain.getLeftEncoderDistance());
         Arm.outputPIDConstants();
     }
 }
