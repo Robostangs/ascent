@@ -24,12 +24,9 @@ public class Autonomous {
     private static boolean armMoving = false;
     private static boolean fallbackMode = false;
     private static boolean stepInit = true;
-    private static boolean init = true;
     private static String[] keys;
     private static double[] stepData;
     private static int step = 0;
-    private static int mode = 0;
-    private static int count = 0;
     private static String inputFileName = "auton.txt";
     private static Vector contents = new Vector();
     private static String line = "";
@@ -47,7 +44,11 @@ public class Autonomous {
         return instance;
     }
 
-    public static void shootThree() {
+    /**
+     * shoots a frisbee
+     * does not stop shooter when finished as to maintain momentum
+     */
+    public static void shoot() {
         if (stepInit) {
             secondary.stop();
             secondary.reset();
@@ -78,8 +79,7 @@ public class Autonomous {
 	}
 
     /**
-     * Sets up the keys array with all the keys from the dash
-     * Also sets variables not related to steps
+     * Reads autonomous mode from a txt file
      */
     public static void getInfo() throws IOException{
         FileConnection fc = (FileConnection) Connector.open(inputFileName);
@@ -142,7 +142,6 @@ public class Autonomous {
                 while (timer.get() < stepData[i]) {
                     System.out.println("Driving forward for: " + stepData[i] + "; " 
                             + timer.get());
-                    //DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
                 }
 
                 DriveTrain.stop();
@@ -152,7 +151,6 @@ public class Autonomous {
                 while (timer.get() < stepData[i]) {
                     System.out.println("Driving back for: " + stepData[i] + "; " 
                             + timer.get());
-                    //DriveTrain.drive(-Constants.AUTON_DRIVE_POWER, -Constants.AUTON_DRIVE_POWER);
                 }
 
                 DriveTrain.stop();
@@ -162,7 +160,6 @@ public class Autonomous {
                 while (timer.get() < stepData[i]) {
                     System.out.println("Turning for: " + stepData[i] + "; " 
                             + timer.get());
-                    //DriveTrain.turn(Constants.AUTON_TURN_POWER);
                 }
 
                 DriveTrain.stop();
@@ -172,7 +169,6 @@ public class Autonomous {
                 while (timer.get() < stepData[i]) {
                     System.out.println("shooting for: " + stepData[i] + "; " 
                             + timer.get());
-                    //shootThree();
                 }
 
                 Loader.allOff();
@@ -183,7 +179,6 @@ public class Autonomous {
                 while (timer.get() < stepData[i]) {
                     System.out.println("arm moving for: " + stepData[i] + "; " 
                             + timer.get());
-                    //setAngle();
                 }
 
                 Arm.stop();
@@ -235,7 +230,7 @@ public class Autonomous {
                     timer.reset();
                 } else if (shooting) {
                     while (timer.get() < stepData[i]) {
-                        shootThree();
+                        shoot();
                     }
 
                     Loader.allOff();
@@ -257,7 +252,7 @@ public class Autonomous {
                 }
             }
         } else {
-            shootThree();
+            shoot();
         }
     }
 }

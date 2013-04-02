@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotMain extends IterativeRobot {
     private XboxDriver driver;
     private XboxManip manip;
-    private boolean fullShootMode;
+    private boolean fullShootMode, driveAfterAuto;
     private double potValue;
     
     /**
@@ -50,6 +50,7 @@ public class RobotMain extends IterativeRobot {
         manip = XboxManip.getInstance();
         potValue = 0;
         fullShootMode = false;
+        driveAfterAuto = false;
         dashInit();
     }
 
@@ -64,9 +65,15 @@ public class RobotMain extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        Autonomous.shootThree();
+        Autonomous.shoot();
+        driveAfterAuto = true;
     }
 
+    public void teleopInit() {
+        if (driveAfterAuto) {
+            DriveTrain.drive(-0.35, -0.5);
+        }
+    }
     /**
      * This function is called periodically during operator control
      */
@@ -81,6 +88,11 @@ public class RobotMain extends IterativeRobot {
         //System.out.println("Top?? " + Lifter.getTopSensor());
         //System.out.println("Bottom?? " + Lifter.getBottomSensor());
 
+        if (driveAfterAuto) {
+            DriveTrain.drive(-0.35, -0.5);
+        } else if (driver.leftStickYAxis() != 0 || driver.rightStickYAxis() != 0) {
+            driveAfterAuto = false;
+        }
         
         /*
          * Manip loader control
