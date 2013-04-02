@@ -14,7 +14,7 @@ import javax.microedition.io.Connector;
 
 public class Autonomous {
     private static Autonomous instance = null;    
-    private static Timer timer;
+    private static Timer timer, overall;
     private static boolean driving = false;
     private static boolean ingesting = false;
     private static boolean shooting = false;
@@ -22,6 +22,7 @@ public class Autonomous {
     private static boolean delay = false;
     private static boolean armMoving = false;
     private static boolean fallbackMode = false;
+    private static boolean stepInit = true;
     private static boolean init = true;
     private static String[] keys;
     private static double[] stepData;
@@ -37,6 +38,7 @@ public class Autonomous {
     
     private Autonomous() {
         timer = new Timer();
+        overall = new Timer();
     }
     
     public static Autonomous getInstance() {
@@ -258,7 +260,16 @@ public class Autonomous {
     public static void runMode() {
 	    switch (mode) {
 		    case 0:
-			    shootThree();
+			    if (init) {
+				    overall.stop();
+				    overall.reset();
+				    overall.start();
+			    }
+			    if (overall.get() < 3) {
+				    setAngle();
+			    } else { 
+				    shootThree();
+			    }
 			    break;
 		     
 		    default: 
@@ -266,12 +277,12 @@ public class Autonomous {
 	    }
     }
     public static void shootThree() {
-        if (init) {
+        if (stepInit) {
             timer.stop();
             timer.reset();
             System.out.println("timer init: " + timer.get());
             timer.start();
-            init = false;
+            stepInit = false;
         }
         System.out.println("step timer: " + timer.get() + " " + step);
         Shooter.shoot();
@@ -293,17 +304,22 @@ public class Autonomous {
     }
 
     public static void setAngle() {
-        if (init) {
+        if (stepInit) {
             timer.stop();
             timer.reset();
             System.out.println("timer init: " + timer.get());
             timer.start();
-            init = false;
+            stepInit = false;
         }
 
-	if (Arm.getPotA() > Constants.AUTON_ARM_POS) {
-
+	if (Arm.getPotA() > (Constants.AUTON_ARM_POS + 5) 
+		|| Arm.getPotA() < (Constants.AUTON_ARM_POS - 5)) {
+		Arm.setPosition(Constants.AUTON_ARM_POS);
+	} else {
+		stepInit = true;
+		Arm.stop();
 	}
+
 
 	}
 }
