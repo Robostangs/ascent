@@ -88,6 +88,8 @@ public class Constants {
     public static final double AUTON_TURN_ANGLE = 0.0;
     public static final double AUTON_FALLBACK_ARM_MOVE_TIME = 0.0;
     public static final double AUTON_ARM_POS = 0.0;
+    public static final double AUTON_ARM_LOW_POS = 0.0;
+    public static final double AUTON_ARM_UNDER_PYRAMID_POS = 0.0;
     public static final double AUTON_FALLBACK_SHOOT_TIME = 0.0;
     public static final int AUTON_SHOOT_DISC_NUM = 0;
     
@@ -185,6 +187,10 @@ public class Constants {
     public static final double TIME_TO_SHOOT_TWO = 0.0;
     public static final double TIME_TO_SHOOT_THREE = 0.0;
     public static final double TIME_TO_SHOOT_FOUR = 0.0;
+    public static final double SHOOTER_FULL_BATTERY_VOLTAGE = 14.0;
+    public static final double SHOOTER_VOLTAGE_TOLERANCE = 0.0;
+    public static final double SHOOTER_READY_CURRENT_MAX = 0.0;
+    public static final double SHOOTER_READY_CURRENT_MIN = 0.0; 
     //GOOD SHOOTING ANGLE: 247
     
     /*
