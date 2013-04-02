@@ -17,15 +17,9 @@ public class Constants {
      */
     public static final int ARM_JAG_POS = 11;
     public static final int POT_A_PORT = 2;
-    public static final int POT_B_PORT = 0;
     public static final int POT_A_MIN_VALUE = 47;
     public static final int POT_A_MAX_VALUE = 700;
     public static final int POT_A_SLOW_VALUE = 330;
-    public static final int POT_B_MIN_VALUE = 0;
-    public static final int POT_B_MAX_VALUE = 0;
-    public static final double ARM_POT_A_ZERO = 0.0;
-    public static final double ARM_POT_B_ZERO = 0.0;
-    public static final double POT_B_TO_DEGREES = 0.0;
     public static final double ARM_MIN_VOLTAGE = 0.07;
     // Arm PID
     public static final double ARM_KP_SMALL = 0.0128;
@@ -40,10 +34,6 @@ public class Constants {
     public static final double ARM_KP_CAM = 0.0;
     public static final double ARM_KI_CAM = 0.0;
     public static final double ARM_KD_CAM = 0.0;
-    public static final double ARM_PYRAMID_POS_A = 0.0;
-    public static final double ARM_PYRAMID_POS_B = 0.0;
-    public static final double ARM_FEED_POS_A = 0.0;
-    public static final double ARM_FEED_POS_B = 0.0;
     public static final double ARM_MIN_POWER = -0.95;
     public static final double ARM_MAX_POWER = 0.95;
     public static final double ARM_PID_POT_MIN = 318;
@@ -66,32 +56,15 @@ public class Constants {
      * 0
      */
     //positions
-    public static final double ARM_BACK_PYRAMID_POS = 451;
-    public static final double ARM_AUTON_START_POS = 400;
-    public static final double ARM_FRONT_PYRAMID_POS = 400;
-    public static final double ARM_SIDE_PYRAMID_POS = 400;
-    public static final double ARM_POT_45_A = 695;
-    public static final double POT_A_TO_DEGREES = 45.0 / ARM_POT_45_A;
+    public static final double ARM_SHOOTING_POS = 430;
+    public static final double ARM_START_POS = 600; //TODO: get actual value
 
     /*
      * Autonomous
      */
     public static final double AUTON_DRIVE_POWER = 0.3;
-    public static final double AUTON_INGEST_DRIVE_POWER = 0.5;
     public static final double AUTON_TURN_POWER = 0.5;
-    
-    //Fallback Mode
-    //also uses AUTON_DRIVE_POWER and AUTON_TURN_POWER
-    public static final double AUTON_FALLBACK_DRIVE_TIME = 0.0;
-    public static final double AUTON_DRIVE_ANGLE = 0.0;
-    public static final double AUTON_FALLBACK_TURN_TIME = 0.0;
-    public static final double AUTON_TURN_ANGLE = 0.0;
-    public static final double AUTON_FALLBACK_ARM_MOVE_TIME = 0.0;
-    public static final double AUTON_ARM_POS = 0.0;
-    public static final double AUTON_ARM_LOW_POS = 0.0;
-    public static final double AUTON_ARM_UNDER_PYRAMID_POS = 0.0;
-    public static final double AUTON_FALLBACK_SHOOT_TIME = 0.0;
-    public static final int AUTON_SHOOT_DISC_NUM = 0;
+    public static final double AUTON_ARM_POS = ARM_SHOOTING_POS;
     
     /*
      * Conveyors
@@ -126,7 +99,6 @@ public class Constants {
     public static final int DT_SERVO_POS = 1;
     public static final int DT_CLIMB_POS = 180;
     public static final int DT_DRIVE_POS = 0;
-    
     
     //Drive Straight
     public static final double DT_STRAIGHT_LEFT_INC = 0.0;

@@ -14,12 +14,9 @@ public class Arm {
     private static Potentiometer potA;
     private static ArmMotor motor;
     private static PIDController pidA; // pidCam;
-    private static Timer timer;
-    private static boolean init;
     
     private Arm() {
         potA = new Potentiometer(Constants.POT_A_PORT);
-        timer = new Timer();
         motor = ArmMotor.getInstance();
         pidA = new PIDController(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED, potA, motor);
         //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
@@ -27,12 +24,11 @@ public class Arm {
         //configure PID
         pidA.setInputRange(Constants.POT_A_SLOW_VALUE, Constants.POT_A_MAX_VALUE);
         pidA.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
-        pidA.setAbsoluteTolerance(0);
+        pidA.setAbsoluteTolerance(3);
         //pidCam.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
         //pidCam.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         
         disablePID();
-        init = true;
     }
     
     public static Arm getInstance() {
@@ -51,23 +47,10 @@ public class Arm {
     }    
 
     /**
-     * set angle equal to zero
-     * retrieves value of getPotA or getPotB
-     * subtracts it by the zero constant
-     * multiplies everything by the constant that converts the values to degrees
-     * @return angle of arm
+     * @param power of arm jags
+     * disables pid
+     * sets the power of the arm jags
      */
-     public static double getAngle() {
-        double angle = 0;
-            angle = (getPotA() - Constants.ARM_POT_A_ZERO) * Constants.POT_A_TO_DEGREES;
-            return angle;
-     }
-    
-     /**
-      * @param power of arm jags
-      * disables pid
-      * sets the power of the arm jags
-      */
     public static void setJags(double power) {
         double currentPot = getPotA();
         //add a buffer
@@ -98,13 +81,6 @@ public class Arm {
 
         motor.setX(power);
      }
-    /**
-     * For manual control
-     * @param power 
-     */
-    public static void coarseDrive(double power) {
-        setJags(power);
-    }
     
     /**
      * For fine manual control
@@ -115,10 +91,8 @@ public class Arm {
     }
 
     /**
+     * Sets the PID controller to move to a certain position
      * @param potValue value of pot 
-     * disables the other pot
-     * sets the value of the pot
-     * enables the pot
      * @return 0 if in progress, 1 if done
      */
 
@@ -126,24 +100,6 @@ public class Arm {
         if (onTarget()) {
             return 1;
         }
-
-        //TODO: test
-        //should allow for automatic constant adjustment based on starting loc
-	/*
-        if (init) {
-            double diff = Math.abs(getPotA() - potValue); 
-            
-            if (diff <= 50) {
-                setPIDSmall();
-            } else if (diff <= 200) {
-                setPIDMedium();
-            } else {
-                setPIDLarge();
-            }
-
-            init = false;
-        }
-	*/
 
         pidA.setSetpoint(potValue);
         pidA.enable();
@@ -162,47 +118,10 @@ public class Arm {
     public static void setPIDLarge() {
 	    pidA.setPID(Constants.ARM_KP_LARGE, Constants.ARM_KI_LARGE, Constants.ARM_KD_LARGE);
     }
-    /**
-     * Uses PID to move to proper angle for pyramid shot
-     * @return 0 if in progress, 1 if done
-     */
-    public static int underPyramidShotPos() {
-        return setPosition(Constants.ARM_PYRAMID_POS_A);
 
+    public static void shootingPos() {
+        setPosition(Constants.ARM_SHOOTING_POS);
     }
-    
-    /**
-     * Uses PID to move to proper angle for feeding from station
-     * @return 0 if in progress, 1 if done
-     */
-    public static int feedPos() {
-        return setPosition(Constants.ARM_FEED_POS_A);
-    }
-
-    /**
-     * Uses PID to move to proper angle for shooting from front of pyramid
-     * @return 0 if in progress, 1 if done
-     */
-    public static int frontPyramidPos() {
-        return setPosition(Constants.ARM_FRONT_PYRAMID_POS);
-    }
-
-    /**
-     * Uses PID to move to proper angle for shooting from back of pyramid
-     * @return 0 if in progress, 1 if done
-     */
-    public static int backPyramidPos() {
-        return setPosition(Constants.ARM_BACK_PYRAMID_POS);
-    }
-
-    /**
-     * Uses PID to move to proper angle for shooting from side of pyramid
-     * @return 0 if in progress, 1 if done
-     */
-    public static int sidePyramidPos() {
-        return setPosition(Constants.ARM_SIDE_PYRAMID_POS);
-    }
-
     /**
      * Uses PID to hold the current position
      */
@@ -232,7 +151,6 @@ public class Arm {
         if (pidA.isEnable()) {
             pidA.disable();
         }
-        init = true;
         /*
         if (pidCam.isEnable()) {
             pidCam.disable();
@@ -252,13 +170,6 @@ public class Arm {
      */
     public static void stop() {
         setJags(0.0);
-    }
-    
-    /**
-     * sends value of angle to SmartDashboard
-     */
-    public static void sendAngle() {
-        SmartDashboard.putNumber("Angle: ", getAngle());
     }
     
     /**

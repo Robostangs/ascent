@@ -5,17 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-/*
- * Development group's code. please don't change anything unless you have the permission of the maintainer
- * Maintainer list:
- * @sky : RobotMain
- */
 package com.robostangs;
 
-/*
- * This class is maintained by @sky! (Sydney) 
- * Do not make any changes unless you have her explicit permission!
- */
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -51,7 +42,6 @@ public class RobotMain extends IterativeRobot {
         potValue = 0;
         fullShootMode = false;
         driveAfterAuto = false;
-        dashInit();
     }
 
     public void dashInit() {
@@ -142,11 +132,7 @@ public class RobotMain extends IterativeRobot {
         if (manip.rightStickYAxis() == 0) {
             //not using the joysticks to manual set, use PID
             if (manip.yButton()) {
-                Arm.frontPyramidPos();
-            } else if (manip.aButton()) {
-                Arm.backPyramidPos();
-            } else if (manip.bButton()) {
-                Arm.sidePyramidPos();
+                Arm.shootingPos();
             } else if (manip.xButton()) {
                 //Arm.camPos();
                 Arm.getPIDFromDash();
@@ -155,12 +141,12 @@ public class RobotMain extends IterativeRobot {
                 if (potValue == 0) {
                     potValue = Arm.getPotA();
                 }
-                Arm.setPosition(potValue + 1);
+                Arm.setPosition(potValue + 5);
             } else if (manip.backButton()) {
                 if (potValue == 0) {
                     potValue = Arm.getPotA();
                 }
-                Arm.setPosition(potValue - 1);
+                Arm.setPosition(potValue - 5);
             } else {
                 potValue = 0;
                 Arm.stop();
