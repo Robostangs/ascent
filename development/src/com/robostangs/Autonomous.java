@@ -5,6 +5,7 @@ import com.sun.squawk.microedition.io.FileConnection;
 import edu.wpi.first.wpilibj.Timer;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Vector;
 import javax.microedition.io.Connector;
 
 /**
@@ -14,9 +15,9 @@ import javax.microedition.io.Connector;
 
 public class Autonomous {
     private static Autonomous instance = null;    
-    private static Timer timer, overall;
-    private static boolean driving = false;
-    private static boolean ingesting = false;
+    private static Timer timer, secondary;
+    private static boolean forward = false;
+    private static boolean back = false;
     private static boolean shooting = false;
     private static boolean turning = false;
     private static boolean delay = false;
@@ -26,19 +27,17 @@ public class Autonomous {
     private static boolean init = true;
     private static String[] keys;
     private static double[] stepData;
-    private static double timeForStep = 0.0;
-    private static int status = 0;
-    private static boolean gyroReady = false;
-    private static double angle = 0;
     private static int step = 0;
     private static int mode = 0;
     private static int count = 0;
     private static String inputFileName = "auton.txt";
+    private static Vector contents = new Vector();
+    private static String line = "";
     
     
     private Autonomous() {
         timer = new Timer();
-        overall = new Timer();
+        secondary = new Timer();
     }
     
     public static Autonomous getInstance() {
@@ -48,6 +47,36 @@ public class Autonomous {
         return instance;
     }
 
+    public static void shootThree() {
+        if (stepInit) {
+            secondary.stop();
+            secondary.reset();
+            System.out.println("secondary init: " + secondary.get());
+            secondary.start();
+            stepInit = false;
+        }
+        System.out.println("step secondary: " + secondary.get() + " " + step);
+        Shooter.shoot();
+
+        if (secondary.get() > 2.5) {
+            Loader.loadShooter();
+        }
+
+        if (secondary.get() > 4.0) {
+            Loader.allOff();
+            secondary.reset();
+        }
+    }
+
+    public static void setAngle() {
+        if (Arm.getPotA() > (Constants.AUTON_ARM_POS + 5) 
+                || Arm.getPotA() < (Constants.AUTON_ARM_POS - 5)) {
+            Arm.setPosition(Constants.AUTON_ARM_POS);
+        } else {
+            Arm.stop();
+        }
+	}
+
     /**
      * Sets up the keys array with all the keys from the dash
      * Also sets variables not related to steps
@@ -55,10 +84,27 @@ public class Autonomous {
     public static void getInfo() throws IOException{
         FileConnection fc = (FileConnection) Connector.open(inputFileName);
         BufferedReader in = new BufferedReader(new InputStreamReader(fc.openInputStream()));
-	String line = in.readLine();
+        int commaPos = 0;
+        int semiPos = 0;
+        
+        while ((line = in.readLine()) != null) {
+            contents.addElement(line);
+        }
+
         fc.close();
-	mode = Integer.parseInt(line);
+        contents.trimToSize();
+        keys = new String[contents.size()];
+        stepData = new double[contents.size()];
+        
+        for (int i = 0; i < contents.size(); i++) {
+            line = (String) contents.elementAt(i);
+            commaPos = line.indexOf(",", i);
+            semiPos = line.indexOf(";", i);            
+            keys[i] = line.substring(i, commaPos);
+            stepData[i] = Double.parseDouble(line.substring(commaPos + 1, semiPos));
+        }
     }
+
     public static void printKeys() {
         for (int i = 0; i < keys.length; i++) {
             System.out.println(keys[i]);
@@ -66,7 +112,7 @@ public class Autonomous {
     }
     
     /**
-     * Checks to see if data read from dash is valid
+     * Checks to see if data is valid
      * @return true if data is good
      */
     public static void checkInfo() {
@@ -78,248 +124,140 @@ public class Autonomous {
         }
     }
     
+    /*
+     * uses info from text file, but doesn't actually move robot
+     */
+    public static void runText() {
+        for (int i = 0; i < keys.length; i++) {    
+            forward = keys[i].endsWith("Forward");
+            back = keys[i].endsWith("Back");
+            turning = keys[i].endsWith("Turn");
+            shooting = keys[i].startsWith("shoot");
+            armMoving = keys[i].startsWith("arm");
+            delay = keys[i].startsWith("delay");
+
+            timer.start();
+
+            if (forward) {
+                while (timer.get() < stepData[i]) {
+                    System.out.println("Driving forward for: " + stepData[i] + "; " 
+                            + timer.get());
+                    //DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
+                }
+
+                DriveTrain.stop();
+                timer.stop();
+                timer.reset();
+            } else if (back) {
+                while (timer.get() < stepData[i]) {
+                    System.out.println("Driving back for: " + stepData[i] + "; " 
+                            + timer.get());
+                    //DriveTrain.drive(-Constants.AUTON_DRIVE_POWER, -Constants.AUTON_DRIVE_POWER);
+                }
+
+                DriveTrain.stop();
+                timer.stop();
+                timer.reset();
+            } else if (turning) {
+                while (timer.get() < stepData[i]) {
+                    System.out.println("Turning for: " + stepData[i] + "; " 
+                            + timer.get());
+                    //DriveTrain.turn(Constants.AUTON_TURN_POWER);
+                }
+
+                DriveTrain.stop();
+                timer.stop();
+                timer.reset();
+            } else if (shooting) {
+                while (timer.get() < stepData[i]) {
+                    System.out.println("shooting for: " + stepData[i] + "; " 
+                            + timer.get());
+                    //shootThree();
+                }
+
+                Loader.allOff();
+                Shooter.stop();
+                timer.stop();
+                timer.reset();
+            } else if (armMoving) {
+                while (timer.get() < stepData[i]) {
+                    System.out.println("arm moving for: " + stepData[i] + "; " 
+                            + timer.get());
+                    //setAngle();
+                }
+
+                Arm.stop();
+                timer.stop();
+                timer.reset();
+            } else if (delay) {
+                while (timer.get() < stepData[i]);
+                timer.stop();
+                timer.reset();
+            }
+        }
+    }
+    
     public static void run() {
         if (!fallbackMode) {
             for (int i = 0; i < keys.length; i++) {    
-                driving = keys[i].endsWith("Distance");
+                forward = keys[i].endsWith("Forward");
+                back = keys[i].endsWith("Back");
                 turning = keys[i].endsWith("Turn");
-                ingesting = keys[i].startsWith("ingest");
                 shooting = keys[i].startsWith("shoot");
                 armMoving = keys[i].startsWith("arm");
                 delay = keys[i].startsWith("delay");
 
-                status = 0;
-                determineAngle();
                 timer.start();
 
-                if (driving && !ingesting) {
-                    while (status == 0 && timer.get() < timeForStep) {
-                        /*
-                        status = DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, angle, 
-                                stepData[i]);
-                                * */
+                if (forward) {
+                    while (timer.get() < stepData[i]) {
+                        DriveTrain.drive(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_POWER);
                     }
 
-                    gyroReady = false;
                     DriveTrain.stop();
                     timer.stop();
                     timer.reset();
-
-                    if (status != 1) {
-                        Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
+                } else if (back) {
+                    while (timer.get() < stepData[i]) {
+                        DriveTrain.drive(-Constants.AUTON_DRIVE_POWER, -Constants.AUTON_DRIVE_POWER);
                     }
 
-                } else if (driving && ingesting) {
-                    while (status == 0 && timer.get() < timeForStep) {
-                        /*
-                        status = DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, angle, 
-                                stepData[i]);
-                                * */
-                        Loader.ingest();
-                    }
-
-                    Loader.allOff();
                     DriveTrain.stop();
-                    gyroReady = false;
                     timer.stop();
                     timer.reset();
-
-                    if (status != 1) {
-                        Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
-                    }
-
                 } else if (turning) {
-                    while (status == 0 && timer.get() < timeForStep) {
-                        //status = DriveTrain.turn(Constants.AUTON_TURN_POWER, stepData[i]);
+                    while (timer.get() < stepData[i]) {
+                        DriveTrain.turn(Constants.AUTON_TURN_POWER);
                     }
 
-                    gyroReady = false;
                     DriveTrain.stop();
                     timer.stop();
                     timer.reset();
-
-                    if (status != 1) {
-                        Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
-                    }
-
                 } else if (shooting) {
-                    while (status == 0 && timer.get() < timeForStep) {
-                        status = Shooter.shoot( (int) stepData[i]);
-                        Loader.loadShooter();
+                    while (timer.get() < stepData[i]) {
+                        shootThree();
                     }
 
-                    gyroReady = false;
                     Loader.allOff();
                     Shooter.stop();
                     timer.stop();
                     timer.reset();
-
-                    if (status != 1) { 
-                        Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
-                    }
-
                 } else if (armMoving) {
-			/*
-                    while (status == 0 && timer.get() < timeForStep) {
-                        if (stepData[i] == Constants.AUTON_ARM_LOW_POS) {
-                            status = Arm.lowestPos();
-                        } else if (stepData[i] == Constants.AUTON_ARM_UNDER_PYRAMID_POS) {
-                        } else if (stepData[i] != 0 && stepData[i] != -1) {
-                            status = Arm.setPosition(stepData[i]);
-                        } else if (stepData[i] == -1) {
-                            //status = Arm.camPos();
-                        }
+                    while (timer.get() < stepData[i]) {
+                        setAngle();
                     }
-		    * */
 
                     Arm.stop();
                     timer.stop();
                     timer.reset();
-
-                    if (status != 1) { 
-                        Log.write("Auton Step Incomplete " + keys[i] + "Return code: " + status);
-                    }
-
                 } else if (delay) {
-                    while (timer.get() < stepData[i]) { }
-
+                    while (timer.get() < stepData[i]);
                     timer.stop();
                     timer.reset();
                 }
-
             }
         } else {
-            fallbackMode();
+            shootThree();
         }
     }
-    
-    /**
-     * determine the angle using gyro
-     */
-    public static void determineAngle() {
-        if (!gyroReady) {
-            //angle = DriveTrain.getAngle();
-            gyroReady = true;
-        }
-    }
-    
-    /**
-     * if fall to get info from the driver's station, backup plan
-     */
-    public static void fallbackMode() {
-        //drive, turn, arm, shoot
-        switch (step) {
-            case 0:
-                timer.start();
-                while (timer.get() < Constants.AUTON_FALLBACK_DRIVE_TIME) {
-                    //DriveTrain.driveStraight(Constants.AUTON_DRIVE_POWER, Constants.AUTON_DRIVE_ANGLE);
-                }
-                
-                DriveTrain.stop();
-                timer.stop();
-                timer.reset();
-                step++;
-                break;
-            case 1:
-                timer.start();
-                while (timer.get() < Constants.AUTON_FALLBACK_TURN_TIME) {
-                    //DriveTrain.turn(Constants.AUTON_TURN_POWER, Constants.AUTON_TURN_ANGLE);
-                }
-                
-                DriveTrain.stop();
-                timer.stop();
-                timer.reset();
-                step++;
-                break;
-            case 2:
-                timer.start();
-                while (timer.get() < Constants.AUTON_FALLBACK_ARM_MOVE_TIME) {
-                    Arm.setPosition(Constants.AUTON_ARM_POS);
-                }
-                
-                Arm.stop();
-                timer.stop();
-                timer.reset();
-                step++;
-                break;
-            case 3:
-                timer.start();
-                while (timer.get() < Constants.AUTON_FALLBACK_SHOOT_TIME) {
-                    Shooter.shoot(Constants.AUTON_SHOOT_DISC_NUM);
-                }
-                
-                Shooter.stop();
-                timer.stop();
-                timer.reset();
-                break;
-            default:
-                break;
-        }
-    }
-
-    public static void runMode() {
-	    switch (mode) {
-		    case 0:
-			    if (init) {
-				    overall.stop();
-				    overall.reset();
-				    overall.start();
-			    }
-			    if (overall.get() < 3) {
-				    setAngle();
-			    } else { 
-				    shootThree();
-			    }
-			    break;
-		     
-		    default: 
-			    break;
-	    }
-    }
-    public static void shootThree() {
-        if (stepInit) {
-            timer.stop();
-            timer.reset();
-            System.out.println("timer init: " + timer.get());
-            timer.start();
-            stepInit = false;
-        }
-        System.out.println("step timer: " + timer.get() + " " + step);
-        Shooter.shoot();
-
-        if (timer.get() > 2.5 && count < 2) {
-            Loader.loadShooter();
-        }
-
-        if (timer.get() > 4.0 && count < 2) {
-            Loader.allOff();
-            timer.reset();
-	    count++;
-        }
-
-	if (count >= 2) {
-		Shooter.stop();
-	    DriveTrain.drive(-0.25, -0.25);
-	}
-    }
-
-    public static void setAngle() {
-        if (stepInit) {
-            timer.stop();
-            timer.reset();
-            System.out.println("timer init: " + timer.get());
-            timer.start();
-            stepInit = false;
-        }
-
-	if (Arm.getPotA() > (Constants.AUTON_ARM_POS + 5) 
-		|| Arm.getPotA() < (Constants.AUTON_ARM_POS - 5)) {
-		Arm.setPosition(Constants.AUTON_ARM_POS);
-	} else {
-		stepInit = true;
-		Arm.stop();
-	}
-
-
-	}
 }

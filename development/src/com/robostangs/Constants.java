@@ -76,7 +76,7 @@ public class Constants {
     /*
      * Autonomous
      */
-    public static final double AUTON_DRIVE_POWER = 0.5;
+    public static final double AUTON_DRIVE_POWER = 0.3;
     public static final double AUTON_INGEST_DRIVE_POWER = 0.5;
     public static final double AUTON_TURN_POWER = 0.5;
     
