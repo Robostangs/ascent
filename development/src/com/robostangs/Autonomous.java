@@ -1,6 +1,11 @@
 package com.robostangs;
 
+import com.sun.squawk.io.BufferedReader;
+import com.sun.squawk.microedition.io.FileConnection;
 import edu.wpi.first.wpilibj.Timer;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import javax.microedition.io.Connector;
 
 /**
  * All functionality is read from dash; if that fails, runs a fallback mode
@@ -25,12 +30,13 @@ public class Autonomous {
     private static boolean gyroReady = false;
     private static double angle = 0;
     private static int step = 0;
+    private static int mode = 0;
+    private static int count = 0;
+    private static String inputFileName = "auton.txt";
     
     
     private Autonomous() {
         timer = new Timer();
-        getInfo();
-        checkInfo();
     }
     
     public static Autonomous getInstance() {
@@ -44,10 +50,13 @@ public class Autonomous {
      * Sets up the keys array with all the keys from the dash
      * Also sets variables not related to steps
      */
-    public static void getInfo() {
-        //TODO: read from text file
+    public static void getInfo() throws IOException{
+        FileConnection fc = (FileConnection) Connector.open(inputFileName);
+        BufferedReader in = new BufferedReader(new InputStreamReader(fc.openInputStream()));
+	String line = in.readLine();
+        fc.close();
+	mode = Integer.parseInt(line);
     }
-
     public static void printKeys() {
         for (int i = 0; i < keys.length; i++) {
             System.out.println(keys[i]);
@@ -246,6 +255,16 @@ public class Autonomous {
         }
     }
 
+    public static void runMode() {
+	    switch (mode) {
+		    case 0:
+			    shootThree();
+			    break;
+		     
+		    default: 
+			    break;
+	    }
+    }
     public static void shootThree() {
         if (init) {
             timer.stop();
@@ -257,13 +276,34 @@ public class Autonomous {
         System.out.println("step timer: " + timer.get() + " " + step);
         Shooter.shoot();
 
-        if (timer.get() > 2.5) {
+        if (timer.get() > 2.5 && count < 2) {
             Loader.loadShooter();
         }
 
-        if (timer.get() > 4.0) {
+        if (timer.get() > 4.0 && count < 2) {
             Loader.allOff();
             timer.reset();
+	    count++;
         }
+
+	if (count >= 2) {
+		Shooter.stop();
+	    DriveTrain.drive(-0.25, -0.25);
+	}
     }
+
+    public static void setAngle() {
+        if (init) {
+            timer.stop();
+            timer.reset();
+            System.out.println("timer init: " + timer.get());
+            timer.start();
+            init = false;
+        }
+
+	if (Arm.getPotA() > Constants.AUTON_ARM_POS) {
+
+	}
+
+	}
 }
