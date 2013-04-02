@@ -24,6 +24,7 @@ public class Autonomous {
     private static boolean armMoving = false;
     private static boolean fallbackMode = false;
     private static boolean stepInit = true;
+    private static boolean done = false;
     private static String[] keys;
     private static double[] stepData;
     private static int step = 0;
@@ -35,6 +36,13 @@ public class Autonomous {
     private Autonomous() {
         timer = new Timer();
         secondary = new Timer();
+        try {
+            getInfo();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            fallbackMode = true;
+        }
+        printMode();
     }
     
     public static Autonomous getInstance() {
@@ -82,7 +90,7 @@ public class Autonomous {
      * Reads autonomous mode from a txt file
      */
     public static void getInfo() throws IOException{
-        FileConnection fc = (FileConnection) Connector.open(inputFileName);
+        FileConnection fc = (FileConnection) Connector.open("file:///" + inputFileName, Connector.READ);
         BufferedReader in = new BufferedReader(new InputStreamReader(fc.openInputStream()));
         int commaPos = 0;
         int semiPos = 0;
@@ -100,7 +108,7 @@ public class Autonomous {
             line = (String) contents.elementAt(i);
             commaPos = line.indexOf(",", i);
             semiPos = line.indexOf(";", i);            
-            keys[i] = line.substring(i, commaPos);
+            keys[i] = line.substring(0, commaPos);
             stepData[i] = Double.parseDouble(line.substring(commaPos + 1, semiPos));
         }
     }
@@ -108,6 +116,11 @@ public class Autonomous {
     public static void printKeys() {
         for (int i = 0; i < keys.length; i++) {
             System.out.println(keys[i]);
+        }
+    }
+    public static void printMode() {
+        for (int i = 0; i < keys.length; i++) {
+            System.out.println(keys[i] + ": " + stepData[i]);
         }
     }
     
@@ -128,72 +141,75 @@ public class Autonomous {
      * uses info from text file, but doesn't actually move robot
      */
     public static void runText() {
-        for (int i = 0; i < keys.length; i++) {    
-            forward = keys[i].endsWith("Forward");
-            back = keys[i].endsWith("Back");
-            turning = keys[i].endsWith("Turn");
-            shooting = keys[i].startsWith("shoot");
-            armMoving = keys[i].startsWith("arm");
-            delay = keys[i].startsWith("delay");
+        if (!done) {
+            for (int i = 0; i < keys.length; i++) {    
+                forward = keys[i].endsWith("Forward");
+                back = keys[i].endsWith("Back");
+                turning = keys[i].endsWith("Turn");
+                shooting = keys[i].startsWith("shoot");
+                armMoving = keys[i].startsWith("arm");
+                delay = keys[i].startsWith("delay");
 
-            timer.start();
+                timer.start();
 
-            if (forward) {
-                while (timer.get() < stepData[i]) {
-                    System.out.println("Driving forward for: " + stepData[i] + "; " 
-                            + timer.get());
+                if (forward) {
+                    while (timer.get() < stepData[i]) {
+                        System.out.println("Driving forward for: " + stepData[i] + "; " 
+                                + timer.get());
+                    }
+
+                    DriveTrain.stop();
+                    timer.stop();
+                    timer.reset();
+                } else if (back) {
+                    while (timer.get() < stepData[i]) {
+                        System.out.println("Driving back for: " + stepData[i] + "; " 
+                                + timer.get());
+                    }
+
+                    DriveTrain.stop();
+                    timer.stop();
+                    timer.reset();
+                } else if (turning) {
+                    while (timer.get() < stepData[i]) {
+                        System.out.println("Turning for: " + stepData[i] + "; " 
+                                + timer.get());
+                    }
+
+                    DriveTrain.stop();
+                    timer.stop();
+                    timer.reset();
+                } else if (shooting) {
+                    while (timer.get() < stepData[i]) {
+                        System.out.println("shooting for: " + stepData[i] + "; " 
+                                + timer.get());
+                    }
+
+                    Loader.allOff();
+                    Shooter.stop();
+                    timer.stop();
+                    timer.reset();
+                } else if (armMoving) {
+                    while (timer.get() < stepData[i]) {
+                        System.out.println("arm moving for: " + stepData[i] + "; " 
+                                + timer.get());
+                    }
+
+                    Arm.stop();
+                    timer.stop();
+                    timer.reset();
+                } else if (delay) {
+                    while (timer.get() < stepData[i]);
+                    timer.stop();
+                    timer.reset();
                 }
-
-                DriveTrain.stop();
-                timer.stop();
-                timer.reset();
-            } else if (back) {
-                while (timer.get() < stepData[i]) {
-                    System.out.println("Driving back for: " + stepData[i] + "; " 
-                            + timer.get());
-                }
-
-                DriveTrain.stop();
-                timer.stop();
-                timer.reset();
-            } else if (turning) {
-                while (timer.get() < stepData[i]) {
-                    System.out.println("Turning for: " + stepData[i] + "; " 
-                            + timer.get());
-                }
-
-                DriveTrain.stop();
-                timer.stop();
-                timer.reset();
-            } else if (shooting) {
-                while (timer.get() < stepData[i]) {
-                    System.out.println("shooting for: " + stepData[i] + "; " 
-                            + timer.get());
-                }
-
-                Loader.allOff();
-                Shooter.stop();
-                timer.stop();
-                timer.reset();
-            } else if (armMoving) {
-                while (timer.get() < stepData[i]) {
-                    System.out.println("arm moving for: " + stepData[i] + "; " 
-                            + timer.get());
-                }
-
-                Arm.stop();
-                timer.stop();
-                timer.reset();
-            } else if (delay) {
-                while (timer.get() < stepData[i]);
-                timer.stop();
-                timer.reset();
+                if (i == (keys.length - 1)) done = true;
             }
         }
     }
     
     public static void run() {
-        if (!fallbackMode) {
+        if (!fallbackMode && !done) {
             for (int i = 0; i < keys.length; i++) {    
                 forward = keys[i].endsWith("Forward");
                 back = keys[i].endsWith("Back");
@@ -250,6 +266,7 @@ public class Autonomous {
                     timer.stop();
                     timer.reset();
                 }
+                if (i == (keys.length - 1)) done = true;
             }
         } else {
             shoot();

@@ -55,7 +55,8 @@ public class RobotMain extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        Autonomous.shoot();
+        //Autonomous.printMode();
+        Autonomous.runText();
         driveAfterAuto = true;
     }
 
