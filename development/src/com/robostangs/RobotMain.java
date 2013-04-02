@@ -69,14 +69,8 @@ public class RobotMain extends IterativeRobot {
      */
     public void teleopPeriodic() {
         sendDataToDash();
-        //System.out.println("pot: " + Arm.getPotA());
-        //System.out.println("Switch" + Lifter.getPos());
+        //System.out.println("pot: " + Arm.getPot());
         Arm.outputPIDConstants();
-        //System.out.println("top limit switch: " + Lifter.getTopSensor());
-        //System.out.println("pot voltage " + Arm.getPotVoltage());
-        //System.out.println("Left Encoder: " + DriveTrain.getLeftEncoderDistance());
-        //System.out.println("Top?? " + Lifter.getTopSensor());
-        //System.out.println("Bottom?? " + Lifter.getBottomSensor());
 
         if (driveAfterAuto) {
             DriveTrain.drive(-0.35, -0.5);
@@ -122,11 +116,8 @@ public class RobotMain extends IterativeRobot {
         
         /*
          * Manipulator Arm Control
-         * Left Stick: Coarse Manual
          * Right Stick: Fine Manual
-         * A: Feeder Station
-         * B: Flat
-         * Y: Under the pyramind shot
+         * Y: Shooting Angle
          * X: Use Camera to auto-set angle
          */        
         if (manip.rightStickYAxis() == 0) {
@@ -139,12 +130,12 @@ public class RobotMain extends IterativeRobot {
                 Arm.enablePID();
             } else if (manip.startButton()) {
                 if (potValue == 0) {
-                    potValue = Arm.getPotA();
+                    potValue = Arm.getPot();
                 }
                 Arm.setPosition(potValue + 5);
             } else if (manip.backButton()) {
                 if (potValue == 0) {
-                    potValue = Arm.getPotA();
+                    potValue = Arm.getPot();
                 }
                 Arm.setPosition(potValue - 5);
             } else {
@@ -164,7 +155,7 @@ public class RobotMain extends IterativeRobot {
         if (manip.leftStickYAxis() != 0) {
             Lifter.manual(manip.leftStickYAxis());
         } else {
-		Lifter.stop();
+            Lifter.stop();
         }
         
 		/*
@@ -179,69 +170,19 @@ public class RobotMain extends IterativeRobot {
         }
 
         /*
-         * Next two if statements are for testing purposes only
-         * manip uses timed up and down
-         * driver is manual run
-         */
-        if (driver.yButton()) {
-//           Camera.saveImage();
-        }
-
-        /*
-         * Driver left trigger: Run the standalone climber
+         * Drive Slow if Left Trigger, otherwise drive normally
          */
         if (driver.leftTriggerButton()) {
-            //TODO: enable solo climber
+            DriveTrain.driveSlow(driver.leftStickYAxis(), driver.rightStickYAxis());
+        } else {
+            DriveTrain.humanDrive(driver.leftStickYAxis(), driver.rightStickYAxis());
         }
-        
-        /*
-         * Shifting between drive mode and climb mode
-         * Driver a-button: enable climbing mode
-         * Driver b-button: enable drive mode
-         *
-        if (driver.aButton()) {
-            DriveTrain.enableClimbMode();
-        } else if (driver.bButton()) {
-            DriveTrain.enableDriveMode();
-        }
-        
-        /*
-        if (DriveTrain.getMode() && !DriveTrain.servoReady()) {
-            DriveTrain.enableClimbMode();
-        } else if (!DriveTrain.getMode() && !DriveTrain.servoReady()) {
-            DriveTrain.enableDriveMode();
-        }*/ 
-        /*
-         *  TODO: If Driver Right Trigger, Enable Auto Align
-         */
-        //if (driver.rightTriggerButton()) {
-            
-        //} else {
-            /*
-             * Drive Slow if Left Trigger, otherwise drive normally
-             */
-            if (driver.leftTriggerButton()) {
-                DriveTrain.driveSlow(driver.leftStickYAxis(), driver.rightStickYAxis());
-            } else {
-                DriveTrain.humanDrive(driver.leftStickYAxis(), driver.rightStickYAxis());
-            }
-        //}
     }
     
     /**
      * Sends data to the dashboard
      */
     public void sendDataToDash() {
-        Arm.sendWhichPotInUse();
         Arm.sendPotData();
-    }
-
-    public void debugToConsole() {
-        
-    }
-
-    public void debugToDash() {
-        System.out.println("pot: " + Arm.getPotA());
-        Arm.outputPIDConstants();
     }
 }

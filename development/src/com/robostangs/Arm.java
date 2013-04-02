@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm {
     private static Arm instance = null;
-    private static Potentiometer potA;
+    private static Potentiometer pot;
     private static ArmMotor motor;
     private static PIDController pidA; // pidCam;
     
     private Arm() {
-        potA = new Potentiometer(Constants.POT_A_PORT);
+        pot = new Potentiometer(Constants.POT_A_PORT);
         motor = ArmMotor.getInstance();
-        pidA = new PIDController(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED, potA, motor);
+        pidA = new PIDController(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED, pot, motor);
         //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
         
         //configure PID
@@ -40,10 +40,10 @@ public class Arm {
     
     /**
      * gets average value of pot A
-     * @return potA.getAverageValue average value of pot A 
+     * @return pot.getAverageValue average value of pot A 
      */
-    public static double getPotA() {
-        return potA.getAverageValue();
+    public static double getPot() {
+        return pot.getAverageValue();
     }    
 
     /**
@@ -52,7 +52,7 @@ public class Arm {
      * sets the power of the arm jags
      */
     public static void setJags(double power) {
-        double currentPot = getPotA();
+        double currentPot = getPot();
         //add a buffer
         if (power > 0) {
             //arm is going up, give it a pot val one higher
@@ -126,7 +126,7 @@ public class Arm {
      * Uses PID to hold the current position
      */
     public static void pidHoldPos() {
-        setPosition(getPotA());
+        setPosition(getPot());
     }
 
     /**
@@ -176,22 +176,15 @@ public class Arm {
      * sends the pot data from both pots to SmartDashboard
      */
     public static void sendPotData() {
-        SmartDashboard.putNumber("Pot A: ", getPotA());
+        SmartDashboard.putNumber("Pot: ", getPot());
     }
-
-    /**
-     * sends which pot is in use by pid to SmartDashboard
-     */
-    public static void sendWhichPotInUse() {
-        SmartDashboard.putString("CURRENT POT: ", "POT A");
-    } 
     
     /**
      * checks if pot A is within range
      * @return true if pot A is within range, false if it isn't
      */
-    public static boolean isPotAFunctional() {
-        return getPotA() >= Constants.POT_A_MIN_VALUE  && getPotA() <= Constants.POT_A_MAX_VALUE;
+    public static boolean isPotFunctional() {
+        return getPot() >= Constants.POT_A_MIN_VALUE  && getPot() <= Constants.POT_A_MAX_VALUE;
     }
 
     public static void getPIDFromDash() {

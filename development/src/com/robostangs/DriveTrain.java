@@ -84,12 +84,12 @@ public class DriveTrain {
      * @param leftPower
      * @param rightPower 
      */
-    public static void humanDrive(double leftStick, double rightStick) {
-        if ((leftStick < -.3 && rightStick > .3) || (leftStick > .3 && rightStick < -.3)) {
-            rightStick = rightStick*rightStick * (rightStick / Math.abs(rightStick));
-            leftStick = leftStick*leftStick * (leftStick / Math.abs(leftStick));
+    public static void humanDrive(double left, double right) {
+        if ((left < -.3 && right > .3) || (left > .3 && right < -.3)) {
+            right = right*right * (right / Math.abs(right));
+            left = left*left * (left / Math.abs(left));
         }
-        drive(leftStick, rightStick);
+        drive(left, right);
     }
     
     /**

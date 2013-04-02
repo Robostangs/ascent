@@ -94,45 +94,6 @@ public class Shooter {
     }
 
     /**
-     * Shoots a certain number of frisbees
-     * @param number 
-     * @return 0 if in progress, 1 if complete
-     */
-    public static int shoot(int number) {
-        double time = 0;
-        
-        switch (number) {
-            case 1:
-                time = Constants.TIME_TO_SHOOT_ONE;
-                break;
-            case 2: 
-                time = Constants.TIME_TO_SHOOT_TWO;
-                break;
-            case 3: 
-                time = Constants.TIME_TO_SHOOT_THREE;
-                break;
-            case 4: 
-                time = Constants.TIME_TO_SHOOT_FOUR;
-                break;
-            default:
-                time = 0;
-                break;
-        }
-        
-        timer.start();
-        shoot();
-        
-        if (timer.get() > time) {
-            stop();
-            timer.stop();
-            timer.reset();
-            return 1;
-        }        
-        
-        return 0;
-    }
-    
-    /**
      * Set feeder power to negative
      * Start feedMode
      */

@@ -70,8 +70,8 @@ public class Autonomous {
     }
 
     public static void setAngle() {
-        if (Arm.getPotA() > (Constants.AUTON_ARM_POS + 5) 
-                || Arm.getPotA() < (Constants.AUTON_ARM_POS - 5)) {
+        if (Arm.getPot() > (Constants.AUTON_ARM_POS + 5) 
+                || Arm.getPot() < (Constants.AUTON_ARM_POS - 5)) {
             Arm.setPosition(Constants.AUTON_ARM_POS);
         } else {
             Arm.stop();
