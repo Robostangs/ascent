@@ -17,7 +17,6 @@ public class DriveTrain {
     private static DriveTrain instance = null;
     private static Encoder leftEncoder, rightEncoder;
     private static Timer timer;
-    private static Servo servo;
     private static boolean climbMode;
     //private static PIDController pid;
     //private static Gyro gyro;
@@ -25,7 +24,6 @@ public class DriveTrain {
     private DriveTrain() {
         DriveMotors.getInstance();
         timer = new Timer();
-        servo = new Servo(Constants.DT_SERVO_POS);
         climbMode = false;
         
         /*
@@ -116,36 +114,6 @@ public class DriveTrain {
         drive(0, 0);
     }
     
-    /**
-     * check the mode
-     * @return climbMode
-     */
-    public static boolean getMode() {
-        return climbMode;
-    }
-    
-    /**
-     * enable climb mode
-     */
-    public static void enableClimbMode() {
-        if (servo.get() != Constants.DT_CLIMB_POS) {
-            servo.set(Constants.DT_CLIMB_POS);
-            System.out.println("going to climb mode: " + servo.get());
-        }
-        climbMode = true;
-    }
-    
-    /**
-     * enable drive mode
-     */
-    public static void enableDriveMode() {
-        if (servo.get() != Constants.DT_DRIVE_POS) {
-            servo.set(Constants.DT_DRIVE_POS);
-            System.out.println("going to drive mode: " + servo.get());
-        }
-        climbMode = false;
-    }
-
     /**
      * get distance from the left encoder
      * @return in meters

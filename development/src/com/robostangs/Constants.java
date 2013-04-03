@@ -100,9 +100,6 @@ public class Constants {
     public static final int DT_JAG_RIGHT_MID_POS = 8; // right drive 2
     public static final int DT_JAG_RIGHT_BACK_POS = 9; //right drive 3
     public static final int DT_JAG_CLIMB_POS = 14;
-    public static final int DT_SERVO_POS = 1;
-    public static final int DT_CLIMB_POS = 180;
-    public static final int DT_DRIVE_POS = 0;
     
     //Drive Straight
     public static final double DT_STRAIGHT_LEFT_INC = 0.0;
@@ -118,19 +115,6 @@ public class Constants {
     public static final double DT_PID_K_P = 0.0;
     public static final double DT_PID_K_I = 0.0;
     public static final double DT_PID_K_D = 0.0;
-    
-    /*
-     * FrisbeeTracker
-     */
-    //Positions
-    public static final int INGEST_SWITCH_POS = 0;
-    public static final int SHOOT_SWITCH_POS = 0;
-    public static final int LIFT_SWITCH_POS = 0;
-    
-    //Timers
-    public static final double INGEST_FRISBEE_TIMER = 0.0;
-    public static final double LIFT_FRISBEE_TIMER = 0.0;
-    public static final double SHOOT_FRISBEE_TIMER = 0.0;
     
     /*
      * Ingestor
@@ -159,20 +143,11 @@ public class Constants {
 
     public static final double SHOOTER_MAX_POWER = 1.0;
     public static final double SHOOTER_FEED_POWER = 0.22;
-    public static final double TIME_TO_SHOOT_ONE = 5.0;
-    public static final double TIME_TO_SHOOT_TWO = 0.0;
-    public static final double TIME_TO_SHOOT_THREE = 0.0;
-    public static final double TIME_TO_SHOOT_FOUR = 0.0;
     public static final double SHOOTER_FULL_BATTERY_VOLTAGE = 14.0;
     public static final double SHOOTER_VOLTAGE_TOLERANCE = 0.0;
     public static final double SHOOTER_READY_CURRENT_MAX = 0.0;
     public static final double SHOOTER_READY_CURRENT_MIN = 0.0; 
     //GOOD SHOOTING ANGLE: 247
-    
-    /*
-     * StopWatch
-     */
-    public static final double MICRO_TO_BASE = 0.0;
     
     /*
      * XboxController

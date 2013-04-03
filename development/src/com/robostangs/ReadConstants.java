@@ -288,11 +288,416 @@ public class ReadConstants {
     }
 
     public static double getArmPIDPotMin() {
-        double x = findDouble("ARM_MAX_POWER");
+        double x = findDouble("ARM_PID_POT_MIN");
         if (x != -1) {
             return x;
         } else {
-            return DefaultConstants.ARM_MAX_POWER;
+            return DefaultConstants.ARM_PID_POT_MIN;
+        }
+    }
+
+    public static double getArmPIDPotMax() {
+        double x = findDouble("ARM_PID_POT_MAX");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.ARM_PID_POT_MAX;
+        }
+    }
+    
+    public static double getArmShootingPos() {
+        double x = findDouble("ARM_SHOOTING_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.ARM_SHOOTING_POS;
+        }
+    }
+
+    public static double getArmStartPos() {
+        double x = findDouble("ARM_START_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.ARM_START_POS;
+        }
+    }
+
+    public static double getAutonDrivePower() {
+        double x = findDouble("AUTON_DRIVE_POWER");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.AUTON_DRIVE_POWER;
+        }
+    }
+
+    public static double getAutonTurnPower() {
+        double x = findDouble("AUTON_TURN_POWER");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.AUTON_TURN_POWER;
+        }
+    }
+
+    public static int getConvShootJagPos() {
+        int x = findInt("CONV_SHOOT_JAG_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CONV_SHOOT_JAG_POS;
+        }
+    }
+
+    public static int getConvIngestJagPos() {
+        int x = findInt("CONV_INGEST_JAG_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CONV_INGEST_JAG_POS;
+        }
+    }
+
+    public static double getConvShooterPower() {
+        double x = findDouble("CONV_SHOOTER_POWER");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CONV_SHOOTER_POWER;
+        }
+    }
+
+    public static double getConvIngestPower() {
+        double x = findDouble("CONV_INGEST_POWER");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CONV_INGEST_POWER;
+        }
+    }
+
+    public static int getCamYOffset() {
+        int x = findInt("CAM_Y_OFFSET");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CAM_Y_OFFSET;
+        }
+    }
+
+    public static int getCamXOffset() {
+        int x = findInt("CAM_X_OFFSET");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CAM_X_OFFSET;
+        }
+    }
+
+    public static int getDTLeftEncoderFront() {
+        int x = findInt("DT_LEFT_ENCODER_FRONT");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_LEFT_ENCODER_FRONT;
+        }
+    }
+
+    public static int getDTLeftEncoderBack() {
+        int x = findInt("DT_LEFT_ENCODER_BACK");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_LEFT_ENCODER_BACK;
+        }
+    }
+
+    public static int getDTRightEncoderFront() {
+        int x = findInt("DT_RIGHT_ENCODER_FRONT");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_RIGHT_ENCODER_FRONT;
+        }
+    }
+
+    public static int getDTRightEncoderBack() {
+        int x = findInt("DT_RIGHT_ENCODER_BACK");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_RIGHT_ENCODER_BACK;
+        }
+    }
+
+    public static int getDTGyroPos() {
+        int x = findInt("DT_GYRO_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_GYRO_POS;
+        }
+    }
+
+    public static int getDTJagLeftFrontPos() {
+        int x = findInt("DT_JAG_LEFT_FRONT_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_JAG_LEFT_FRONT_POS;
+        }
+    }
+
+    public static int getDTJagLeftMidPos() {
+        int x = findInt("DT_JAG_LEFT_MID_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_JAG_LEFT_MID_POS;
+        }
+    }
+
+    public static int getDTJagLeftBackPos() {
+        int x = findInt("DT_JAG_LEFT_BACK_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_JAG_LEFT_BACK_POS;
+        }
+    }
+
+    public static int getDTJagRightFrontPos() {
+        int x = findInt("DT_JAG_RIGHT_FRONT_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_JAG_RIGHT_FRONT_POS;
+        }
+    }
+
+    public static int getDTJagRightMidPos() {
+        int x = findInt("DT_JAG_RIGHT_MID_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_JAG_RIGHT_MID_POS;
+        }
+    }
+
+    public static int getDTJagRightBackPos() {
+        int x = findInt("DT_JAG_RIGHT_BACK_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_JAG_RIGHT_BACK_POS;
+        }
+    }
+
+    public static int getDTJagClimbPos() {
+        int x = findInt("DT_JAG_CLIMB_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.DT_JAG_CLIMB_POS;
+        }
+    }
+
+    public static int getLifterJagPos() {
+        int x = findInt("LIFTER_JAG_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.LIFTER_JAG_POS;
+        }
+    }
+
+    public static double getLifterDownPower() {
+        double x = findDouble("LIFTER_DOWN_POWER");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.LIFTER_DOWN_POWER;
+        }
+    }
+
+    public static double getLifterUpPower() {
+        double x = findDouble("LIFTER_UP_POWER");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.LIFTER_UP_POWER;
+        }
+    }
+
+    public static double getLifterUpTime() {
+        double x = findDouble("LIFTER_UP_TIME");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.LIFTER_UP_TIME;
+        }
+    }
+
+    public static double getLifterDownTime() {
+        double x = findDouble("LIFTER_DOWN_TIME");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.LIFTER_DOWN_TIME;
+        }
+    }
+
+    public static int getLifterTopProxDigitalPort() {
+        int x = findInt("LIFTER_TOP_PROX_DIGITAL_PORT");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.LIFTER_TOP_PROX_DIGITAL_PORT;
+        }
+    }
+
+    public static int getLifterTopProxSolenoidPort() {
+        int x = findInt("LIFTER_TOP_PROX_SOLENOID_PORT");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.LIFTER_TOP_PROX_SOLENOID_PORT;
+        }
+    }
+
+    public static int getLifterBottomProxDigitalPort() {
+        int x = findInt("LIFTER_BOTTOM_PROX_DIGITAL_PORT");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.LIFTER_BOTTOM_PROX_DIGITAL_PORT;
+        }
+    }
+
+    public static int getLifterBottomProxSolenoidPort() {
+        int x = findInt("LIFTER_BOTTOM_PROX_SOLENOID_PORT");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.LIFTER_BOTTOM_PROX_SOLENOID_PORT;
+        }
+    }
+
+    public static int getShooterJagOnePos() {
+        int x = findInt("SHOOTER_JAG1_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.SHOOTER_JAG1_POS;
+        }
+    }
+
+    public static int getShooterJagTwoPos() {
+        int x = findInt("SHOOTER_JAG2_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.SHOOTER_JAG2_POS;
+        }
+    }
+
+    public static int getShooterJagThreePos() {
+        int x = findInt("SHOOTER_JAG3_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.SHOOTER_JAG3_POS;
+        }
+    }
+
+    public static double getShooterMaxPower() {
+        double x = findDouble("SHOOTER_MAX_POWER");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.SHOOTER_MAX_POWER;
+        }
+    }
+
+    public static double getShooterFeedPower() {
+        double x = findDouble("SHOOTER_FEED_POWER");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.SHOOTER_FEED_POWER;
+        }
+    }
+
+    public static double getShooterFullBatteryVoltage() {
+        double x = findDouble("SHOOTER_FULL_BATTERY_VOLTAGE");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.SHOOTER_FULL_BATTERY_VOLTAGE;
+        }
+    }
+
+    public static double getShooterVoltageTolerance() {
+        double x = findDouble("SHOOTER_VOLTAGE_TOLERANCE");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.SHOOTER_VOLTAGE_TOLERANCE;
+        }
+    }
+
+    public static double getShooterReadyCurrentMax() {
+        double x = findDouble("SHOOTER_READY_CURRENT_MAX");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.SHOOTER_READY_CURRENT_MAX;
+        }
+    }
+
+    public static double getShooterReadyCurrentMin() {
+        double x = findDouble("SHOOTER_READY_CURRENT_MIN");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.SHOOTER_READY_CURRENT_MIN;
+        }
+    }
+
+    public static double getXboxDriverDrift() {
+        double x = findDouble("XBOX_DRIVER_DRIFT");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.XBOX_DRIVER_DRIFT;
+        }
+    }
+
+    public static double getXboxManipDrift() {
+        double x = findDouble("XBOX_MANIP_DRIFT");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.XBOX_MANIP_DRIFT;
+        }
+    }
+
+    public static int getXboxDriverPort() {
+        int x = findInt("XBOX_DRIVER_PORT");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.XBOX_DRIVER_PORT;
+        }
+    }
+
+    public static int getXboxManipPort() {
+        int x = findInt("XBOX_MANIP_PORT");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.XBOX_MANIP_PORT;
         }
     }
 }
