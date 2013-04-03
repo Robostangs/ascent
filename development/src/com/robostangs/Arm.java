@@ -16,16 +16,16 @@ public class Arm {
     private static PIDController pidA; // pidCam;
     
     private Arm() {
-        pot = new Potentiometer(Constants.POT_A_PORT);
+        pot = new Potentiometer(Constants.ARM_POT_PORT);
         motor = ArmMotor.getInstance();
         pidA = new PIDController(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED, pot, motor);
         //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
         
         //configure PID
-        pidA.setInputRange(Constants.POT_A_SLOW_VALUE, Constants.POT_A_MAX_VALUE);
+        pidA.setInputRange(Constants.ARM_POT_SLOW_VALUE, Constants.ARM_POT_MAX_VALUE);
         pidA.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         pidA.setAbsoluteTolerance(3);
-        //pidCam.setInputRange(Constants.POT_A_MIN_VALUE, Constants.POT_A_MAX_VALUE);
+        //pidCam.setInputRange(Constants.ARM_POT_MIN_VALUE, Constants.ARM_POT_MAX_VALUE);
         //pidCam.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         
         disablePID();
@@ -66,15 +66,15 @@ public class Arm {
             disablePID();
         }
 
-        if (currentPot <= (Constants.POT_A_SLOW_VALUE + 10) && power > 0) {
+        if (currentPot <= (Constants.ARM_POT_SLOW_VALUE + 10) && power > 0) {
             //needs to go slow because of gas strut, go min speed and retain sign
             power = Constants.ARM_MIN_VOLTAGE * (power / Math.abs(power));
         }
 
-        if (currentPot >= Constants.POT_A_MAX_VALUE && power > 0) {
+        if (currentPot >= Constants.ARM_POT_MAX_VALUE && power > 0) {
             System.out.println("AT MAX");
             power = 0.0;
-        } else if (currentPot <= Constants.POT_A_MIN_VALUE && power < 0) {
+        } else if (currentPot <= Constants.ARM_POT_MIN_VALUE && power < 0) {
             System.out.println("AT MIN");
             power = 0.0;
         }
@@ -184,7 +184,7 @@ public class Arm {
      * @return true if pot A is within range, false if it isn't
      */
     public static boolean isPotFunctional() {
-        return getPot() >= Constants.POT_A_MIN_VALUE  && getPot() <= Constants.POT_A_MAX_VALUE;
+        return getPot() >= Constants.ARM_POT_MIN_VALUE  && getPot() <= Constants.ARM_POT_MAX_VALUE;
     }
 
     public static void getPIDFromDash() {

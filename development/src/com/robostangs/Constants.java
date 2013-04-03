@@ -6,6 +6,10 @@ package com.robostangs;
  * TODO: everything pretty much.
  */
 public class Constants {
+
+    private Constants() {
+        ReadConstants.init();
+    }
     /*
      * Used in multiple classes
      */
@@ -16,10 +20,10 @@ public class Constants {
      * Arm
      */
     public static final int ARM_JAG_POS = 11;
-    public static final int POT_A_PORT = 2;
-    public static final int POT_A_MIN_VALUE = 47;
-    public static final int POT_A_MAX_VALUE = 700;
-    public static final int POT_A_SLOW_VALUE = 330;
+    public static final int ARM_POT_PORT = 2;
+    public static final int ARM_POT_MIN_VALUE = 47;
+    public static final int ARM_POT_MAX_VALUE = 700;
+    public static final int ARM_POT_SLOW_VALUE = 330;
     public static final double ARM_MIN_VOLTAGE = 0.07;
     // Arm PID
     public static final double ARM_KP_SMALL = 0.0128;
