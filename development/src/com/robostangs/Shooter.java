@@ -59,7 +59,7 @@ public class Shooter {
         try{
             shooter1.setX(Constants.SHOOTER_MAX_POWER);
             shooter2.setX(Constants.SHOOTER_MAX_POWER);
-            shooter3.setX(Constants.SHOOTER_MAX_POWER);
+            shooter3.setX(Constants.SHOOTER_MAX_POWER * 0.9);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }

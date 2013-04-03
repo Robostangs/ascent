@@ -56,7 +56,7 @@ public class RobotMain extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         //Autonomous.printMode();
-        Autonomous.runText();
+        Autonomous.run();
         driveAfterAuto = true;
     }
 
@@ -74,10 +74,14 @@ public class RobotMain extends IterativeRobot {
         Arm.outputPIDConstants();
 
         if (driveAfterAuto) {
-            DriveTrain.drive(-0.35, -0.5);
-        } else if (driver.leftStickYAxis() != 0 || driver.rightStickYAxis() != 0) {
+            DriveTrain.drive(-0.45, -0.5);
+            System.out.println("driving after auto!!");
+        } 
+
+        if (driver.leftStickYAxis() != 0 || driver.rightStickYAxis() != 0) {
             driveAfterAuto = false;
-        }
+            System.out.println("\n\n\n\n MANUAL CONTROL \n\n\n\n");
+        } 
         
         /*
          * Manip loader control
