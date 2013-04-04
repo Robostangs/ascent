@@ -22,6 +22,7 @@ public class Constants {
      */
     public static final double JAG_CONFIG_TIME = ReadConstants.getJagConfigTime();
     public static final double BENNETT_CONSTANT = ReadConstants.getBennettConstant();
+    public static final double TELEOP_DRIVE_TIME = ReadConstants.getTeleopDriveTime();
 
     /*
      * Arm

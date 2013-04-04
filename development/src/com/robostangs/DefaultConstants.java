@@ -10,6 +10,7 @@ public class DefaultConstants {
      */
     public static final double JAG_CONFIG_TIME = 0.5;
     public static final double BENNETT_CONSTANT = 0.44;
+    public static final double TELEOP_DRIVE_TIME = 1.5;
 
     /*
      * Arm

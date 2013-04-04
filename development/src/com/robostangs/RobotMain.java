@@ -8,6 +8,7 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -20,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotMain extends IterativeRobot {
     private XboxDriver driver;
     private XboxManip manip;
+    private Timer timer;
     private boolean fullShootMode, driveAfterAuto;
     private double potValue;
     
@@ -39,6 +41,7 @@ public class RobotMain extends IterativeRobot {
         DriveTrain.getInstance();
         Loader.getInstance();
         Shooter.getInstance();
+        timer = new Timer();
         driver = XboxDriver.getInstance();
         manip = XboxManip.getInstance();
         potValue = 0;
@@ -65,6 +68,9 @@ public class RobotMain extends IterativeRobot {
     public void teleopInit() {
         if (driveAfterAuto) {
             DriveTrain.drive(-0.35, -0.5);
+            timer.stop();
+            timer.reset();
+            timer.start();
         }
     }
     /**
@@ -75,9 +81,11 @@ public class RobotMain extends IterativeRobot {
         //System.out.println("pot: " + Arm.getPot());
         Arm.outputPIDConstants();
 
-        if (driveAfterAuto) {
+        if (driveAfterAuto && timer.get() < Constants.TELEOP_DRIVE_TIME) {
             DriveTrain.drive(-0.45, -0.5);
             System.out.println("driving after auto!!");
+        } else {
+            timer.stop();
         } 
 
         if (driver.leftStickYAxis() != 0 || driver.rightStickYAxis() != 0) {

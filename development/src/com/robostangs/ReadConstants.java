@@ -110,6 +110,15 @@ public class ReadConstants {
         }
     }
 
+    public static double getTeleopDriveTime() {
+        double x = findDouble("TELEOP_DRIVE_TIME");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.TELEOP_DRIVE_TIME;
+        }
+    }
+
     public static int getArmJagPos() {
         int x = findInt("ARM_JAG_POS");
         if (x != -1) {
