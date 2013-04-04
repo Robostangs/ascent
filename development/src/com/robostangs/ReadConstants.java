@@ -12,8 +12,8 @@ import javax.microedition.io.Connector;
  * @author sky
  */
 public class ReadConstants {
+    private static ReadConstants instance = null;
     private static String inputFileName = "constants.txt";
-    private static ReadConstants instance;
     private static Vector contents;
     private static String[] keys;
     private static double[] constants;
@@ -26,13 +26,14 @@ public class ReadConstants {
             BufferedReader in = new BufferedReader(new InputStreamReader(fc.openInputStream()));
 
             while ((line = in.readLine()) != null) {
-                contents.addElement(line);
+                if (line.indexOf("=") != -1) { 
+                    contents.addElement(line);
+                }
             }
 
             fc.close();
         } catch (IOException ex) {
             ex.printStackTrace();
-            Log.write("unable to read constants from file");
         }
 
         contents.trimToSize();
@@ -43,13 +44,15 @@ public class ReadConstants {
     }
 
     public static void processText() {
-        int commaPos = 0;
+        int equalPos = 0;
         String line = "";
         for (int i = 0; i < contents.size(); i++) {
             line = (String) contents.elementAt(i);
-            commaPos = line.indexOf(",", i);
-            keys[i] = line.substring(0, commaPos);
-            constants[i] = Double.parseDouble(line.substring(commaPos + 1, line.length()));
+            equalPos = line.indexOf("=");
+            keys[i] = line.substring(0, equalPos);
+            constants[i] = Double.parseDouble(line.substring(equalPos + 1, line.length()));
+            System.out.println("key " + i + " " + keys[i]);
+            System.out.println("constant " + i + " " + constants[i]);
         }
     }
 

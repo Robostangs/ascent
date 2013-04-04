@@ -30,6 +30,8 @@ public class RobotMain extends IterativeRobot {
     public void robotInit() {
         //avoid null pointers
         Log.getInstance();
+        ReadConstants.init();
+        Constants.init();
         Arm.getInstance();
         ArmCamera.getInstance();
         Camera.getInstance();

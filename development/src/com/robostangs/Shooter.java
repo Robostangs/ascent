@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * maintainer: Nicholas
  */
 public class Shooter {
-    public static Shooter instance = null;
+    private static Shooter instance = null;
     private static CANJaguar shooter1, shooter2, shooter3;
     private static boolean feedMode = false;
     private static Timer timer;

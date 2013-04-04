@@ -6,9 +6,16 @@ package com.robostangs;
  * TODO: everything pretty much.
  */
 public class Constants {
+    private static Constants instance = null;
 
     private Constants() {
         ReadConstants.init();
+    }
+
+    public static void init() {
+        if (instance == null) {
+            instance = new Constants();
+        }
     }
     /*
      * Used in multiple classes
