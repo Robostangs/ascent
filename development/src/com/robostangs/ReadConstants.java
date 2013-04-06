@@ -353,6 +353,60 @@ public class ReadConstants {
         }
     }
 
+    public static int getClimberLeftServoPos() {
+        int x = findInt("CLIMBER_LEFT_SERVO_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CLIMBER_LEFT_SERVO_POS;
+        }
+    }
+    
+    public static int getClimberRightServoPos() {
+        int x = findInt("CLIMBER_RIGHT_SERVO_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CLIMBER_RIGHT_SERVO_POS;
+        }
+    }
+    
+    public static double getClimberLeftOutPos() {
+        int x = findInt("CLIMBER_LEFT_OUT_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CLIMBER_LEFT_OUT_POS;
+        }
+    }
+    
+    public static double getClimberRightOutPos() {
+        int x = findInt("CLIMBER_RIGHT_OUT_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CLIMBER_RIGHT_OUT_POS;
+        }
+    }
+
+    public static double getClimberLeftInPos() {
+        int x = findInt("CLIMBER_LEFT_IN_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CLIMBER_LEFT_IN_POS;
+        }
+    }
+    
+    public static double getClimberRightInPos() {
+        int x = findInt("CLIMBER_RIGHT_IN_POS");
+        if (x != -1) {
+            return x;
+        } else {
+            return DefaultConstants.CLIMBER_RIGHT_IN_POS;
+        }
+    }
+    
     public static int getConvShootJagPos() {
         int x = findInt("CONV_SHOOT_JAG_POS");
         if (x != -1) {

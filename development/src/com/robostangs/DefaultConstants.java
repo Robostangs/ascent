@@ -67,6 +67,16 @@ public class DefaultConstants {
     public static final double AUTON_ARM_POS = ARM_SHOOTING_POS;
     
     /*
+     * Climber
+     */
+    public static final int CLIMBER_LEFT_SERVO_POS = 1;
+    public static final int CLIMBER_RIGHT_SERVO_POS = 2;
+    public static final double CLIMBER_LEFT_OUT_POS = 1.0;
+    public static final double CLIMBER_RIGHT_OUT_POS = 1.0;
+    public static final double CLIMBER_LEFT_IN_POS = 0.0;
+    public static final double CLIMBER_RIGHT_IN_POS = 0.0;
+    
+    /*
      * Conveyors
      */
     public static final int CONV_SHOOT_JAG_POS = 12;
