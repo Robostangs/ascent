@@ -43,6 +43,12 @@ public class ReadConstants {
         processText();
     }
 
+    public static void init() {
+        if (instance == null) {
+            instance = new ReadConstants();
+        }
+    }
+    
     public static void processText() {
         int equalPos = 0;
         String line = "";
@@ -56,37 +62,46 @@ public class ReadConstants {
         }
     }
 
-    public static void init() {
-        if (instance == null) {
-            instance = new ReadConstants();
-        }
-    }
-    
     public static int findKey(String key) {
-        for (int i = 0; i < keys.length; i++) {
-            if (keys[i].equalsIgnoreCase(key)) {
-                return i;
+        try {
+            for (int i = 0; i < keys.length; i++) {
+                if (keys[i].equalsIgnoreCase(key)) {
+                    return i;
+                }
             }
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+            return -1;
         }
 
         return -1;
     }
 
     public static double findDouble(String key) {
-        for (int i = 0; i < keys.length; i++) {
-            if (keys[i].equalsIgnoreCase(key)) {
-                return constants[i];
+        try {
+            for (int i = 0; i < keys.length; i++) {
+                if (keys[i].equalsIgnoreCase(key)) {
+                    return constants[i];
+                }
             }
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+            return -1;
         }
 
         return -1;
     }
 
     public static int findInt(String key) {
-        for (int i = 0; i < keys.length; i++) {
-            if (keys[i].equalsIgnoreCase(key)) {
-                return (int) constants[i];
+        try {
+            for (int i = 0; i < keys.length; i++) {
+                if (keys[i].equalsIgnoreCase(key)) {
+                    return (int) constants[i];
+                }
             }
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+            return -1;
         }
 
         return -1;
