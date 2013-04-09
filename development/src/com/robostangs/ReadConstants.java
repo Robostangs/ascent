@@ -272,11 +272,14 @@ public class ReadConstants {
                     return i;
                 }
             }
-        } catch (NullPointerException ex) {
-            ex.printStackTrace();
-            return -1;
+        } catch (NullPointerException ex) {            
+            for(int j = 0; j < defKeys.length; j++) {
+                if (defKeys[j].equalsIgnoreCase(key)) {
+                    return j;
+                }
+            }
         }
-
+        
         return -1;
     }
 
@@ -288,8 +291,11 @@ public class ReadConstants {
                 }
             }
         } catch (NullPointerException ex) {
-            ex.printStackTrace();
-            return -1;
+            for(int j = 0; j < defKeys.length; j++) {
+                if (defKeys[j].equalsIgnoreCase(key)) {
+                    return defConstants[j];
+                }
+            }
         }
 
         return -1;
@@ -303,10 +309,13 @@ public class ReadConstants {
                 }
             }
         } catch (NullPointerException ex) {
-            ex.printStackTrace();
-            return -1;
+            for(int j = 0; j < defKeys.length; j++) {
+                if (defKeys[j].equalsIgnoreCase(key)) {
+                    return (int) defConstants[j];
+                }
+            }
         }
-
+        
         return -1;
     }
 }
