@@ -22,7 +22,7 @@ public class Arm {
         //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
         
         //configure PID
-        pidA.setInputRange(Constants.ARM_POT_SLOW_VALUE, Constants.ARM_POT_MAX_VALUE);
+        pidA.setInputRange(Constants.ARM_POT_MIN_VALUE, Constants.ARM_POT_MAX_VALUE);
         pidA.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         pidA.setAbsoluteTolerance(3);
         //pidCam.setInputRange(Constants.ARM_POT_MIN_VALUE, Constants.ARM_POT_MAX_VALUE);
@@ -64,11 +64,6 @@ public class Arm {
 
         if (pidEnabled()) {
             disablePID();
-        }
-
-        if (currentPot <= (Constants.ARM_POT_SLOW_VALUE + 10) && power > 0) {
-            //needs to go slow because of gas strut, go min speed and retain sign
-            power = Constants.ARM_MIN_VOLTAGE * (power / Math.abs(power));
         }
 
         if (currentPot >= Constants.ARM_POT_MAX_VALUE && power > 0) {
