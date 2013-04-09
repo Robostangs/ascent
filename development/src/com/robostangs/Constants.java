@@ -20,36 +20,36 @@ public class Constants {
     /*
      * Used in multiple classes
      */
-    public static final double JAG_CONFIG_TIME = ReadConstants.getJagConfigTime();
-    public static final double BENNETT_CONSTANT = ReadConstants.getBennettConstant();
-    public static final double TELEOP_DRIVE_TIME = ReadConstants.getTeleopDriveTime();
+    public static final double JAG_CONFIG_TIME = ReadConstants.findDouble("JAG_CONFIG_TIME");
+    public static final double BENNETT_CONSTANT = ReadConstants.findDouble("BENNETT_CONSTANT");
+    public static final double TELEOP_DRIVE_TIME = ReadConstants.findDouble("TELEOP_DRIVE_TIME");
 
     /*
      * Arm
      */
-    public static final int ARM_JAG_POS = ReadConstants.getArmJagPos();
-    public static final int ARM_POT_PORT = ReadConstants.getArmPotPos();
-    public static final int ARM_POT_MIN_VALUE = ReadConstants.getArmPotMinValue();
-    public static final int ARM_POT_MAX_VALUE = ReadConstants.getArmPotMaxValue();
-    public static final int ARM_POT_SLOW_VALUE = ReadConstants.getArmPotSlowValue();
-    public static final double ARM_MIN_VOLTAGE = ReadConstants.getArmMinVoltage();
+    public static final int ARM_JAG_POS = ReadConstants.findInt("ARM_JAG_POS");
+    public static final int ARM_POT_PORT = ReadConstants.findInt("ARM_POT_PORT");
+    public static final int ARM_POT_MIN_VALUE = ReadConstants.findInt("ARM_POT_MIN_VALUE");
+    public static final int ARM_POT_MAX_VALUE = ReadConstants.findInt("ARM_POT_MAX_VALUE");
+    public static final int ARM_POT_SLOW_VALUE = ReadConstants.findInt("ARM_POT_SLOW_VALUE");
+    public static final double ARM_MIN_VOLTAGE = ReadConstants.findDouble("ARM_MIN_VOLTAGE");
     // Arm PID
-    public static final double ARM_KP_SMALL = ReadConstants.getArmKPSmall();
-    public static final double ARM_KI_SMALL = ReadConstants.getArmKISmall();
-    public static final double ARM_KD_SMALL = ReadConstants.getArmKDSmall();
-    public static final double ARM_KP_MED = ReadConstants.getArmKPMed();
-    public static final double ARM_KI_MED = ReadConstants.getArmKIMed();
-    public static final double ARM_KD_MED = ReadConstants.getArmKDMed();
-    public static final double ARM_KP_LARGE = ReadConstants.getArmKPLarge();
-    public static final double ARM_KI_LARGE = ReadConstants.getArmKILarge();
-    public static final double ARM_KD_LARGE = ReadConstants.getArmKDLarge();
-    public static final double ARM_KP_CAM = ReadConstants.getArmKPCam();
-    public static final double ARM_KI_CAM = ReadConstants.getArmKICam();
-    public static final double ARM_KD_CAM = ReadConstants.getArmKDCam();
-    public static final double ARM_MIN_POWER = ReadConstants.getArmMinPower();
-    public static final double ARM_MAX_POWER = ReadConstants.getArmMaxPower();
-    public static final double ARM_PID_POT_MIN = ReadConstants.getArmPIDPotMin();
-    public static final double ARM_PID_POT_MAX = ReadConstants.getArmPIDPotMax();
+    public static final double ARM_KP_SMALL = ReadConstants.findDouble("ARM_KP_SMALL");
+    public static final double ARM_KI_SMALL = ReadConstants.findDouble("ARM_KI_SMALL");
+    public static final double ARM_KD_SMALL = ReadConstants.findDouble("ARM_KD_SMALL");
+    public static final double ARM_KP_MED = ReadConstants.findDouble("ARM_KP_MED");
+    public static final double ARM_KI_MED = ReadConstants.findDouble("ARM_KI_MED");
+    public static final double ARM_KD_MED = ReadConstants.findDouble("ARM_KD_MED");
+    public static final double ARM_KP_LARGE = ReadConstants.findDouble("ARM_KP_LARGE");
+    public static final double ARM_KI_LARGE = ReadConstants.findDouble("ARM_KI_LARGE");
+    public static final double ARM_KD_LARGE = ReadConstants.findDouble("ARM_KD_LARGE");
+    public static final double ARM_KP_CAM = ReadConstants.findDouble("ARM_KP_CAM");
+    public static final double ARM_KI_CAM = ReadConstants.findDouble("ARM_KI_CAM");
+    public static final double ARM_KD_CAM = ReadConstants.findDouble("ARM_KD_CAM");
+    public static final double ARM_MIN_POWER = ReadConstants.findDouble("ARM_MIN_POWER");
+    public static final double ARM_MAX_POWER = ReadConstants.findDouble("ARM_MAX_POWER");
+    public static final double ARM_PID_POT_MIN = ReadConstants.findDouble("ARM_PID_POT_MIN");
+    public static final double ARM_PID_POT_MAX = ReadConstants.findDouble("ARM_PID_POT_MAX");
 
     /**
      * 0.015
@@ -68,97 +68,97 @@ public class Constants {
      * 0
      */
     //positions
-    public static final double ARM_SHOOTING_POS = ReadConstants.getArmShootingPos();
-    public static final double ARM_START_POS = ReadConstants.getArmStartPos();
+    public static final double ARM_SHOOTING_POS = ReadConstants.findDouble("ARM_SHOOTING_POS");
+    public static final double ARM_START_POS = ReadConstants.findDouble("ARM_START_POS");
 
     /*
      * Autonomous
      */
-    public static final double AUTON_DRIVE_POWER = ReadConstants.getAutonDrivePower();
-    public static final double AUTON_TURN_POWER = ReadConstants.getAutonTurnPower();
+    public static final double AUTON_DRIVE_POWER = ReadConstants.findDouble("AUTON_DRIVE_POWER");
+    public static final double AUTON_TURN_POWER = ReadConstants.findDouble("AUTON_TURN_POWER");
     public static final double AUTON_ARM_POS = ARM_SHOOTING_POS;
     
     /*
      * Climber
      */
-    public static final int CLIMBER_LEFT_SERVO_POS = ReadConstants.getClimberLeftServoPos();
-    public static final int CLIMBER_RIGHT_SERVO_POS = ReadConstants.getClimberRightServoPos();
-    public static final double CLIMBER_LEFT_OUT_POS = ReadConstants.getClimberLeftOutPos();
-    public static final double CLIMBER_RIGHT_OUT_POS = ReadConstants.getClimberRightOutPos();
-    public static final double CLIMBER_LEFT_IN_POS = ReadConstants.getClimberLeftInPos();
-    public static final double CLIMBER_RIGHT_IN_POS = ReadConstants.getClimberRightInPos();
+    public static final int CLIMBER_LEFT_SERVO_POS = ReadConstants.findInt("CLIMBER_LEFT_SERVO_POS");
+    public static final int CLIMBER_RIGHT_SERVO_POS = ReadConstants.findInt("CLIMBER_RIGHT_SERVO_POS");
+    public static final double CLIMBER_LEFT_OUT_POS = ReadConstants.findDouble("CLIMBER_LEFT_OUT_POS");
+    public static final double CLIMBER_RIGHT_OUT_POS = ReadConstants.findDouble("CLIMBER_RIGHT_OUT_POS");
+    public static final double CLIMBER_LEFT_IN_POS = ReadConstants.findDouble("CLIMBER_LEFT_IN_POS");
+    public static final double CLIMBER_RIGHT_IN_POS = ReadConstants.findDouble("CLIMBER_RIGHT_IN_POS");
     
     /*
      * Conveyors
      */
-    public static final int CONV_SHOOT_JAG_POS = ReadConstants.getConvShootJagPos();
-    public static final int CONV_INGEST_JAG_POS = ReadConstants.getConvIngestJagPos();
-    public static final double CONV_SHOOTER_POWER = ReadConstants.getConvShooterPower();
-    public static final double CONV_INGEST_POWER = ReadConstants.getConvIngestPower();
+    public static final int CONV_SHOOT_JAG_POS = ReadConstants.findInt("CONV_SHOOT_JAG_POS");
+    public static final int CONV_INGEST_JAG_POS = ReadConstants.findInt("CONV_INGEST_JAG_POS");
+    public static final double CONV_SHOOTER_POWER = ReadConstants.findDouble("CONV_SHOOTER_POWER");
+    public static final double CONV_INGEST_POWER = ReadConstants.findDouble("CONV_INGEST_POWER");
     
     /*
      * Camera
      */
-    public static final int CAM_Y_OFFSET = ReadConstants.getCamYOffset();
-    public static final int CAM_X_OFFSET = ReadConstants.getCamXOffset();
+    public static final int CAM_Y_OFFSET = ReadConstants.findInt("CAM_Y_OFFSET");
+    public static final int CAM_X_OFFSET = ReadConstants.findInt("CAM_X_OFFSET");
 
     /*
      * DriveTrain
      */
     //Positions
-    public static final int DT_LEFT_ENCODER_FRONT = ReadConstants.getDTLeftEncoderFront();
-    public static final int DT_LEFT_ENCODER_BACK = ReadConstants.getDTLeftEncoderBack();
-    public static final int DT_RIGHT_ENCODER_FRONT = ReadConstants.getDTRightEncoderFront();
-    public static final int DT_RIGHT_ENCODER_BACK = ReadConstants.getDTRightEncoderBack();
-    public static final int DT_GYRO_POS = ReadConstants.getDTGyroPos();
-    public static final int DT_JAG_LEFT_FRONT_POS = ReadConstants.getDTJagLeftFrontPos();
-    public static final int DT_JAG_LEFT_MID_POS = ReadConstants.getDTJagLeftMidPos();
-    public static final int DT_JAG_LEFT_BACK_POS = ReadConstants.getDTJagLeftBackPos();
-    public static final int DT_JAG_RIGHT_FRONT_POS = ReadConstants.getDTJagRightFrontPos();
-    public static final int DT_JAG_RIGHT_MID_POS = ReadConstants.getDTJagRightMidPos();
-    public static final int DT_JAG_RIGHT_BACK_POS = ReadConstants.getDTJagRightBackPos();
+    public static final int DT_LEFT_ENCODER_FRONT = ReadConstants.findInt("DT_LEFT_ENCODER_FRONT");
+    public static final int DT_LEFT_ENCODER_BACK = ReadConstants.findInt("DT_LEFT_ENCODER_BACK");
+    public static final int DT_RIGHT_ENCODER_FRONT = ReadConstants.findInt("DT_RIGHT_ENCODER_FRONT");
+    public static final int DT_RIGHT_ENCODER_BACK = ReadConstants.findInt("DT_RIGHT_ENCODER_BACK");
+    public static final int DT_GYRO_POS = ReadConstants.findInt("DT_GYRO_POS");
+    public static final int DT_JAG_LEFT_FRONT_POS = ReadConstants.findInt("DT_JAG_LEFT_FRONT_POS");
+    public static final int DT_JAG_LEFT_MID_POS = ReadConstants.findInt("DT_JAG_LEFT_MID_POS");
+    public static final int DT_JAG_LEFT_BACK_POS = ReadConstants.findInt("DT_JAG_LEFT_BACK_POS");
+    public static final int DT_JAG_RIGHT_FRONT_POS = ReadConstants.findInt("DT_JAG_RIGHT_FRONT_POS");
+    public static final int DT_JAG_RIGHT_MID_POS = ReadConstants.findInt("DT_JAG_RIGHT_MID_POS");
+    public static final int DT_JAG_RIGHT_BACK_POS = ReadConstants.findInt("DT_JAG_RIGHT_BACK_POS");
     
     /*
      * Ingestor
      */
-    public static final int INGEST_RELAY_POS = 0;
+    public static final int INGEST_RELAY_POS = ReadConstants.findInt("INGEST_RELAY_POS");
     
     /*
      * Lifter
      */
-    public static final int LIFTER_JAG_POS = ReadConstants.getLifterJagPos();
-    public static final double LIFTER_UP_POWER = ReadConstants.getLifterUpPower();
-    public static final double LIFTER_DOWN_POWER = ReadConstants.getLifterDownPower();
-    public static final double LIFTER_UP_TIME = ReadConstants.getLifterUpTime();
-    public static final double LIFTER_DOWN_TIME = ReadConstants.getLifterDownTime();
-    public static final int LIFTER_TOP_PROX_DIGITAL_PORT = ReadConstants.getLifterTopProxDigitalPort();
-    public static final int LIFTER_TOP_PROX_SOLENOID_PORT = ReadConstants.getLifterTopProxSolenoidPort();
-    public static final int LIFTER_BOTTOM_PROX_DIGITAL_PORT = ReadConstants.getLifterBottomProxDigitalPort();
-    public static final int LIFTER_BOTTOM_PROX_SOLENOID_PORT = ReadConstants.getLifterBottomProxSolenoidPort();
+    public static final int LIFTER_JAG_POS = ReadConstants.findInt("LIFTER_JAG_POS");
+    public static final double LIFTER_UP_POWER = ReadConstants.findDouble("LIFTER_UP_POWER");
+    public static final double LIFTER_DOWN_POWER = ReadConstants.findDouble("LIFTER_DOWN_POWER");
+    public static final double LIFTER_UP_TIME = ReadConstants.findDouble("LIFTER_UP_TIME");
+    public static final double LIFTER_DOWN_TIME = ReadConstants.findDouble("LIFTER_DOWN_TIME");
+    public static final int LIFTER_TOP_PROX_DIGITAL_PORT = ReadConstants.findInt("LIFTER_TOP_PROX_DIGITAL_PORT");
+    public static final int LIFTER_TOP_PROX_SOLENOID_PORT = ReadConstants.findInt("LIFTER_TOP_PROX_SOLENOID_PORT");
+    public static final int LIFTER_BOTTOM_PROX_DIGITAL_PORT = ReadConstants.findInt("LIFTER_BOTTOM_PROX_DIGITAL_PORT");
+    public static final int LIFTER_BOTTOM_PROX_SOLENOID_PORT = ReadConstants.findInt("LIFTER_BOTTOM_PROX_SOLENOID_PORT");
         
     /*
      * Shooter
      */ 
-    public static final int SHOOTER_JAG1_POS = ReadConstants.getShooterJagOnePos();
-    public static final int SHOOTER_JAG2_POS = ReadConstants.getShooterJagTwoPos();
-    public static final int SHOOTER_JAG3_POS = ReadConstants.getShooterJagThreePos();
+    public static final int SHOOTER_JAG1_POS = ReadConstants.findInt("SHOOTER_JAG1_POS");
+    public static final int SHOOTER_JAG2_POS = ReadConstants.findInt("SHOOTER_JAG2_POS");
+    public static final int SHOOTER_JAG3_POS = ReadConstants.findInt("SHOOTER_JAG3_POS");
 
-    public static final double SHOOTER_MAX_POWER = ReadConstants.getShooterMaxPower();
-    public static final double SHOOTER_FEED_POWER = ReadConstants.getShooterFeedPower();
-    public static final double SHOOTER_FULL_BATTERY_VOLTAGE = ReadConstants.getShooterFullBatteryVoltage();
-    public static final double SHOOTER_VOLTAGE_TOLERANCE = ReadConstants.getShooterVoltageTolerance();
-    public static final double SHOOTER_READY_CURRENT_MAX = ReadConstants.getShooterReadyCurrentMax();
-    public static final double SHOOTER_READY_CURRENT_MIN = ReadConstants.getShooterReadyCurrentMin();
+    public static final double SHOOTER_MAX_POWER = ReadConstants.findDouble("SHOOTER_MAX_POWER");
+    public static final double SHOOTER_FEED_POWER = ReadConstants.findDouble("SHOOTER_FEED_POWER");
+    public static final double SHOOTER_FULL_BATTERY_VOLTAGE = ReadConstants.findDouble("SHOOTER_FULL_BATTERY_VOLTAGE");
+    public static final double SHOOTER_VOLTAGE_TOLERANCE = ReadConstants.findDouble("SHOOTER_VOLTAGE_TOLERANCE");
+    public static final double SHOOTER_READY_CURRENT_MAX = ReadConstants.findDouble("SHOOTER_READY_CURRENT_MAX");
+    public static final double SHOOTER_READY_CURRENT_MIN = ReadConstants.findDouble("SHOOTER_READY_CURRENT_MIN");
     //GOOD SHOOTING ANGLE: 247
     
     /*
      * XboxController
      */
     //Driver
-    public static final double XBOX_DRIVER_DRIFT = ReadConstants.getXboxDriverDrift();
-    public static final int XBOX_DRIVER_PORT = ReadConstants.getXboxDriverPort();
+    public static final double XBOX_DRIVER_DRIFT = ReadConstants.findDouble("XBOX_DRIVER_DRIFT");
+    public static final int XBOX_DRIVER_PORT = ReadConstants.findInt("XBOX_DRIVER_PORT");
     
     //Manipulator
-    public static final int XBOX_MANIP_PORT = ReadConstants.getXboxManipPort();
-    public static final double XBOX_MANIP_DRIFT = ReadConstants.getXboxManipDrift();
+    public static final int XBOX_MANIP_PORT = ReadConstants.findInt("XBOX_MANIP_PORT");
+    public static final double XBOX_MANIP_DRIFT = ReadConstants.findDouble("XBOX_MANIP_DRIFT");
 }
