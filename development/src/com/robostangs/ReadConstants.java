@@ -17,6 +17,8 @@ public class ReadConstants {
     private static Vector contents;
     private static String[] keys;
     private static double[] constants;
+    private static String[] defKeys = new String[100];
+    private static double[] defConstants = new double[100];
 
     private ReadConstants() {
         contents = new Vector();
@@ -41,6 +43,207 @@ public class ReadConstants {
         constants = new double[contents.size()];
 
         processText();
+        
+        defKeys[0] = "JAG_CONFIG_TIME";
+        defConstants[0] = 0.5;
+        defKeys[1] = "BENNETT_CONSTANT";
+        defConstants[1] = 0.44;
+        defKeys[2] = "TELEOP_DRIVE_TIME";
+        defConstants[2] = 1.5;
+        defKeys[3] = "ARM_JAG_POS";
+        defConstants[3] = 11;
+        defKeys[4] = "ARM_POT_PORT";
+        defConstants[4] = 2;
+        defKeys[5] = "ARM_POT_MIN_VALUE";
+        defConstants[5] = 47;
+        defKeys[6] = "ARM_POT_MAX_VALUE";
+        defConstants[6] = 700;
+        defKeys[7] = "ARM_POT_SLOW_VALUE";
+        defConstants[7] = 330;
+        defKeys[8] = "ARM_MIN_VOLTAGE";
+        defConstants[8] = 0.07;
+        defKeys[9] = "ARM_KP_SMALL";
+        defConstants[9] = 0.0128;
+        defKeys[10] = "ARM_KI_SMALL";
+        defConstants[10] = 0.0000009;
+        defKeys[11] = "ARM_KD_SMALL";
+        defConstants[11] = 0.0;
+        defKeys[12] = "ARM_KP_MED";
+        defConstants[12] = 0.0157;
+        defKeys[13] = "ARM_KI_MED";
+        defConstants[13] = 0.00000001;
+        defKeys[14] = "ARM_KD_MED";
+        defConstants[14] = 0.0;
+        defKeys[15] = "ARM_KP_LARGE";
+        defConstants[15] = 0.0161;
+        defKeys[16] = "ARM_KI_LARGE";
+        defConstants[16] = 0.0;
+        defKeys[17] = "ARM_KD_LARGE";
+        defConstants[17] = 0.0;
+        defKeys[18] = "ARM_KP_CAM";
+        defConstants[18] = 0.0;
+        defKeys[19] = "ARM_KI_CAM";
+        defConstants[19] = 0.0;
+        defKeys[20] = "ARM_KD_CAM";
+        defConstants[20] = 0.0;
+        defKeys[21] = "ARM_MIN_POWER";
+        defConstants[21] = -0.95;
+        defKeys[22] = "ARM_MAX_POWER";
+        defConstants[22] = 0.95;
+        defKeys[23] = "ARM_PID_POT_MIN";
+        defConstants[23] = 318;
+        defKeys[24] = "ARM_PID_POT_MAX";
+        defConstants[24] = 725;
+        defKeys[25] = "ARM_SHOOTING_POS";
+        defConstants[25] = 430;
+        defKeys[26] = "ARM_START_POS";
+        defConstants[26] = 600;
+        defKeys[27] = "AUTON_DRIVE_POWER";
+        defConstants[27] = 0.3;
+        defKeys[28] = "AUTON_TURN_POWER";
+        defConstants[28] = 0.5;
+        defKeys[29] = "AUTON_ARM_POS";
+        defConstants[29] = defConstants[25];
+        defKeys[30] = "CLIMBER_LEFT_SERVO_POS";
+        defConstants[30] = 1;
+        defKeys[31] = "CLIMBER_RIGHT_SERVO_POS";
+        defConstants[31] = 2;
+        defKeys[32] = "CLIMBER_LEFT_OUT_POS";
+        defConstants[32] = 1.0;
+        defKeys[33] = "CLIMBER_RIGHT_OUT_POS";
+        defConstants[33] = 1.0;
+        defKeys[34] = "CLIMBER_LEFT_IN_POS";
+        defConstants[34] = 0.0;
+        defKeys[35] = "CLIMBER_RIGHT_IN_POS";
+        defConstants[35] = 0.0;
+        defKeys[36] = "CONV_SHOOT_JAG_POS";
+        defConstants[36] = 12;
+        defKeys[37] = "CONV_INGEST_JAG_POS";
+        defConstants[37] = 13;
+        defKeys[38] = "CONV_SHOOTER_POWER";
+        defConstants[38] = 1.0;
+        defKeys[39] = "CONV_INGEST_POWER";
+        defConstants[39] = 0.95;
+        defKeys[40] = "CAM_Y_OFFSET";
+        defConstants[40] = 0;
+        defKeys[41] = "CAM_X_OFFSET";
+        defConstants[41] = 0;
+        defKeys[42] = "DT_LEFT_ENCODER_FRONT";
+        defConstants[42] = 2;
+        defKeys[43] = "DT_LEFT_ENCODER_BACK";
+        defConstants[43] = 3;
+        defKeys[44] = "DT_RIGHT_ENCODER_FRONT";
+        defConstants[44] = 4;
+        defKeys[45] = "DT_RIGHT_ENCODER_BACK";
+        defConstants[45] = 5;
+        defKeys[46] = "DT_GYRO_POS";
+        defConstants[46] = 0;
+        defKeys[47] = "DT_JAG_LEFT_FRONT_POS";
+        defConstants[47] = 4;
+        defKeys[48] = "DT_JAG_LEFT_MID_POS";
+        defConstants[48] = 5;
+        defKeys[49] = "DT_JAG_LEFT_BACK_POS";
+        defConstants[49] = 6;
+        defKeys[50] = "DT_JAG_RIGHT_FRONT_POS";
+        defConstants[50] = 7;
+        defKeys[51] = "DT_JAG_RIGHT_MID_POS";
+        defConstants[51] = 8;
+        defKeys[52] = "DT_JAG_RIGHT_BACK_POS";
+        defConstants[52] = 9;
+        defKeys[53] = "DT_JAG_CLIMB_POS";
+        defConstants[53] = 14;
+        defKeys[54] = "DT_SERVO_POS";
+        defConstants[54] = 1;
+        defKeys[55] = "DT_CLIMB_POS";
+        defConstants[55] = 180;
+        defKeys[56] = "DT_DRIVE_POS";
+        defConstants[56] = 0;
+        defKeys[57] = "DT_STRAIGHT_LEFT_INC";
+        defConstants[57] = 0.0;
+        defKeys[58] = "DT_STRAIGHT_LEFT_DEC";
+        defConstants[58] = 0.0;
+        defKeys[59] = "DT_STRAIGHT_RIGHT_INC";
+        defConstants[59] = 0.0;
+        defKeys[60] = "DT_STRAIGHT_RIGHT_DEC";
+        defConstants[60] = 0.0;
+        defKeys[61] = "DT_CONV_VOLT_TO_M_PER_SEC";
+        defConstants[61] = 0.0;
+        defKeys[62] = "DT_DELAY_TIME";
+        defConstants[62] = 1.0;
+        defKeys[63] = "DT_PID_K_P";
+        defConstants[63] = 0.0;
+        defKeys[64] = "DT_PID_K_I";
+        defConstants[64] = 0.0;
+        defKeys[65] = "DT_PID_K_D";
+        defConstants[65] = 0.0;
+        defKeys[66] = "INGEST_SWITCH_POS";
+        defConstants[66] = 0;
+        defKeys[67] = "SHOOT_SWITCH_POS";
+        defConstants[67] = 0;
+        defKeys[68] = "LIFT_SWITCH_POS";
+        defConstants[68] = 0;
+        defKeys[69] = "INGEST_FRISBEE_TIMER";
+        defConstants[69] = 0.0;
+        defKeys[70] = "LIFT_FRISBEE_TIMER";
+        defConstants[70] = 0.0;
+        defKeys[71] = "SHOOT_FRISBEE_TIMER";
+        defConstants[71] = 0.0;
+        defKeys[72] = "INGEST_RELAY_POS";
+        defConstants[72] = 0;
+        defKeys[73] = "LIFTER_JAG_POS";
+        defConstants[73] = 10;
+        defKeys[74] = "LIFTER_UP_POWER";
+        defConstants[74] = 0.4;
+        defKeys[75] = "LIFTER_DOWN_POWER";
+        defConstants[75] = 0.8;
+        defKeys[76] = "LIFTER_UP_TIME";
+        defConstants[76] = 2;
+        defKeys[77] = "LIFTER_DOWN_TIME";
+        defConstants[77] = 1.6;
+        defKeys[78] = "LIFTER_TOP_PROX_DIGITAL_PORT";
+        defConstants[78] = 2;
+        defKeys[79] = "LIFTER_TOP_PROX_SOLENOID_PORT";
+        defConstants[79] = 2;
+        defKeys[80] = "LIFTER_BOTTOM_PROX_DIGITAL_PORT";
+        defConstants[80] = 1;
+        defKeys[81] = "LIFTER_BOTTOM_PROX_SOLENOID_PORT";
+        defConstants[81] = 1;
+        defKeys[82] = "SHOOTER_JAG1_POS";
+        defConstants[82] = 2;
+        defKeys[83] = "SHOOTER_JAG2_POS";
+        defConstants[83] = 1;
+        defKeys[84] = "SHOOTER_JAG3_POS";
+        defConstants[84] = 3;
+        defKeys[85] = "SHOOTER_MAX_POWER";
+        defConstants[85] = 1.0;
+        defKeys[86] = "SHOOTER_FEED_POWER";
+        defConstants[86] = 0.22;
+        defKeys[87] = "TIME_TO_SHOOT_ONE";
+        defConstants[87] = 5.0;
+        defKeys[88] = "TIME_TO_SHOOT_TWO";
+        defConstants[88] = 0.0;
+        defKeys[89] = "TIME_TO_SHOOT_THREE";
+        defConstants[89] = 0.0;
+        defKeys[90] = "TIME_TO_SHOOT_FOUR";
+        defConstants[90] = 0.0;
+        defKeys[91] = "SHOOTER_FULL_BATTERY_VOLTAGE";
+        defConstants[91] = 14.0;
+        defKeys[92] = "SHOOTER_VOLTAGE_TOLERANCE";
+        defConstants[92] = 0.0;
+        defKeys[93] = "SHOOTER_READY_CURRENT_MAX";
+        defConstants[93] = 0.0;
+        defKeys[94] = "SHOOTER_READY_CURRENT_MIN";
+        defConstants[94] = 0.0;
+        defKeys[95] = "MICRO_TO_BASE";
+        defConstants[95] = 0.0;
+        defKeys[96] = "XBOX_DRIVER_DRIFT";
+        defConstants[96] = 0.2;
+        defKeys[97] = "XBOX_DRIVER_PORT";
+        defConstants[97] = 1;
+        defKeys[98] = "XBOX_MANIP_PORT";
+        defConstants[98] = 2;
+        defKeys[99] = "XBOX_MANIP_DRIFT";
+        defConstants[99] = 0.15;
     }
 
     public static void init() {
@@ -105,680 +308,5 @@ public class ReadConstants {
         }
 
         return -1;
-    }
-    
-    public static double getJagConfigTime() {
-        double x = findDouble("JAG_CONFIG_TIME");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.JAG_CONFIG_TIME;
-        }
-    }
-
-    public static double getBennettConstant() {
-        double x = findDouble("BENNETT_CONSTANT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.BENNETT_CONSTANT;
-        }
-    }
-
-    public static double getTeleopDriveTime() {
-        double x = findDouble("TELEOP_DRIVE_TIME");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.TELEOP_DRIVE_TIME;
-        }
-    }
-
-    public static int getArmJagPos() {
-        int x = findInt("ARM_JAG_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_JAG_POS;
-        }
-    }
-
-    public static int getArmPotPos() {
-        int x = findInt("ARM_POT_PORT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_POT_PORT;
-        }
-    }
-
-    public static int getArmPotMinValue() {
-        int x = findInt("ARM_POT_MIN_VALUE");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_POT_MIN_VALUE;
-        }
-    }
-
-    public static int getArmPotMaxValue() {
-        int x = findInt("ARM_POT_MAX_VALUE");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_POT_MAX_VALUE;
-        }
-    }
-
-    public static int getArmPotSlowValue() {
-        int x = findInt("ARM_POT_SLOW_VALUE");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_POT_SLOW_VALUE;
-        }
-    }
-
-    public static double getArmMinVoltage() {
-        double x = findDouble("ARM_MIN_VOLTAGE");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_MIN_VOLTAGE;
-        }
-    }
-
-    public static double getArmKPSmall() {
-        double x = findDouble("ARM_KP_SMALL");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KP_SMALL;
-        }
-    }
-
-    public static double getArmKISmall() {
-        double x = findDouble("ARM_KI_SMALL");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KI_SMALL;
-        }
-    }
-
-    public static double getArmKDSmall() {
-        double x = findDouble("ARM_KD_SMALL");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KD_SMALL;
-        }
-    }
-
-    public static double getArmKPMed() {
-        double x = findDouble("ARM_KP_MED");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KP_MED;
-        }
-    }
-
-    public static double getArmKIMed() {
-        double x = findDouble("ARM_KI_MED");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KI_MED;
-        }
-    }
-
-    public static double getArmKDMed() {
-        double x = findDouble("ARM_KD_MED");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KD_MED;
-        }
-    }
-
-    public static double getArmKPLarge() {
-        double x = findDouble("ARM_KP_LARGE");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KP_LARGE;
-        }
-    }
-
-    public static double getArmKILarge() {
-        double x = findDouble("ARM_KI_LARGE");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KI_LARGE;
-        }
-    }
-
-    public static double getArmKDLarge() {
-        double x = findDouble("ARM_KD_LARGE");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KD_LARGE;
-        }
-    }
-
-    public static double getArmKPCam() {
-        double x = findDouble("ARM_KP_CAM");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KP_CAM;
-        }
-    }
-
-    public static double getArmKICam() {
-        double x = findDouble("ARM_KI_CAM");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KI_CAM;
-        }
-    }
-
-    public static double getArmKDCam() {
-        double x = findDouble("ARM_KD_CAM");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_KD_CAM;
-        }
-    }
-
-    public static double getArmMinPower() {
-        double x = findDouble("ARM_MIN_POWER");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_MIN_POWER;
-        }
-    }
-
-    public static double getArmMaxPower() {
-        double x = findDouble("ARM_MAX_POWER");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_MAX_POWER;
-        }
-    }
-
-    public static double getArmPIDPotMin() {
-        double x = findDouble("ARM_PID_POT_MIN");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_PID_POT_MIN;
-        }
-    }
-
-    public static double getArmPIDPotMax() {
-        double x = findDouble("ARM_PID_POT_MAX");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_PID_POT_MAX;
-        }
-    }
-    
-    public static double getArmShootingPos() {
-        double x = findDouble("ARM_SHOOTING_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_SHOOTING_POS;
-        }
-    }
-
-    public static double getArmStartPos() {
-        double x = findDouble("ARM_START_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.ARM_START_POS;
-        }
-    }
-
-    public static double getAutonDrivePower() {
-        double x = findDouble("AUTON_DRIVE_POWER");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.AUTON_DRIVE_POWER;
-        }
-    }
-
-    public static double getAutonTurnPower() {
-        double x = findDouble("AUTON_TURN_POWER");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.AUTON_TURN_POWER;
-        }
-    }
-
-    public static int getClimberLeftServoPos() {
-        int x = findInt("CLIMBER_LEFT_SERVO_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CLIMBER_LEFT_SERVO_POS;
-        }
-    }
-    
-    public static int getClimberRightServoPos() {
-        int x = findInt("CLIMBER_RIGHT_SERVO_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CLIMBER_RIGHT_SERVO_POS;
-        }
-    }
-    
-    public static double getClimberLeftOutPos() {
-        int x = findInt("CLIMBER_LEFT_OUT_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CLIMBER_LEFT_OUT_POS;
-        }
-    }
-    
-    public static double getClimberRightOutPos() {
-        int x = findInt("CLIMBER_RIGHT_OUT_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CLIMBER_RIGHT_OUT_POS;
-        }
-    }
-
-    public static double getClimberLeftInPos() {
-        int x = findInt("CLIMBER_LEFT_IN_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CLIMBER_LEFT_IN_POS;
-        }
-    }
-    
-    public static double getClimberRightInPos() {
-        int x = findInt("CLIMBER_RIGHT_IN_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CLIMBER_RIGHT_IN_POS;
-        }
-    }
-    
-    public static int getConvShootJagPos() {
-        int x = findInt("CONV_SHOOT_JAG_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CONV_SHOOT_JAG_POS;
-        }
-    }
-
-    public static int getConvIngestJagPos() {
-        int x = findInt("CONV_INGEST_JAG_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CONV_INGEST_JAG_POS;
-        }
-    }
-
-    public static double getConvShooterPower() {
-        double x = findDouble("CONV_SHOOTER_POWER");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CONV_SHOOTER_POWER;
-        }
-    }
-
-    public static double getConvIngestPower() {
-        double x = findDouble("CONV_INGEST_POWER");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CONV_INGEST_POWER;
-        }
-    }
-
-    public static int getCamYOffset() {
-        int x = findInt("CAM_Y_OFFSET");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CAM_Y_OFFSET;
-        }
-    }
-
-    public static int getCamXOffset() {
-        int x = findInt("CAM_X_OFFSET");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.CAM_X_OFFSET;
-        }
-    }
-
-    public static int getDTLeftEncoderFront() {
-        int x = findInt("DT_LEFT_ENCODER_FRONT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_LEFT_ENCODER_FRONT;
-        }
-    }
-
-    public static int getDTLeftEncoderBack() {
-        int x = findInt("DT_LEFT_ENCODER_BACK");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_LEFT_ENCODER_BACK;
-        }
-    }
-
-    public static int getDTRightEncoderFront() {
-        int x = findInt("DT_RIGHT_ENCODER_FRONT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_RIGHT_ENCODER_FRONT;
-        }
-    }
-
-    public static int getDTRightEncoderBack() {
-        int x = findInt("DT_RIGHT_ENCODER_BACK");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_RIGHT_ENCODER_BACK;
-        }
-    }
-
-    public static int getDTGyroPos() {
-        int x = findInt("DT_GYRO_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_GYRO_POS;
-        }
-    }
-
-    public static int getDTJagLeftFrontPos() {
-        int x = findInt("DT_JAG_LEFT_FRONT_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_JAG_LEFT_FRONT_POS;
-        }
-    }
-
-    public static int getDTJagLeftMidPos() {
-        int x = findInt("DT_JAG_LEFT_MID_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_JAG_LEFT_MID_POS;
-        }
-    }
-
-    public static int getDTJagLeftBackPos() {
-        int x = findInt("DT_JAG_LEFT_BACK_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_JAG_LEFT_BACK_POS;
-        }
-    }
-
-    public static int getDTJagRightFrontPos() {
-        int x = findInt("DT_JAG_RIGHT_FRONT_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_JAG_RIGHT_FRONT_POS;
-        }
-    }
-
-    public static int getDTJagRightMidPos() {
-        int x = findInt("DT_JAG_RIGHT_MID_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_JAG_RIGHT_MID_POS;
-        }
-    }
-
-    public static int getDTJagRightBackPos() {
-        int x = findInt("DT_JAG_RIGHT_BACK_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_JAG_RIGHT_BACK_POS;
-        }
-    }
-
-    public static int getDTJagClimbPos() {
-        int x = findInt("DT_JAG_CLIMB_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.DT_JAG_CLIMB_POS;
-        }
-    }
-
-    public static int getLifterJagPos() {
-        int x = findInt("LIFTER_JAG_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.LIFTER_JAG_POS;
-        }
-    }
-
-    public static double getLifterDownPower() {
-        double x = findDouble("LIFTER_DOWN_POWER");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.LIFTER_DOWN_POWER;
-        }
-    }
-
-    public static double getLifterUpPower() {
-        double x = findDouble("LIFTER_UP_POWER");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.LIFTER_UP_POWER;
-        }
-    }
-
-    public static double getLifterUpTime() {
-        double x = findDouble("LIFTER_UP_TIME");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.LIFTER_UP_TIME;
-        }
-    }
-
-    public static double getLifterDownTime() {
-        double x = findDouble("LIFTER_DOWN_TIME");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.LIFTER_DOWN_TIME;
-        }
-    }
-
-    public static int getLifterTopProxDigitalPort() {
-        int x = findInt("LIFTER_TOP_PROX_DIGITAL_PORT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.LIFTER_TOP_PROX_DIGITAL_PORT;
-        }
-    }
-
-    public static int getLifterTopProxSolenoidPort() {
-        int x = findInt("LIFTER_TOP_PROX_SOLENOID_PORT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.LIFTER_TOP_PROX_SOLENOID_PORT;
-        }
-    }
-
-    public static int getLifterBottomProxDigitalPort() {
-        int x = findInt("LIFTER_BOTTOM_PROX_DIGITAL_PORT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.LIFTER_BOTTOM_PROX_DIGITAL_PORT;
-        }
-    }
-
-    public static int getLifterBottomProxSolenoidPort() {
-        int x = findInt("LIFTER_BOTTOM_PROX_SOLENOID_PORT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.LIFTER_BOTTOM_PROX_SOLENOID_PORT;
-        }
-    }
-
-    public static int getShooterJagOnePos() {
-        int x = findInt("SHOOTER_JAG1_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.SHOOTER_JAG1_POS;
-        }
-    }
-
-    public static int getShooterJagTwoPos() {
-        int x = findInt("SHOOTER_JAG2_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.SHOOTER_JAG2_POS;
-        }
-    }
-
-    public static int getShooterJagThreePos() {
-        int x = findInt("SHOOTER_JAG3_POS");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.SHOOTER_JAG3_POS;
-        }
-    }
-
-    public static double getShooterMaxPower() {
-        double x = findDouble("SHOOTER_MAX_POWER");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.SHOOTER_MAX_POWER;
-        }
-    }
-
-    public static double getShooterFeedPower() {
-        double x = findDouble("SHOOTER_FEED_POWER");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.SHOOTER_FEED_POWER;
-        }
-    }
-
-    public static double getShooterFullBatteryVoltage() {
-        double x = findDouble("SHOOTER_FULL_BATTERY_VOLTAGE");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.SHOOTER_FULL_BATTERY_VOLTAGE;
-        }
-    }
-
-    public static double getShooterVoltageTolerance() {
-        double x = findDouble("SHOOTER_VOLTAGE_TOLERANCE");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.SHOOTER_VOLTAGE_TOLERANCE;
-        }
-    }
-
-    public static double getShooterReadyCurrentMax() {
-        double x = findDouble("SHOOTER_READY_CURRENT_MAX");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.SHOOTER_READY_CURRENT_MAX;
-        }
-    }
-
-    public static double getShooterReadyCurrentMin() {
-        double x = findDouble("SHOOTER_READY_CURRENT_MIN");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.SHOOTER_READY_CURRENT_MIN;
-        }
-    }
-
-    public static double getXboxDriverDrift() {
-        double x = findDouble("XBOX_DRIVER_DRIFT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.XBOX_DRIVER_DRIFT;
-        }
-    }
-
-    public static double getXboxManipDrift() {
-        double x = findDouble("XBOX_MANIP_DRIFT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.XBOX_MANIP_DRIFT;
-        }
-    }
-
-    public static int getXboxDriverPort() {
-        int x = findInt("XBOX_DRIVER_PORT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.XBOX_DRIVER_PORT;
-        }
-    }
-
-    public static int getXboxManipPort() {
-        int x = findInt("XBOX_MANIP_PORT");
-        if (x != -1) {
-            return x;
-        } else {
-            return DefaultConstants.XBOX_MANIP_PORT;
-        }
     }
 }

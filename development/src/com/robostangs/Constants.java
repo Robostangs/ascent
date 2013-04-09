@@ -7,7 +7,7 @@ package com.robostangs;
  */
 public class Constants {
     private static Constants instance = null;
-
+    
     private Constants() {
         ReadConstants.init();
     }
