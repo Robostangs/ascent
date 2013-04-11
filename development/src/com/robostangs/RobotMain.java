@@ -37,6 +37,7 @@ public class RobotMain extends IterativeRobot {
         Arm.getInstance();
         ArmCamera.getInstance();
         Camera.getInstance();
+        Climber.getInstance();
         DriveCamera.getInstance();
         DriveTrain.getInstance();
         Loader.getInstance();
@@ -175,13 +176,21 @@ public class RobotMain extends IterativeRobot {
         
 		/*
 		 * Driver Ingestor Controls
-		 */
+		 *
     	if (driver.lBumper()) {
             Loader.ingest();
         } else if (driver.rBumper()) {
             Conveyors.exgest();
         } else {
             Loader.ingestorOff();
+        } */
+
+        if (driver.rightTriggerButton()) {
+            Climber.deploy();
+        } else if (driver.rBumper()) {
+            Climber.retract();
+        } else {
+            Climber.stop();
         }
 
         /*

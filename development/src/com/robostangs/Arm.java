@@ -6,17 +6,21 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm {
     private static Arm instance = null;
     private static Potentiometer pot;
+    private static Potentiometer potB;
     private static ArmMotor motor;
     private static PIDController pidA; // pidCam;
+    private static PIDController pidB;
+    private static boolean useB;
     
     private Arm() {
         pot = new Potentiometer(Constants.ARM_POT_PORT);
+        potB = new Potentiometer(Constants.ARM_POT_B_PORT);
+        useB = false;
         motor = ArmMotor.getInstance();
         pidA = new PIDController(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED, pot, motor);
         //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
@@ -27,6 +31,13 @@ public class Arm {
         pidA.setAbsoluteTolerance(3);
         //pidCam.setInputRange(Constants.ARM_POT_MIN_VALUE, Constants.ARM_POT_MAX_VALUE);
         //pidCam.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
+        pidB = new PIDController(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED, pot, motor);
+        //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
+        
+        //configure PID
+        pidB.setInputRange(Constants.ARM_POT_MIN_VALUE, Constants.ARM_POT_MAX_VALUE);
+        pidB.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
+        pidB.setAbsoluteTolerance(3);
         
         disablePID();
     }
@@ -38,12 +49,26 @@ public class Arm {
         return instance;
     }
     
+    public static Potentiometer getActivePot() {
+        if (useB) {
+            return potB;
+        } else {
+            return pot;
+        }
+    }
+    public static PIDController getActivePID() {
+        if (useB) {
+            return pidB;
+        } else {
+            return pidA;
+        }
+    }
     /**
      * gets average value of pot A
      * @return pot.getAverageValue average value of pot A 
      */
     public static double getPot() {
-        return pot.getAverageValue();
+        return getActivePot().getAverageValue();
     }    
 
     /**
@@ -96,22 +121,22 @@ public class Arm {
             return 1;
         }
 
-        pidA.setSetpoint(potValue);
-        pidA.enable();
+        getActivePID().setSetpoint(potValue);
+        getActivePID().enable();
         
         return 0;
     }
     
     public static void setPIDSmall() {
-	    pidA.setPID(Constants.ARM_KP_SMALL, Constants.ARM_KI_SMALL, Constants.ARM_KD_SMALL);
+	    getActivePID().setPID(Constants.ARM_KP_SMALL, Constants.ARM_KI_SMALL, Constants.ARM_KD_SMALL);
     }
 
     public static void setPIDMedium() {
-	    pidA.setPID(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED);
+	    getActivePID().setPID(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED);
     }
 
     public static void setPIDLarge() {
-	    pidA.setPID(Constants.ARM_KP_LARGE, Constants.ARM_KI_LARGE, Constants.ARM_KD_LARGE);
+	    getActivePID().setPID(Constants.ARM_KP_LARGE, Constants.ARM_KI_LARGE, Constants.ARM_KD_LARGE);
     }
 
     public static void shootingPos() {
@@ -128,7 +153,7 @@ public class Arm {
      * Enables the pid
      */
     public static void enablePID() {
-        pidA.enable();
+        getActivePID().enable();
     }
 
     /**
@@ -136,15 +161,15 @@ public class Arm {
      * @return true if either pid is enabled, false if neither is enabled
      */
     public static boolean pidEnabled() {
-        return pidA.isEnable(); // || pidCam.isEnable();   
+        return getActivePID().isEnable(); // || pidCam.isEnable();   
     }
     
     /**
      * if either pid is enabled, it disables it
      */
     public static void disablePID() {
-        if (pidA.isEnable()) {
-            pidA.disable();
+        if (getActivePID().isEnable()) {
+            getActivePID().disable();
         }
         /*
         if (pidCam.isEnable()) {
@@ -157,7 +182,7 @@ public class Arm {
      * @return true if either pid is on target, false if neither is
      */
     public static boolean onTarget() {
-        return pidA.onTarget(); // || pidCam.onTarget();
+        return getActivePID().onTarget(); // || pidCam.onTarget();
     }
     
     /**
@@ -183,15 +208,15 @@ public class Arm {
     }
 
     public static void getPIDFromDash() {
-        pidA.startLiveWindowMode();
-        SmartDashboard.putData("PID: ", pidA);
+        getActivePID().startLiveWindowMode();
+        SmartDashboard.putData("PID: ", getActivePID());
     }
 
     public static void outputPIDConstants() {
-        System.out.println("KP: " + pidA.getP());
-        System.out.println("KI: " + pidA.getI());
-        System.out.println("KD: " + pidA.getD());
-        System.out.println("setpoint:" + pidA.getSetpoint());
+        System.out.println("KP: " + getActivePID().getP());
+        System.out.println("KI: " + getActivePID().getI());
+        System.out.println("KD: " + getActivePID().getD());
+        System.out.println("setpoint:" + getActivePID().getSetpoint());
     }
 
     /**
@@ -202,11 +227,15 @@ public class Arm {
         if (pidCam.onTarget()) {
             return 1;
         }
-        if (pidA.isEnable()) {
-            pidA.disable();
+        if (getActivePID().isEnable()) {
+            getActivePID().disable();
         }
         pidCam.setSetpoint(ArmCamera.getTarget());
         pidCam.enable();
         return 0;
     }*/
+
+    public static void checkPots() {
+
+    }
 }

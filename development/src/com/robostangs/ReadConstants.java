@@ -17,8 +17,8 @@ public class ReadConstants {
     private static Vector contents;
     private static String[] keys;
     private static double[] constants;
-    private static String[] defKeys = new String[100];
-    private static double[] defConstants = new double[100];
+    private static String[] defKeys = new String[102];
+    private static double[] defConstants = new double[102];
 
     private ReadConstants() {
         contents = new Vector();
@@ -53,7 +53,7 @@ public class ReadConstants {
         defKeys[3] = "ARM_JAG_POS";
         defConstants[3] = 11;
         defKeys[4] = "ARM_POT_PORT";
-        defConstants[4] = 2;
+        defConstants[4] = 6;
         defKeys[5] = "ARM_POT_MIN_VALUE";
         defConstants[5] = 47;
         defKeys[6] = "ARM_POT_MAX_VALUE";
@@ -104,10 +104,10 @@ public class ReadConstants {
         defConstants[28] = 0.5;
         defKeys[29] = "AUTON_ARM_POS";
         defConstants[29] = defConstants[25];
-        defKeys[30] = "CLIMBER_LEFT_SERVO_POS";
-        defConstants[30] = 1;
-        defKeys[31] = "CLIMBER_RIGHT_SERVO_POS";
-        defConstants[31] = 2;
+        defKeys[30] = "CLIMBER_JAG_POS";
+        defConstants[30] = 14;
+        defKeys[31] = "CLIMBER_JAG_POWER";
+        defConstants[31] = 0.5;
         defKeys[32] = "CLIMBER_LEFT_OUT_POS";
         defConstants[32] = 1.0;
         defKeys[33] = "CLIMBER_RIGHT_OUT_POS";
@@ -244,6 +244,12 @@ public class ReadConstants {
         defConstants[98] = 2;
         defKeys[99] = "XBOX_MANIP_DRIFT";
         defConstants[99] = 0.15;
+        defKeys[100] = "ARM_POT_B_PORT";
+        defConstants[100] = 7;
+        defKeys[101] = "ARM_POT_B_MIN_VALUE";
+        defConstants[101] = 47;
+        defKeys[102] = "ARM_POT_B_MAX_VALUE";
+        defConstants[102] = 700;
     }
 
     public static void init() {

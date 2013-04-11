@@ -31,6 +31,9 @@ public class Constants {
     public static final int ARM_POT_PORT = ReadConstants.findInt("ARM_POT_PORT");
     public static final int ARM_POT_MIN_VALUE = ReadConstants.findInt("ARM_POT_MIN_VALUE");
     public static final int ARM_POT_MAX_VALUE = ReadConstants.findInt("ARM_POT_MAX_VALUE");
+    public static final int ARM_POT_B_PORT = ReadConstants.findInt("ARM_POT_B_PORT");
+    public static final int ARM_POT_B_MIN_VALUE = ReadConstants.findInt("ARM_POT_B_MIN_VALUE");
+    public static final int ARM_POT_B_MAX_VALUE = ReadConstants.findInt("ARM_POT_MAX_B_VALUE");
     public static final int ARM_POT_SLOW_VALUE = ReadConstants.findInt("ARM_POT_SLOW_VALUE");
     public static final double ARM_MIN_VOLTAGE = ReadConstants.findDouble("ARM_MIN_VOLTAGE");
     // Arm PID
@@ -81,8 +84,8 @@ public class Constants {
     /*
      * Climber
      */
-    public static final int CLIMBER_LEFT_SERVO_POS = ReadConstants.findInt("CLIMBER_LEFT_SERVO_POS");
-    public static final int CLIMBER_RIGHT_SERVO_POS = ReadConstants.findInt("CLIMBER_RIGHT_SERVO_POS");
+    public static final int CLIMBER_JAG_POS = ReadConstants.findInt("CLIMBER_JAG_POS");
+    public static final int CLIMBER_JAG_POWER = ReadConstants.findInt("CLIMBER_JAG_POWER");
     public static final double CLIMBER_LEFT_OUT_POS = ReadConstants.findDouble("CLIMBER_LEFT_OUT_POS");
     public static final double CLIMBER_RIGHT_OUT_POS = ReadConstants.findDouble("CLIMBER_RIGHT_OUT_POS");
     public static final double CLIMBER_LEFT_IN_POS = ReadConstants.findDouble("CLIMBER_LEFT_IN_POS");
