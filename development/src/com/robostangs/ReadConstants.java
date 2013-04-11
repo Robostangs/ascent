@@ -53,7 +53,7 @@ public class ReadConstants {
         defKeys[3] = "ARM_JAG_POS";
         defConstants[3] = 11;
         defKeys[4] = "ARM_POT_PORT";
-        defConstants[4] = 6;
+        defConstants[4] = 7;
         defKeys[5] = "ARM_POT_MIN_VALUE";
         defConstants[5] = 47;
         defKeys[6] = "ARM_POT_MAX_VALUE";
@@ -74,11 +74,11 @@ public class ReadConstants {
         defConstants[13] = 0.00000001;
         defKeys[14] = "ARM_KD_MED";
         defConstants[14] = 0.0;
-        defKeys[15] = "ARM_KP_LARGE";
+        defKeys[15] = "ARM_KP_AUTON";
         defConstants[15] = 0.0161;
-        defKeys[16] = "ARM_KI_LARGE";
+        defKeys[16] = "ARM_KI_AUTON";
         defConstants[16] = 0.0;
-        defKeys[17] = "ARM_KD_LARGE";
+        defKeys[17] = "ARM_KD_AUTON";
         defConstants[17] = 0.0;
         defKeys[18] = "ARM_KP_CAM";
         defConstants[18] = 0.0;
@@ -245,7 +245,7 @@ public class ReadConstants {
         defKeys[99] = "XBOX_MANIP_DRIFT";
         defConstants[99] = 0.15;
         defKeys[100] = "ARM_POT_B_PORT";
-        defConstants[100] = 7;
+        defConstants[100] = 2;
         defKeys[101] = "ARM_POT_B_MIN_VALUE";
         defConstants[101] = 47;
         defKeys[102] = "ARM_POT_B_MAX_VALUE";

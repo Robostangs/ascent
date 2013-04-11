@@ -3,6 +3,7 @@ package com.robostangs;
 import com.sun.squawk.io.BufferedReader;
 import com.sun.squawk.microedition.io.FileConnection;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Vector;
@@ -80,6 +81,7 @@ public class Autonomous {
     public static void setAngle() {
         if (Arm.getPot() > (Constants.AUTON_ARM_POS + 5) 
                 || Arm.getPot() < (Constants.AUTON_ARM_POS - 5)) {
+            Arm.setPIDAuton();
             Arm.setPosition(Constants.AUTON_ARM_POS);
         } else {
             Arm.stop();
@@ -93,10 +95,11 @@ public class Autonomous {
         FileConnection fc = (FileConnection) Connector.open("file:///" + inputFileName, Connector.READ);
         BufferedReader in = new BufferedReader(new InputStreamReader(fc.openInputStream()));
         int commaPos = 0;
-        int semiPos = 0;
         
         while ((line = in.readLine()) != null) {
-            contents.addElement(line);
+            if (line.indexOf(",") != -1) {
+                contents.addElement(line);
+            }
         }
 
         fc.close();
@@ -107,9 +110,8 @@ public class Autonomous {
         for (int i = 0; i < contents.size(); i++) {
             line = (String) contents.elementAt(i);
             commaPos = line.indexOf(",", i);
-            semiPos = line.indexOf(";", i);            
             keys[i] = line.substring(0, commaPos);
-            stepData[i] = Double.parseDouble(line.substring(commaPos + 1, semiPos));
+            stepData[i] = Double.parseDouble(line.substring(commaPos + 1, line.length()));
         }
     }
 
@@ -124,6 +126,9 @@ public class Autonomous {
         }
     }
     
+    public static void sendStep(int pos) {
+        SmartDashboard.putNumber(keys[pos], stepData[pos]);
+    }
     /**
      * Checks to see if data is valid
      * @return true if data is good
@@ -149,6 +154,8 @@ public class Autonomous {
                 shooting = keys[i].startsWith("shoot");
                 armMoving = keys[i].startsWith("arm");
                 delay = keys[i].startsWith("delay");
+
+                sendStep(i);
 
                 timer.start();
 
@@ -268,7 +275,7 @@ public class Autonomous {
                 }
                 if (i == (keys.length - 1)) done = true;
             }
-        } else {
+        } else if (!done) {
             shoot();
         }
     }

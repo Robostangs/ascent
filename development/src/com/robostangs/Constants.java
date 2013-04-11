@@ -43,9 +43,9 @@ public class Constants {
     public static final double ARM_KP_MED = ReadConstants.findDouble("ARM_KP_MED");
     public static final double ARM_KI_MED = ReadConstants.findDouble("ARM_KI_MED");
     public static final double ARM_KD_MED = ReadConstants.findDouble("ARM_KD_MED");
-    public static final double ARM_KP_LARGE = ReadConstants.findDouble("ARM_KP_LARGE");
-    public static final double ARM_KI_LARGE = ReadConstants.findDouble("ARM_KI_LARGE");
-    public static final double ARM_KD_LARGE = ReadConstants.findDouble("ARM_KD_LARGE");
+    public static final double ARM_KP_AUTON = ReadConstants.findDouble("ARM_KP_AUTON");
+    public static final double ARM_KI_AUTON = ReadConstants.findDouble("ARM_KI_AUTON");
+    public static final double ARM_KD_AUTON = ReadConstants.findDouble("ARM_KD_AUTON");
     public static final double ARM_KP_CAM = ReadConstants.findDouble("ARM_KP_CAM");
     public static final double ARM_KI_CAM = ReadConstants.findDouble("ARM_KI_CAM");
     public static final double ARM_KD_CAM = ReadConstants.findDouble("ARM_KD_CAM");

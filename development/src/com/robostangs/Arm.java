@@ -22,7 +22,7 @@ public class Arm {
         potB = new Potentiometer(Constants.ARM_POT_B_PORT);
         useB = false;
         motor = ArmMotor.getInstance();
-        pidA = new PIDController(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED, pot, motor);
+        pidA = new PIDController(Constants.ARM_KP_AUTON, Constants.ARM_KI_AUTON, Constants.ARM_KD_AUTON, pot, motor);
         //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
         
         //configure PID
@@ -31,7 +31,7 @@ public class Arm {
         pidA.setAbsoluteTolerance(3);
         //pidCam.setInputRange(Constants.ARM_POT_MIN_VALUE, Constants.ARM_POT_MAX_VALUE);
         //pidCam.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
-        pidB = new PIDController(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED, pot, motor);
+        pidB = new PIDController(Constants.ARM_KP_AUTON, Constants.ARM_KI_AUTON, Constants.ARM_KD_AUTON, pot, motor);
         //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
         
         //configure PID
@@ -135,8 +135,8 @@ public class Arm {
 	    getActivePID().setPID(Constants.ARM_KP_MED, Constants.ARM_KI_MED, Constants.ARM_KD_MED);
     }
 
-    public static void setPIDLarge() {
-	    getActivePID().setPID(Constants.ARM_KP_LARGE, Constants.ARM_KI_LARGE, Constants.ARM_KD_LARGE);
+    public static void setPIDAuton() {
+	    getActivePID().setPID(Constants.ARM_KP_AUTON, Constants.ARM_KI_AUTON, Constants.ARM_KD_AUTON);
     }
 
     public static void shootingPos() {
