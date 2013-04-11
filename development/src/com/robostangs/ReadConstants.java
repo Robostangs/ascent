@@ -17,8 +17,8 @@ public class ReadConstants {
     private static Vector contents;
     private static String[] keys;
     private static double[] constants;
-    private static String[] defKeys = new String[102];
-    private static double[] defConstants = new double[102];
+    private static String[] defKeys = new String[103];
+    private static double[] defConstants = new double[103];
 
     private ReadConstants() {
         contents = new Vector();

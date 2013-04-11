@@ -196,7 +196,8 @@ public class Arm {
      * sends the pot data from both pots to SmartDashboard
      */
     public static void sendPotData() {
-        SmartDashboard.putNumber("Pot: ", getPot());
+        SmartDashboard.putNumber("PotA: ", getPot());
+        SmartDashboard.putNumber("PotB: ", potB.getAverageValue());
     }
     
     /**
