@@ -98,6 +98,16 @@ public class DriveTrain {
     public static void driveSlow(double leftPower, double rightPower) {
         drive(leftPower / 2, rightPower / 2);
     }
+
+    public static void climbDrive(double leftPower, double rightPower) {
+        if (Math.abs(leftPower) > 0.75) {
+            leftPower = 0.75 * (leftPower / Math.abs(leftPower));
+        }
+        if (Math.abs(rightPower) > 0.75) {
+            rightPower = 0.75 * (rightPower / Math.abs(rightPower));
+        }
+        drive(leftPower, rightPower);
+    }
     
     /**
      * reset the timer

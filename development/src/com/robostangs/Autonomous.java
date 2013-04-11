@@ -72,7 +72,7 @@ public class Autonomous {
             Loader.loadShooter();
         }
 
-        if (secondary.get() > 4.0) {
+        if (secondary.get() > 3.6) {
             Loader.allOff();
             secondary.reset();
         }
@@ -96,6 +96,10 @@ public class Autonomous {
         BufferedReader in = new BufferedReader(new InputStreamReader(fc.openInputStream()));
         int commaPos = 0;
         
+        if (in.markSupported()) {
+            in.mark(0);
+            in.reset();
+        }
         while ((line = in.readLine()) != null) {
             if (line.indexOf(",") != -1) {
                 contents.addElement(line);
@@ -225,6 +229,7 @@ public class Autonomous {
                 armMoving = keys[i].startsWith("arm");
                 delay = keys[i].startsWith("delay");
 
+                sendStep(i);
                 timer.start();
 
                 if (forward) {

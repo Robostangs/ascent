@@ -85,7 +85,7 @@ public class Constants {
      * Climber
      */
     public static final int CLIMBER_JAG_POS = ReadConstants.findInt("CLIMBER_JAG_POS");
-    public static final int CLIMBER_JAG_POWER = ReadConstants.findInt("CLIMBER_JAG_POWER");
+    public static final double CLIMBER_JAG_POWER = ReadConstants.findInt("CLIMBER_JAG_POWER");
     public static final double CLIMBER_LEFT_OUT_POS = ReadConstants.findDouble("CLIMBER_LEFT_OUT_POS");
     public static final double CLIMBER_RIGHT_OUT_POS = ReadConstants.findDouble("CLIMBER_RIGHT_OUT_POS");
     public static final double CLIMBER_LEFT_IN_POS = ReadConstants.findDouble("CLIMBER_LEFT_IN_POS");

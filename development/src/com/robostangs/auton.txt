@@ -1,2 +1,2 @@
-shoot,12;
-driveBack,3;
+shoot,12
+driveBack,3

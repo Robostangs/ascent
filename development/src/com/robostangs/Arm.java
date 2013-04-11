@@ -101,13 +101,17 @@ public class Arm {
 
         motor.setX(power);
      }
+
+    public static void noPotDrive(double power) {
+        motor.setX(power);
+    }
     
     /**
      * For fine manual control
      * @param power 
      */
     public static void fineDrive(double power) {
-        setJags(power / 2.0);
+        noPotDrive(power / 2.0);
     }
 
     /**
@@ -200,6 +204,10 @@ public class Arm {
         SmartDashboard.putNumber("PotB: ", potB.getAverageValue());
     }
     
+    public static void printPotData() {
+        System.out.println("PotA: " + getPot());
+        System.out.println("PotB: " + potB.getAverageValue());
+    }
     /**
      * checks if pot A is within range
      * @return true if pot A is within range, false if it isn't

@@ -63,25 +63,27 @@ public class RobotMain extends IterativeRobot {
     public void autonomousPeriodic() {
         //Autonomous.printMode();
         Autonomous.run();
-        driveAfterAuto = true;
     }
 
     public void teleopInit() {
+        /*
         if (driveAfterAuto) {
             DriveTrain.drive(-0.35, -0.5);
             timer.stop();
             timer.reset();
             timer.start();
         }
+        * */
     }
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
         sendDataToDash();
-        //System.out.println("pot: " + Arm.getPot());
+        Arm.printPotData();
         Arm.outputPIDConstants();
 
+        /*
         if (driveAfterAuto && timer.get() < Constants.TELEOP_DRIVE_TIME) {
             DriveTrain.drive(-0.45, -0.5);
             System.out.println("driving after auto!!");
@@ -92,7 +94,8 @@ public class RobotMain extends IterativeRobot {
         if (driver.leftStickYAxis() != 0 || driver.rightStickYAxis() != 0) {
             driveAfterAuto = false;
             System.out.println("\n\n\n\n MANUAL CONTROL \n\n\n\n");
-        } 
+        }
+        * */
         
         /*
          * Manip loader control
@@ -208,5 +211,7 @@ public class RobotMain extends IterativeRobot {
      */
     public void sendDataToDash() {
         Arm.sendPotData();
+        SmartDashboard.putNumber("Left Joystick:", driver.leftStickYAxis());
+        SmartDashboard.putNumber("Right Joystick:", driver.rightStickYAxis());
     }
 }
