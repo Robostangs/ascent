@@ -4,49 +4,37 @@
  */
 package com.robostangs;
 
-import edu.wpi.first.wpilibj.CANJaguar;
-import edu.wpi.first.wpilibj.can.CANTimeoutException;
+import edu.wpi.first.wpilibj.Servo;
 
 /**
  *
  * @author wmd
  */
 public class Climber {
-	private static CANJaguar windowMotor;
-	private static Climber instance = null;
+    private static Climber instance = null;
+	private static Servo leftServo;
+    private static Servo rightServo;
+    
 	private Climber(){
-        try {
-            windowMotor = new CANJaguar(Constants.CLIMBER_JAG_POS);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
+        leftServo = new Servo(Constants.CLIMBER_LEFT_SERVO_POS);
+        rightServo = new Servo(Constants.CLIMBER_RIGHT_SERVO_POS);
 	}
+    
 	public static Climber getInstance() {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new Climber();
 		}
 		return instance;
 	}
+    
 	public static void deploy() {
-        try {
-            windowMotor.setX(Constants.CLIMBER_JAG_POWER);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
-        
+        leftServo.set(Constants.CLIMBER_LEFT_OUT_POS);
+        rightServo.set(Constants.CLIMBER_RIGHT_OUT_POS);
 	}
+    
 	public static void retract() {
-        try {
-            windowMotor.setX(-Constants.CLIMBER_JAG_POWER);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
+        leftServo.set(Constants.CLIMBER_LEFT_IN_POS);
+        rightServo.set(Constants.CLIMBER_RIGHT_IN_POS);
 	}
-    public static void stop() {
-        try {
-            windowMotor.setX(0.0);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
-        }
-    }
+    
 }

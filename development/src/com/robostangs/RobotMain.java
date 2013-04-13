@@ -37,11 +37,13 @@ public class RobotMain extends IterativeRobot {
         Arm.getInstance();
         ArmCamera.getInstance();
         Camera.getInstance();
+        Conveyors.getInstance();
         Climber.getInstance();
         DriveCamera.getInstance();
         DriveTrain.getInstance();
         Loader.getInstance();
         Shooter.getInstance();
+        Autonomous.getInstance();
         timer = new Timer();
         driver = XboxDriver.getInstance();
         manip = XboxManip.getInstance();
@@ -54,7 +56,7 @@ public class RobotMain extends IterativeRobot {
     }
     
     public void autonomousInit() {
-        Autonomous.getInstance();
+        Autonomous.reset();
     }
 
     /**
@@ -138,7 +140,7 @@ public class RobotMain extends IterativeRobot {
          * Right Stick: Fine Manual
          * Y: Shooting Angle
          * X: Use Camera to auto-set angle
-         */        
+         *        
         if (manip.rightStickYAxis() == 0) {
             //not using the joysticks to manual set, use PID
             if (manip.yButton()) {
@@ -162,6 +164,7 @@ public class RobotMain extends IterativeRobot {
                 Arm.stop();
             }
         } else {
+        */
             if (Math.abs(manip.rightStickYAxis()) != 0) {
                 //fine control
                 Arm.fineDrive(manip.rightStickYAxis());
@@ -169,8 +172,15 @@ public class RobotMain extends IterativeRobot {
                 potValue = 0;
                 Arm.stop();
             }
+        //}
+        if(manip.startButton()) {
+            Conveyors.ingest();
+        } else if(manip.backButton()) {
+            Conveyors.exgest();
+        } else {
+            Conveyors.stopIngest();
         }
-
+            
         if (manip.leftStickYAxis() != 0) {
             Lifter.manual(manip.leftStickYAxis());
         } else {
@@ -192,9 +202,7 @@ public class RobotMain extends IterativeRobot {
             Climber.deploy();
         } else if (driver.rBumper()) {
             Climber.retract();
-        } else {
-            Climber.stop();
-        }
+        } 
 
         /*
          * Drive Slow if Left Trigger, otherwise drive normally
@@ -213,5 +221,6 @@ public class RobotMain extends IterativeRobot {
         Arm.sendPotData();
         SmartDashboard.putNumber("Left Joystick:", driver.leftStickYAxis());
         SmartDashboard.putNumber("Right Joystick:", driver.rightStickYAxis());
+        SmartDashboard.putBoolean("shooting mode: ", fullShootMode);
     }
 }

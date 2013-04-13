@@ -26,12 +26,10 @@ public class DriveTrain {
         timer = new Timer();
         climbMode = false;
         
-        /*
         leftEncoder = new Encoder (Constants.DT_LEFT_ENCODER_FRONT, Constants.DT_LEFT_ENCODER_BACK);
         rightEncoder = new Encoder (Constants.DT_RIGHT_ENCODER_FRONT, Constants.DT_RIGHT_ENCODER_BACK);
         resetEncoders();
         startEncoders();
-        */
 
         
         //gyro = new Gyro (Constants.DT_GYRO_POS);
@@ -127,7 +125,7 @@ public class DriveTrain {
     /**
      * get distance from the left encoder
      * @return in meters
-     *
+     */
     public static double getLeftEncoderDistance() {
         return leftEncoder.getDistance();
     }
@@ -135,10 +133,10 @@ public class DriveTrain {
     /**
      * get distance from the right encoder
      * @return in meters
-     *
+     */
     public static double getRightEncoderDistance() {
         return rightEncoder.getDistance();
-    }*/
+    }
     
     /**
      * get the angle using gyro
@@ -151,7 +149,7 @@ public class DriveTrain {
     
     /**
      * resets all encoders
-     *
+     */
     public static void resetEncoders() {
         leftEncoder.reset();
         rightEncoder.reset();
@@ -165,15 +163,15 @@ public class DriveTrain {
     public static void stopEncoders() {
         leftEncoder.stop();
         rightEncoder.stop();
-    }*/
+    }
     
     /**
      * sends encoder status to SmartDashboard
-     *
+     */
     public static void sendEncoders() {
         SmartDashboard.putData("Left Encoder: ", leftEncoder);
-        SmartDashboard.putData("Rigth Encoder: ", rightEncoder);
-    }*/
+        SmartDashboard.putData("Right Encoder: ", rightEncoder);
+    }
     
     /**
      * send gyro status to SmartDashboard

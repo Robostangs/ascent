@@ -26,6 +26,7 @@ public class Autonomous {
     private static boolean fallbackMode = false;
     private static boolean stepInit = true;
     private static boolean done = false;
+    private static boolean init = true;
     private static String[] keys;
     private static double[] stepData;
     private static int step = 0;
@@ -53,6 +54,9 @@ public class Autonomous {
         return instance;
     }
 
+    public static void reset() {
+        done = false;
+    }
     /**
      * shoots a frisbee
      * does not stop shooter when finished as to maintain momentum
@@ -72,7 +76,7 @@ public class Autonomous {
             Loader.loadShooter();
         }
 
-        if (secondary.get() > 3.6) {
+        if (secondary.get() > 3.05) {
             Loader.allOff();
             secondary.reset();
         }
@@ -96,10 +100,13 @@ public class Autonomous {
         BufferedReader in = new BufferedReader(new InputStreamReader(fc.openInputStream()));
         int commaPos = 0;
         
-        if (in.markSupported()) {
-            in.mark(0);
-            in.reset();
+        /*
+        if (in.markSupported() && init) {
+            in.mark(1000);
+            init = false;
         }
+        in.reset();
+        * */
         while ((line = in.readLine()) != null) {
             if (line.indexOf(",") != -1) {
                 contents.addElement(line);

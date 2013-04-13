@@ -1,2 +1,3 @@
-shoot,12
-driveBack,3
+armMove,5
+shoot,9
+driveBack,1

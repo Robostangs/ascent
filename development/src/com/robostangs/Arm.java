@@ -111,7 +111,7 @@ public class Arm {
      * @param power 
      */
     public static void fineDrive(double power) {
-        noPotDrive(power / 2.0);
+        noPotDrive(power / 1.7);
     }
 
     /**
