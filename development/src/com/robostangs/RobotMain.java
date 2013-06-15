@@ -84,7 +84,8 @@ public class RobotMain extends IterativeRobot {
         sendDataToDash();
         Arm.printPotData();
         Arm.outputPIDConstants();
-
+        System.out.println("Left: " + DriveTrain.getLeftEncoderDistance());
+        System.out.println("Right: " + DriveTrain.getRightEncoderDistance());
         /*
         if (driveAfterAuto && timer.get() < Constants.TELEOP_DRIVE_TIME) {
             DriveTrain.drive(-0.45, -0.5);
@@ -180,7 +181,15 @@ public class RobotMain extends IterativeRobot {
         } else {
             Conveyors.stopIngest();
         }
-            
+        /* 
+        if (manip.leftStickYAxis() < -0.3) {
+            Lifter.sensorDown();
+        } else if (manip.leftStickYAxis() != 0) {
+            Lifter.manual(manip.leftStickYAxis());
+        } else {
+            Lifter.stop();
+        }*/
+        
         if (manip.leftStickYAxis() != 0) {
             Lifter.manual(manip.leftStickYAxis());
         } else {
@@ -221,6 +230,8 @@ public class RobotMain extends IterativeRobot {
         Arm.sendPotData();
         SmartDashboard.putNumber("Left Joystick:", driver.leftStickYAxis());
         SmartDashboard.putNumber("Right Joystick:", driver.rightStickYAxis());
+        SmartDashboard.putNumber("Left Encoder: ", DriveTrain.getLeftEncoderDistance());
+        SmartDashboard.putNumber("Right Encoder: ", DriveTrain.getRightEncoderDistance());
         SmartDashboard.putBoolean("shooting mode: ", fullShootMode);
     }
 }

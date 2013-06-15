@@ -33,6 +33,7 @@ public class Lifter {
         /*
         topProx = new ProximitySensor(Constants.LIFTER_TOP_PROX_DIGITAL_PORT, 
                   Constants.LIFTER_TOP_PROX_SOLENOID_PORT);
+        
         bottomProx = new ProximitySensor(Constants.LIFTER_BOTTOM_PROX_DIGITAL_PORT, 
                   Constants.LIFTER_BOTTOM_PROX_SOLENOID_PORT);
         */
@@ -157,7 +158,7 @@ public class Lifter {
   public static boolean getBottomSensor() {
       return bottomProx.get();
   }
-
+  
   public static void sensorUp() {
       if (topProx.get()) {
           raise();
@@ -172,7 +173,7 @@ public class Lifter {
       } else {
           stop();
       }
-  } */
+  }*/
 
   /**
    * Stops the lifter

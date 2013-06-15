@@ -1,12 +1,9 @@
 package com.robostangs;
 
-import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -17,14 +14,12 @@ public class DriveTrain {
     private static DriveTrain instance = null;
     private static Encoder leftEncoder, rightEncoder;
     private static Timer timer;
-    private static boolean climbMode;
     //private static PIDController pid;
     //private static Gyro gyro;
     
     private DriveTrain() {
         DriveMotors.getInstance();
         timer = new Timer();
-        climbMode = false;
         
         leftEncoder = new Encoder (Constants.DT_LEFT_ENCODER_FRONT, Constants.DT_LEFT_ENCODER_BACK);
         rightEncoder = new Encoder (Constants.DT_RIGHT_ENCODER_FRONT, Constants.DT_RIGHT_ENCODER_BACK);
@@ -144,7 +139,7 @@ public class DriveTrain {
      *
     public static double getAngle() {
         return gyro.getAngle();
-    } */
+    }*/
     
     
     /**
@@ -178,7 +173,7 @@ public class DriveTrain {
      *
     public static void sendGyro() {
         SmartDashboard.putData("Gyro: ", gyro);
-    } */
+    }*/
     
     /*
     public static void enablePid() {
@@ -207,7 +202,7 @@ public class DriveTrain {
         }
         
         drive(leftPower, rightPower);
-    } */
+    }
     
     /**
      * drive straight for a certain distance
@@ -224,7 +219,7 @@ public class DriveTrain {
          * change power(Volts) to speed(distance/time)
          * get projected time speed = volt --> distance/time;
          * if the actual time passes expected time +1sec, stop and return -1
-         * 
+         *
         double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;
         double expectedTime = distance / speed;
         if (timer.get() > (expectedTime + Constants.DT_DELAY_TIME)) {
@@ -245,7 +240,7 @@ public class DriveTrain {
             resetEncoders();
             return 1;
         }
-    } */
+    }*/
     
     /**
      * turn around for angle
@@ -261,7 +256,7 @@ public class DriveTrain {
          * timer stuff
          * it's a circular motion omega = angle / time
          * t = angle / power
-         * 
+         *
         double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;
         double expectedTime = Math.toRadians(angle) / speed;
         if (timer.get() > (expectedTime + Constants.DT_DELAY_TIME)) {
@@ -295,7 +290,7 @@ public class DriveTrain {
                 return 1;
             }
         }
-    } */
+    }*/
     /**
      * drive the robot along a circular arc
      * @param power

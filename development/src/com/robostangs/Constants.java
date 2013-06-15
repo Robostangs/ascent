@@ -120,6 +120,13 @@ public class Constants {
     public static final int DT_JAG_RIGHT_FRONT_POS = ReadConstants.findInt("DT_JAG_RIGHT_FRONT_POS");
     public static final int DT_JAG_RIGHT_MID_POS = ReadConstants.findInt("DT_JAG_RIGHT_MID_POS");
     public static final int DT_JAG_RIGHT_BACK_POS = ReadConstants.findInt("DT_JAG_RIGHT_BACK_POS");
+    //Rest
+    public static final double DT_STRAIGHT_LEFT_INC = ReadConstants.findDouble("DT_STRAIGHT_LEFT_INC");
+    public static final double DT_STRAIGHT_LEFT_DEC = ReadConstants.findDouble("DT_STRAIGHT_LEFT_DEC");
+    public static final double DT_STRAIGHT_RIGHT_INC = ReadConstants.findDouble("DT_STRAIGHT_RIGHT_INC");
+    public static final double DT_STRAIGHT_RIGHT_DEC = ReadConstants.findDouble("DT_STRAIGHT_RIGHT_DEC");
+    public static final double DT_CONV_VOLT_TO_M_PER_SEC = ReadConstants.findDouble("DT_CONV_VOLT_TO_M_PER_SEC");
+    public static final double DT_DELAY_TIME = ReadConstants.findDouble("DT_DELAY_TIME");
     
     /*
      * Ingestor
