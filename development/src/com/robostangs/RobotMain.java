@@ -38,7 +38,7 @@ public class RobotMain extends IterativeRobot {
         ArmCamera.getInstance();
         Camera.getInstance();
         Conveyors.getInstance();
-        Climber.getInstance();
+        //Climber.getInstance();
         DriveCamera.getInstance();
         DriveTrain.getInstance();
         Loader.getInstance();
@@ -84,6 +84,8 @@ public class RobotMain extends IterativeRobot {
         sendDataToDash();
         Arm.printPotData();
         Arm.outputPIDConstants();
+        System.out.println("Left encoder: " + DriveTrain.getLeftEncoderRaw());
+        System.out.println("right encoder: " + DriveTrain.getRightEncoderRaw());
 
         /*
         if (driveAfterAuto && timer.get() < Constants.TELEOP_DRIVE_TIME) {
@@ -199,9 +201,9 @@ public class RobotMain extends IterativeRobot {
         } */
 
         if (driver.rightTriggerButton()) {
-            Climber.deploy();
+            //Climber.deploy();
         } else if (driver.rBumper()) {
-            Climber.retract();
+            //Climber.retract();
         } 
 
         /*

@@ -133,9 +133,9 @@ public class ReadConstants {
         defKeys[43] = "DT_LEFT_ENCODER_BACK";
         defConstants[43] = 3;
         defKeys[44] = "DT_RIGHT_ENCODER_FRONT";
-        defConstants[44] = 4;
+        defConstants[44] = 5;
         defKeys[45] = "DT_RIGHT_ENCODER_BACK";
-        defConstants[45] = 5;
+        defConstants[45] = 6;
         defKeys[46] = "DT_GYRO_POS";
         defConstants[46] = 0;
         defKeys[47] = "DT_JAG_LEFT_FRONT_POS";

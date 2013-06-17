@@ -139,6 +139,21 @@ public class DriveTrain {
     }
     
     /**
+     * get distance from the left encoder
+     * @return in meters
+     */
+    public static double getLeftEncoderRaw() {
+        return leftEncoder.getRaw();
+    }
+    
+    /**
+     * get distance from the right encoder
+     * @return in meters
+     */
+    public static double getRightEncoderRaw() {
+        return rightEncoder.getRaw();
+    }
+    /**
      * get the angle using gyro
      * @return in degrees
      *
