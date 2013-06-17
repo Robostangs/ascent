@@ -1,6 +1,7 @@
 package com.robostangs;
 
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 
@@ -18,6 +19,7 @@ public class Lifter {
     private static boolean goingToTop;
     private static boolean goingToBottom;
     private static int downcount = 0;
+    private static DigitalInput limit;
     //private static ProximitySensor topProx;
     //private static ProximitySensor bottomProx;
 
@@ -27,6 +29,7 @@ public class Lifter {
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+        limit = new DigitalInput(14);
         timer = new Timer();
         timer.stop();
         timer.reset();
@@ -50,6 +53,9 @@ public class Lifter {
         return instance;
     }
 
+    public static boolean atBottom() {
+        return limit.get();
+    }
    /**
     * Lifter goes up
     */
@@ -184,13 +190,6 @@ public class Lifter {
     } catch (CANTimeoutException ex) {
         ex.printStackTrace();
     }
-  }
-
-  /**
-   * @return true if at top, false if at bottom
-   */
-  public static boolean atBottom() {
-      return atBottom;
   }
 
   public static void manual(double speed) {

@@ -105,9 +105,9 @@ public class ReadConstants {
         defKeys[29] = "AUTON_ARM_POS";
         defConstants[29] = defConstants[25];
         defKeys[30] = "CLIMBER_RIGHT_SERVO_POS";
-        defConstants[30] = -1;
+        defConstants[30] = 1;
         defKeys[31] = "CLIMBER_LEFT_SERVO_POS";
-        defConstants[31] = -1;
+        defConstants[31] = 2;
         defKeys[32] = "CLIMBER_LEFT_OUT_POS";
         defConstants[32] = 1.0;
         defKeys[33] = "CLIMBER_RIGHT_OUT_POS";

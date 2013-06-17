@@ -7,6 +7,7 @@
 
 package com.robostangs;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +25,7 @@ public class RobotMain extends IterativeRobot {
     private Timer timer;
     private boolean fullShootMode, driveAfterAuto;
     private double potValue;
+    private DigitalInput limit;
     
     /**
      * This function is run when the robot is first started up and should be
@@ -44,6 +46,7 @@ public class RobotMain extends IterativeRobot {
         Loader.getInstance();
         Shooter.getInstance();
         Autonomous.getInstance();
+        limit = new DigitalInput(1);
         timer = new Timer();
         driver = XboxDriver.getInstance();
         manip = XboxManip.getInstance();
@@ -84,8 +87,8 @@ public class RobotMain extends IterativeRobot {
         sendDataToDash();
         Arm.printPotData();
         Arm.outputPIDConstants();
-        System.out.println("Left: " + DriveTrain.getLeftEncoderDistance());
-        System.out.println("Right: " + DriveTrain.getRightEncoderDistance());
+        System.out.println("switch: " + Lifter.atBottom());
+        System.out.println("ingest switch: " + limit.get());
         /*
         if (driveAfterAuto && timer.get() < Constants.TELEOP_DRIVE_TIME) {
             DriveTrain.drive(-0.45, -0.5);
@@ -183,27 +186,30 @@ public class RobotMain extends IterativeRobot {
         }
         
         if (manip.leftStickYAxis() != 0) {
-            Lifter.manual(manip.leftStickYAxis());
+            //Lifter.manual(manip.leftStickYAxis());
+            Climber.manual(manip.leftStickYAxis());
         } else {
             Lifter.stop();
         }
         
 		/*
 		 * Driver Ingestor Controls
-		 *
+		 */
     	if (driver.lBumper()) {
             Loader.ingest();
         } else if (driver.rBumper()) {
             Conveyors.exgest();
         } else {
             Loader.ingestorOff();
-        } */
+        } 
 
+        /*
         if (driver.rightTriggerButton()) {
             Climber.deploy();
         } else if (driver.rBumper()) {
             Climber.retract();
         } 
+        * */
 
         /*
          * Drive Slow if Left Trigger, otherwise drive normally
