@@ -181,14 +181,6 @@ public class RobotMain extends IterativeRobot {
         } else {
             Conveyors.stopIngest();
         }
-        /* 
-        if (manip.leftStickYAxis() < -0.3) {
-            Lifter.sensorDown();
-        } else if (manip.leftStickYAxis() != 0) {
-            Lifter.manual(manip.leftStickYAxis());
-        } else {
-            Lifter.stop();
-        }*/
         
         if (manip.leftStickYAxis() != 0) {
             Lifter.manual(manip.leftStickYAxis());
@@ -221,6 +213,33 @@ public class RobotMain extends IterativeRobot {
         } else {
             DriveTrain.humanDrive(driver.leftStickYAxis(), driver.rightStickYAxis());
         }
+        
+        /*
+         * automatic drive thru?
+         * after the 4th frisbee goes through the limit switch,
+         * ingests it, lifts up the loader, and gets the shooter ready
+         * human control overrides this method or it should
+         *
+        if (FrisbeeCounter.full()) {
+            timer.start();
+            if (timer.get() < 2) {
+                if(!manip.startButton() || !manip.backButton()) {
+                    Conveyors.ingest();
+                }
+            } else if (timer.get() < 10) {
+                if (manip.leftStickYAxis() == 0) {
+                    Loader.liftUp();
+                }
+                if (!manip.rBumper() || !manip.lBumper()) {
+                    Loader.loadShooter();
+                }
+            } else {
+                Loader.allOff();
+                timer.stop();
+                timer.reset();
+            }
+        }
+        */
     }
     
     /**

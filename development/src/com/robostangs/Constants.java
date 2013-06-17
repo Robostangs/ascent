@@ -120,7 +120,7 @@ public class Constants {
     public static final int DT_JAG_RIGHT_FRONT_POS = ReadConstants.findInt("DT_JAG_RIGHT_FRONT_POS");
     public static final int DT_JAG_RIGHT_MID_POS = ReadConstants.findInt("DT_JAG_RIGHT_MID_POS");
     public static final int DT_JAG_RIGHT_BACK_POS = ReadConstants.findInt("DT_JAG_RIGHT_BACK_POS");
-    //Rest
+    //Need to Test
     public static final double DT_STRAIGHT_LEFT_INC = ReadConstants.findDouble("DT_STRAIGHT_LEFT_INC");
     public static final double DT_STRAIGHT_LEFT_DEC = ReadConstants.findDouble("DT_STRAIGHT_LEFT_DEC");
     public static final double DT_STRAIGHT_RIGHT_INC = ReadConstants.findDouble("DT_STRAIGHT_RIGHT_INC");

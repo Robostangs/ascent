@@ -26,7 +26,6 @@ public class DriveTrain {
         resetEncoders();
         startEncoders();
 
-        
         //gyro = new Gyro (Constants.DT_GYRO_POS);
         
         /*
@@ -166,6 +165,53 @@ public class DriveTrain {
     public static void sendEncoders() {
         SmartDashboard.putData("Left Encoder: ", leftEncoder);
         SmartDashboard.putData("Right Encoder: ", rightEncoder);
+    }
+    
+    /**
+     * drives straight using the encoders
+     * @param power
+     * @param distance 
+     */
+    public static int driveStraight(double power, double distance) {
+        timer.start();
+        double leftPower = power;
+        double rightPower = power;
+        /*
+         * timer stuff
+         * change power(Volts) to speed(distance/time)
+         * get projected time speed = volt --> distance/time;
+         * if the actual time passes expected time +1sec, stop and return -1
+         */
+        double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;
+        double expectedTime = distance / speed;
+        if (timer.get() > (expectedTime + Constants.DT_DELAY_TIME)) {
+            driveStraight(0, 0);
+            timer.stop();
+            stopEncoders();
+            resetTimer();
+            resetEncoders();
+            return -1;
+        }
+        
+        if (getLeftEncoderDistance() < distance && getRightEncoderDistance() < distance) {
+            if (getLeftEncoderDistance() < getRightEncoderDistance()) {
+                leftPower = power * Constants.DT_STRAIGHT_LEFT_INC;
+                rightPower = power * Constants.DT_STRAIGHT_RIGHT_DEC;
+            } else if (getLeftEncoderDistance() > getRightEncoderDistance()) {
+                leftPower = power * Constants.DT_STRAIGHT_LEFT_DEC;
+                rightPower = power * Constants.DT_STRAIGHT_RIGHT_INC;
+            }
+            
+            drive(leftPower, rightPower);
+            return 0;
+        } else {
+            driveStraight(0,0);
+            timer.stop();
+            stopEncoders();
+            resetTimer();
+            resetEncoders();
+            return 1;
+        }
     }
     
     /**
