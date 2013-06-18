@@ -46,7 +46,7 @@ public class RobotMain extends IterativeRobot {
         Loader.getInstance();
         Shooter.getInstance();
         Autonomous.getInstance();
-        limit = new DigitalInput(1);
+        limit = new DigitalInput(10);
         timer = new Timer();
         driver = XboxDriver.getInstance();
         manip = XboxManip.getInstance();
@@ -87,6 +87,7 @@ public class RobotMain extends IterativeRobot {
         sendDataToDash();
         Arm.printPotData();
         Arm.outputPIDConstants();
+        System.out.println("encoders: " + DriveTrain.getLeftEncoderRaw() + " " + DriveTrain.getRightEncoderRaw());
         System.out.println("switch: " + Lifter.atBottom());
         System.out.println("ingest switch: " + limit.get());
         /*
