@@ -86,8 +86,8 @@ public class RobotMain extends IterativeRobot {
      */
     public void teleopPeriodic() {
         sendDataToDash();
-        Arm.printPotData();
-        Arm.outputPIDConstants();
+        //Arm.printPotData();
+        //Arm.outputPIDConstants();
         //System.out.println("encoders: " + DriveTrain.getLeftEncoderRaw() + " " + DriveTrain.getRightEncoderRaw());
         System.out.println("switch: " + Lifter.atBottom());
         System.out.println("Lifter JAG CURRENTO: " + Lifter.getJagCurrent());
@@ -124,7 +124,8 @@ public class RobotMain extends IterativeRobot {
          * R Trigger: Shoot
          * L Trigger: Feed
          */
-        if (manip.rightTriggerButton()) {   
+        if (manip.rightTriggerButton()) { 
+            Lifter.currentUp();
             if (fullShootMode) {
                 Shooter.fullShoot();
             } else {
@@ -138,9 +139,9 @@ public class RobotMain extends IterativeRobot {
         
         if (manip.bButton()) {
             fullShootMode = false;
-        } //else if (manip.aButton()) {
-            //fullShootMode = true;
-        //}
+        } else if (manip.aButton()) {
+            fullShootMode = true;
+        }
         
         /*
          * Manipulator Arm Control
@@ -193,8 +194,7 @@ public class RobotMain extends IterativeRobot {
         
         if (manip.leftStickYAxis() > 0) {
             Lifter.currentUp();
-        }
-        else if (manip.leftStickYAxis() < 0) {
+        } else if (manip.leftStickYAxis() < 0) {
             Lifter.manual(manip.leftStickYAxis());
         } else {
             Lifter.stop();

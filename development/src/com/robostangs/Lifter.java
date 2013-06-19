@@ -86,6 +86,14 @@ public class Lifter {
         }
     }
 
+    public static void constantUp() {
+        try {
+            lift.setX(0.20);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     /**
      * @return the absolute value of the current on the lifter jag
      */
@@ -108,7 +116,7 @@ public class Lifter {
         if (getJagCurrent() >= 1.7 && !atBottom) {
           lower();
           goingToBottom = true;
-            downcount++;
+          downcount++;
         } else {
           stop();
           atBottom = true;
@@ -128,8 +136,7 @@ public class Lifter {
           raise();
           goingToTop = true;
         } else {
-          stop();
-          atTop = true;
+          constantUp();
           goingToTop = false;
         }
     }
