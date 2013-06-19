@@ -25,8 +25,6 @@ public class RobotMain extends IterativeRobot {
     private Timer timer;
     private boolean fullShootMode, driveAfterAuto;
     private double potValue;
-    private DigitalInput limit;
-    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -47,7 +45,6 @@ public class RobotMain extends IterativeRobot {
         Loader.getInstance();
         Shooter.getInstance();
         Autonomous.getInstance();
-        limit = new DigitalInput(10);
         timer = new Timer();
         driver = XboxDriver.getInstance();
         manip = XboxManip.getInstance();
@@ -91,7 +88,7 @@ public class RobotMain extends IterativeRobot {
         //System.out.println("encoders: " + DriveTrain.getLeftEncoderRaw() + " " + DriveTrain.getRightEncoderRaw());
         System.out.println("switch: " + Lifter.atBottom());
         System.out.println("Lifter JAG CURRENTO: " + Lifter.getJagCurrent());
-        //System.out.println("ingest switch: " + limit.get());
+        System.out.println("Proximity Sensor: " + Lifter.getBottomSensor());
         /*
         if (driveAfterAuto && timer.get() < Constants.TELEOP_DRIVE_TIME) {
             DriveTrain.drive(-0.45, -0.5);
@@ -125,7 +122,6 @@ public class RobotMain extends IterativeRobot {
          * L Trigger: Feed
          */
         if (manip.rightTriggerButton()) { 
-            Lifter.currentUp();
             if (fullShootMode) {
                 Shooter.fullShoot();
             } else {
@@ -173,9 +169,13 @@ public class RobotMain extends IterativeRobot {
             }
         } else {
         */
-            if (Math.abs(manip.rightStickYAxis()) != 0) {
+            if (manip.rightStickYAxis() != 0) {
                 //fine control
                 Arm.fineDrive(manip.rightStickYAxis());
+            } else if (manip.yButton()) {
+                Arm.setJags(.15);
+            } else if (manip.xButton()) {
+                Arm.setJags(-.15);
             } else {
                 potValue = 0;
                 Arm.stop();
@@ -192,10 +192,12 @@ public class RobotMain extends IterativeRobot {
         }
         * */
         
-        if (manip.leftStickYAxis() > 0) {
-            Lifter.currentUp();
-        } else if (manip.leftStickYAxis() < 0) {
+        if (manip.leftStickYAxis() != 0) {
             Lifter.manual(manip.leftStickYAxis());
+        } else if (manip.rightTriggerButton()) {
+            Lifter.currentUp();
+        } else if (driver.lBumper()) {
+            Lifter.sensorDown();
         } else {
             Lifter.stop();
         }
@@ -211,13 +213,12 @@ public class RobotMain extends IterativeRobot {
             Loader.ingestorOff();
         } 
 
-        /*
         if (driver.rightTriggerButton()) {
             Climber.deploy();
-        } else if (driver.rBumper()) {
-            Climber.retract();
-        } 
-        * */
+        } else {
+            Climber.holdInit();
+        }
+        
 
         /*
          * Drive Slow if Left Trigger, otherwise drive normally

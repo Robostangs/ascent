@@ -21,7 +21,7 @@ public class Lifter {
     private static int downcount = 0, upCount = 0;
     private static DigitalInput limit;
     //private static ProximitySensor topProx;
-    //private static ProximitySensor bottomProx;
+    private static ProximitySensor bottomProx;
 
     private Lifter() { 
         try{
@@ -36,10 +36,8 @@ public class Lifter {
         /*
         topProx = new ProximitySensor(Constants.LIFTER_TOP_PROX_DIGITAL_PORT, 
                   Constants.LIFTER_TOP_PROX_SOLENOID_PORT);
-        
-        bottomProx = new ProximitySensor(Constants.LIFTER_BOTTOM_PROX_DIGITAL_PORT, 
-                  Constants.LIFTER_BOTTOM_PROX_SOLENOID_PORT);
         */
+        bottomProx = new ProximitySensor(10, 8);
         atTop = false;
         atBottom = true;
         goingToBottom = false;
@@ -61,7 +59,7 @@ public class Lifter {
     */
     public static void raise() {
         try {
-            lift.setX(Constants.LIFTER_UP_POWER);
+            lift.setX(1);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -72,7 +70,7 @@ public class Lifter {
     */
     public static void lower() {
         try {
-            lift.setX(-Constants.LIFTER_DOWN_POWER);
+            lift.setX(-1);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -126,6 +124,7 @@ public class Lifter {
     }
     
         public static void currentUp() {
+            atBottom = !getBottomSensor();
         if(atBottom) {
           atBottom = false;
           raise();
@@ -137,6 +136,7 @@ public class Lifter {
           goingToTop = true;
         } else {
           constantUp();
+          atTop = true;
           goingToTop = false;
         }
     }
@@ -182,19 +182,19 @@ public class Lifter {
   /*
   public static boolean getTopSensor() {
       return topProx.get();
-  }
+  }*/
 
   public static boolean getBottomSensor() {
       return bottomProx.get();
   }
-  
+  /*
   public static void sensorUp() {
       if (topProx.get()) {
           raise();
       } else {
           stop();
       }
-  }
+  }*/
 
   public static void sensorDown() { 
       if (bottomProx.get()) {
@@ -202,7 +202,7 @@ public class Lifter {
       } else {
           stop();
       }
-  }*/
+  }
 
   /**
    * Stops the lifter
@@ -218,7 +218,7 @@ public class Lifter {
   public static void manual(double speed) {
       timer.stop();
       atTop = false;
-      atBottom = false;
+      atBottom = !getBottomSensor();
       /*
       if (goingToBottom || atBottom) {
           atTop = false;

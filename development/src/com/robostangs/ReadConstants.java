@@ -205,9 +205,9 @@ public class ReadConstants {
         defKeys[79] = "LIFTER_TOP_PROX_SOLENOID_PORT";
         defConstants[79] = 2;
         defKeys[80] = "LIFTER_BOTTOM_PROX_DIGITAL_PORT";
-        defConstants[80] = 1;
+        defConstants[80] = 10;
         defKeys[81] = "LIFTER_BOTTOM_PROX_SOLENOID_PORT";
-        defConstants[81] = 1;
+        defConstants[81] = 8;
         defKeys[82] = "SHOOTER_JAG1_POS";
         defConstants[82] = 2;
         defKeys[83] = "SHOOTER_JAG2_POS";
