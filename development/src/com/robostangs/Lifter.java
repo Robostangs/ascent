@@ -105,7 +105,7 @@ public class Lifter {
         }
 
         System.out.println("jag current: " + getJagCurrent());
-        if ((getJagCurrent() >= 1.7 && !atBottom) || downcount < 20) {
+        if (getJagCurrent() >= 1.7 && !atBottom) {
           lower();
           goingToBottom = true;
             downcount++;
@@ -124,7 +124,7 @@ public class Lifter {
         }
 
         System.out.println("jag current: " + getJagCurrent());
-        if ((getJagCurrent() <= 5.0 && !atTop)) {
+        if (getJagCurrent() <= 5.0 && !atTop) {
           raise();
           goingToTop = true;
         } else {
@@ -210,11 +210,15 @@ public class Lifter {
 
   public static void manual(double speed) {
       timer.stop();
+      atTop = false;
+      atBottom = false;
+      /*
       if (goingToBottom || atBottom) {
           atTop = false;
       } else if (goingToTop || atTop) {
           atBottom = false;
       }
+      */
       try {
           lift.setX(speed);
       } catch (CANTimeoutException ex) {
