@@ -123,7 +123,7 @@ public class ReadConstants {
         defKeys[38] = "CONV_SHOOTER_POWER";
         defConstants[38] = 1.0;
         defKeys[39] = "CONV_INGEST_POWER";
-        defConstants[39] = 0.95;
+        defConstants[39] = 1.0;
         defKeys[40] = "CAM_Y_OFFSET";
         defConstants[40] = 0;
         defKeys[41] = "CAM_X_OFFSET";
@@ -290,6 +290,12 @@ public class ReadConstants {
     }
 
     public static double findDouble(String key) {
+        double x = 0;
+        for(int j = 0; j < defKeys.length; j++) {
+                if (defKeys[j].equalsIgnoreCase(key)) {
+                    x = defConstants[j];
+                }
+        }
         try {
             for (int i = 0; i < keys.length; i++) {
                 if (keys[i].equalsIgnoreCase(key)) {
@@ -303,11 +309,18 @@ public class ReadConstants {
                 }
             }
         }
-
-        return -1;
+        
+        return x;
     }
 
     public static int findInt(String key) {
+        int x = 0;
+        for(int j = 0; j < defKeys.length; j++) {
+                if (defKeys[j].equalsIgnoreCase(key)) {
+                    x = (int) defConstants[j];
+                }
+        }
+        
         try {
             for (int i = 0; i < keys.length; i++) {
                 if (keys[i].equalsIgnoreCase(key)) {
@@ -322,6 +335,6 @@ public class ReadConstants {
             }
         }
         
-        return -1;
+        return x;
     }
 }

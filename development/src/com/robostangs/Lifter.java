@@ -18,7 +18,7 @@ public class Lifter {
     private static boolean atBottom;
     private static boolean goingToTop;
     private static boolean goingToBottom;
-    private static int downcount = 0;
+    private static int downcount = 0, upCount = 0;
     private static DigitalInput limit;
     //private static ProximitySensor topProx;
     //private static ProximitySensor bottomProx;
@@ -115,7 +115,23 @@ public class Lifter {
           goingToBottom = false;
           downcount = 0;
         }
+    }
+    
+        public static void currentUp() {
+        if(atBottom) {
+          atBottom = false;
+          raise();
+        }
 
+        System.out.println("jag current: " + getJagCurrent());
+        if ((getJagCurrent() <= 5.0 && !atTop)) {
+          raise();
+          goingToTop = true;
+        } else {
+          stop();
+          atTop = true;
+          goingToTop = false;
+        }
     }
 
   public static void timedDown() {
@@ -215,5 +231,4 @@ public class Lifter {
           return 0;
       }
   }
-
 }

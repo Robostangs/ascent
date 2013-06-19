@@ -43,6 +43,7 @@ public class RobotMain extends IterativeRobot {
         Climber.getInstance();
         DriveCamera.getInstance();
         DriveTrain.getInstance();
+        FrisbeeCounter.getInstance();
         Loader.getInstance();
         Shooter.getInstance();
         Autonomous.getInstance();
@@ -87,9 +88,10 @@ public class RobotMain extends IterativeRobot {
         sendDataToDash();
         Arm.printPotData();
         Arm.outputPIDConstants();
-        System.out.println("encoders: " + DriveTrain.getLeftEncoderRaw() + " " + DriveTrain.getRightEncoderRaw());
+        //System.out.println("encoders: " + DriveTrain.getLeftEncoderRaw() + " " + DriveTrain.getRightEncoderRaw());
         System.out.println("switch: " + Lifter.atBottom());
-        System.out.println("ingest switch: " + limit.get());
+        System.out.println("Lifter JAG CURRENTO: " + Lifter.getJagCurrent());
+        //System.out.println("ingest switch: " + limit.get());
         /*
         if (driveAfterAuto && timer.get() < Constants.TELEOP_DRIVE_TIME) {
             DriveTrain.drive(-0.45, -0.5);
@@ -114,7 +116,7 @@ public class RobotMain extends IterativeRobot {
         } else if (manip.lBumper()) {
             Loader.feed();
         } else {
-	    	Loader.stopShooterConveyor();
+	    Loader.stopShooterConveyor();
         }
 
         /*
@@ -136,9 +138,9 @@ public class RobotMain extends IterativeRobot {
         
         if (manip.bButton()) {
             fullShootMode = false;
-        } else if (manip.aButton()) {
-            fullShootMode = true;
-        }
+        } //else if (manip.aButton()) {
+            //fullShootMode = true;
+        //}
         
         /*
          * Manipulator Arm Control
@@ -178,17 +180,22 @@ public class RobotMain extends IterativeRobot {
                 Arm.stop();
             }
         //}
+            /*
         if(manip.startButton()) {
             Conveyors.ingest();
+            //FrisbeeCounter.count(FrisbeeCounter.ingestFrisbee());
         } else if(manip.backButton()) {
             Conveyors.exgest();
         } else {
             Conveyors.stopIngest();
         }
+        * */
         
-        if (manip.leftStickYAxis() != 0) {
-            //Lifter.manual(manip.leftStickYAxis());
-            Climber.manual(manip.leftStickYAxis());
+        if (manip.leftStickYAxis() > 0) {
+            Lifter.currentUp();
+        }
+        else if (manip.leftStickYAxis() < 0) {
+            Lifter.manual(manip.leftStickYAxis());
         } else {
             Lifter.stop();
         }
@@ -227,7 +234,7 @@ public class RobotMain extends IterativeRobot {
          * ingests it, lifts up the loader, and gets the shooter ready
          * human control overrides this method or it should
          *
-        if (FrisbeeCounter.full()) {
+        if (FrisbeeCounter.getNumberOfFrisbees() == 4) {
             timer.start();
             if (timer.get() < 2) {
                 if(!manip.startButton() || !manip.backButton()) {
