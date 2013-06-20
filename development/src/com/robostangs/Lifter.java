@@ -86,7 +86,7 @@ public class Lifter {
 
     public static void constantUp() {
         try {
-            lift.setX(0.20);
+            lift.setX(0.09);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -134,6 +134,8 @@ public class Lifter {
         if (getJagCurrent() <= 5.0 && !atTop) {
           raise();
           goingToTop = true;
+        } else if (atTop) {
+            constantUp();
         } else {
           constantUp();
           atTop = true;
@@ -201,6 +203,7 @@ public class Lifter {
           lower();
       } else {
           stop();
+          atTop = false;
       }
   }
 
