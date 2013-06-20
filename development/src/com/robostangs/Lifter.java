@@ -123,20 +123,25 @@ public class Lifter {
         }
     }
     
-        public static void currentUp() {
-            atBottom = !getBottomSensor();
+    public static void currentUp() {
+        System.out.println("current up!");
+        atBottom = !getBottomSensor();
         if(atBottom) {
           atBottom = false;
           raise();
+          System.out.println("if at bottom is true stuff");
         }
 
         System.out.println("jag current: " + getJagCurrent());
         if (getJagCurrent() <= 5.0 && !atTop) {
+          System.out.println("jag current < 5");
           raise();
           goingToTop = true;
         } else if (atTop) {
+            System.out.println("at top is true");
             constantUp();
         } else {
+            System.out.println("current more than 5!!!");
           constantUp();
           atTop = true;
           goingToTop = false;

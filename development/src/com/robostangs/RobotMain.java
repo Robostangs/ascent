@@ -194,10 +194,10 @@ public class RobotMain extends IterativeRobot {
         
         if (manip.leftStickYAxis() != 0) {
             Lifter.manual(manip.leftStickYAxis());
-        } else if (manip.rightTriggerButton()) {
-            Lifter.currentUp();
         } else if (manip.rBumper()) {
             Lifter.raise();
+        } else if (manip.rightTriggerButton()) {
+            Lifter.constantUp();
         } else if (driver.lBumper()) {
             Lifter.sensorDown();
         } else {
