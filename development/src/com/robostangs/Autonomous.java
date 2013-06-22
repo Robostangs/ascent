@@ -71,6 +71,7 @@ public class Autonomous {
         }
         System.out.println("step secondary: " + secondary.get() + " " + step);
         Shooter.shoot();
+        Lifter.sensorUp();
 
         if (secondary.get() > 2.5) {
             Loader.loadShooter();
