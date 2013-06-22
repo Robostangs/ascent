@@ -41,8 +41,8 @@ public class RobotMain extends IterativeRobot {
         Climber.getInstance();
         DriveCamera.getInstance();
         DriveTrain.getInstance();
-        FrisbeeCounter.getInstance();
-        Loader.getInstance();
+        Lifter.getInstance();
+        Conveyors.getInstance();
         Shooter.getInstance();
         Autonomous.getInstance();
         timer = new Timer();
@@ -109,11 +109,11 @@ public class RobotMain extends IterativeRobot {
 	 	 * R Bumper: Load shooter
          */
         if (manip.rBumper()) {
-            Loader.loadShooter();
+            Conveyors.loadShooter();
         } else if (manip.lBumper()) {
-            Loader.feed();
+            Conveyors.feed();
         } else {
-            Loader.stopShooterConveyor();
+            Conveyors.stopShooterConveyor();
         }
 
         /*
@@ -151,6 +151,9 @@ public class RobotMain extends IterativeRobot {
             Arm.stop();
         }
         
+        /*
+         * Lifter controls
+         */
         if (manip.leftStickYAxis() != 0) {
             Lifter.manual(manip.leftStickYAxis());
         } else if (manip.rightTriggerButton()) {
@@ -165,11 +168,11 @@ public class RobotMain extends IterativeRobot {
 		 * Driver Ingestor Controls
 		 */
     	if (driver.lBumper()) {
-            Loader.ingest();
+            Conveyors.ingest();
         } else if (driver.rBumper()) {
             Conveyors.exgest();
         } else {
-            Loader.ingestorOff();
+            Conveyors.stopIngest();
         } 
 
         if (driver.rightTriggerButton()) {
