@@ -13,13 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveTrain {
     private static DriveTrain instance = null;
     private static Encoder leftEncoder, rightEncoder;
-    private static Timer timer;
     //private static PIDController pid;
     //private static Gyro gyro;
     
     private DriveTrain() {
         DriveMotors.getInstance();
-        timer = new Timer();
         
         leftEncoder = new Encoder (Constants.DT_LEFT_ENCODER_FRONT, Constants.DT_LEFT_ENCODER_BACK);
         rightEncoder = new Encoder (Constants.DT_RIGHT_ENCODER_FRONT, Constants.DT_RIGHT_ENCODER_BACK);
@@ -91,23 +89,6 @@ public class DriveTrain {
         drive(leftPower / 2, rightPower / 2);
     }
 
-    public static void climbDrive(double leftPower, double rightPower) {
-        if (Math.abs(leftPower) > 0.75) {
-            leftPower = 0.75 * (leftPower / Math.abs(leftPower));
-        }
-        if (Math.abs(rightPower) > 0.75) {
-            rightPower = 0.75 * (rightPower / Math.abs(rightPower));
-        }
-        drive(leftPower, rightPower);
-    }
-    
-    /**
-     * reset the timer
-     */
-    public static void resetTimer() {
-        timer.reset();
-    }
-    
     /**
      * stop everything in DriveTrain
      */
@@ -148,15 +129,6 @@ public class DriveTrain {
     }
     
     /**
-     * get the angle using gyro
-     * @return in degrees
-     *
-    public static double getAngle() {
-        return gyro.getAngle();
-    }*/
-    
-    
-    /**
      * resets all encoders
      */
     public static void resetEncoders() {
@@ -183,36 +155,46 @@ public class DriveTrain {
     }
     
     /**
+     * TODO: reset encoders in this method somewhere, it wont work as it is
+     * drives straight using the encoders
+     * @param power
+     */
+    public static void driveStraight(double power) {
+        double leftPower = power;
+        double rightPower = power;
+        double difference = getLeftEncoderDistance() - getRightEncoderDistance()
+
+        if (difference > Constants.DT_ENCODER_TOLERANCE) {
+            //right is further than left
+            leftPower = power * Constants.DT_STRAIGHT_LEFT_INC;
+            rightPower = power * Constants.DT_STRAIGHT_RIGHT_DEC;
+        } else if (difference < Constants.DT_ENCODER_TOLERANCE) {
+            //left is further than right
+            leftPower = power * Constants.DT_STRAIGHT_LEFT_DEC;
+            rightPower = power * Constants.DT_STRAIGHT_RIGHT_INC;
+        }
+
+        drive(leftPower, rightPower);
+    }
+    /**
      * drives straight using the encoders
      * @param power
      * @param distance 
+     * @return 1 when finished, 0 when in progress
      */
     public static int driveStraight(double power, double distance) {
-        timer.start();
         double leftPower = power;
         double rightPower = power;
-        /*
-         * timer stuff
-         * change power(Volts) to speed(distance/time)
-         * get projected time speed = volt --> distance/time;
-         * if the actual time passes expected time +1sec, stop and return -1
-         */
-        double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;
-        double expectedTime = distance / speed;
-        if (timer.get() > (expectedTime + Constants.DT_DELAY_TIME)) {
-            driveStraight(0, 0);
-            timer.stop();
-            stopEncoders();
-            resetTimer();
-            resetEncoders();
-            return -1;
-        }
+        double avgDistance = (getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0;
+        double difference = getLeftEncoderDistance() - getRightEncoderDistance()
         
-        if (getLeftEncoderDistance() < distance && getRightEncoderDistance() < distance) {
-            if (getLeftEncoderDistance() < getRightEncoderDistance()) {
+        if (avgDistance < distance) {
+            if (difference > Constants.DT_ENCODER_TOLERANCE) {
+                //right is further than left
                 leftPower = power * Constants.DT_STRAIGHT_LEFT_INC;
                 rightPower = power * Constants.DT_STRAIGHT_RIGHT_DEC;
-            } else if (getLeftEncoderDistance() > getRightEncoderDistance()) {
+            } else if (difference < Constants.DT_ENCODER_TOLERANCE) {
+                //left is further than right
                 leftPower = power * Constants.DT_STRAIGHT_LEFT_DEC;
                 rightPower = power * Constants.DT_STRAIGHT_RIGHT_INC;
             }
@@ -220,14 +202,19 @@ public class DriveTrain {
             drive(leftPower, rightPower);
             return 0;
         } else {
-            driveStraight(0,0);
-            timer.stop();
+            stop();
             stopEncoders();
-            resetTimer();
             resetEncoders();
             return 1;
         }
     }
+    /**
+     * get the angle using gyro
+     * @return in degrees
+     *
+    public static double getAngle() {
+        return gyro.getAngle();
+    }*/
     
     /**
      * send gyro status to SmartDashboard
@@ -273,24 +260,6 @@ public class DriveTrain {
      * @return -1 when incomplete, 0 when in progress, 1 when complete
      *
     public static int driveStraight(double power, double angle, double distance) {
-        timer.start();
-        
-        /*
-         * timer stuff
-         * change power(Volts) to speed(distance/time)
-         * get projected time speed = volt --> distance/time;
-         * if the actual time passes expected time +1sec, stop and return -1
-         *
-        double speed = power * Constants.DT_CONV_VOLT_TO_M_PER_SEC;
-        double expectedTime = distance / speed;
-        if (timer.get() > (expectedTime + Constants.DT_DELAY_TIME)) {
-            driveStraight(0, 0);
-            timer.stop();
-            resetTimer();
-            resetEncoders();
-            return -1;
-        }
-        
         if (getLeftEncoderDistance() < distance && getRightEncoderDistance() < distance) {
             driveStraight(power, angle);
             return 0;
@@ -352,25 +321,4 @@ public class DriveTrain {
             }
         }
     }*/
-    /**
-     * drive the robot along a circular arc
-     * @param power
-     * @param x
-     * @param y
-     * @return 
-     */
-    public static int driveArc(double power, double x, double y) {
-        return -1;
-    }
-    
-    /**
-     * TODO: drive to position (x,y)
-     * @param power
-     * @param x
-     * @param y
-     * @return 
-     */
-    public static int driveToPosition(double power, double x, double y) {
-        return -1;
-    }
 }
