@@ -125,13 +125,7 @@ public class Constants {
     public static final double DT_STRAIGHT_LEFT_DEC = ReadConstants.findDouble("DT_STRAIGHT_LEFT_DEC");
     public static final double DT_STRAIGHT_RIGHT_INC = ReadConstants.findDouble("DT_STRAIGHT_RIGHT_INC");
     public static final double DT_STRAIGHT_RIGHT_DEC = ReadConstants.findDouble("DT_STRAIGHT_RIGHT_DEC");
-    public static final double DT_CONV_VOLT_TO_M_PER_SEC = ReadConstants.findDouble("DT_CONV_VOLT_TO_M_PER_SEC");
     public static final double DT_DELAY_TIME = ReadConstants.findDouble("DT_DELAY_TIME");
-    
-    /*
-     * Ingestor
-     */
-    public static final int INGEST_RELAY_POS = ReadConstants.findInt("INGEST_RELAY_POS");
     
     /*
      * Lifter
@@ -139,8 +133,8 @@ public class Constants {
     public static final int LIFTER_JAG_POS = ReadConstants.findInt("LIFTER_JAG_POS");
     public static final double LIFTER_UP_POWER = ReadConstants.findDouble("LIFTER_UP_POWER");
     public static final double LIFTER_DOWN_POWER = ReadConstants.findDouble("LIFTER_DOWN_POWER");
-    public static final double LIFTER_UP_TIME = ReadConstants.findDouble("LIFTER_UP_TIME");
-    public static final double LIFTER_DOWN_TIME = ReadConstants.findDouble("LIFTER_DOWN_TIME");
+    public static final double LIFTER_SLOW_UP_POWER = ReadConstants.findDouble("LIFTER_SLOW_UP_POWER");
+    public static final double LIFTER_SLOW_DOWN_POWER = ReadConstants.findDouble("LIFTER_SLOW_DOWN_POWER");
     public static final int LIFTER_TOP_PROX_DIGITAL_PORT = ReadConstants.findInt("LIFTER_TOP_PROX_DIGITAL_PORT");
     public static final int LIFTER_TOP_PROX_SOLENOID_PORT = ReadConstants.findInt("LIFTER_TOP_PROX_SOLENOID_PORT");
     public static final int LIFTER_BOTTOM_PROX_DIGITAL_PORT = ReadConstants.findInt("LIFTER_BOTTOM_PROX_DIGITAL_PORT");
@@ -155,11 +149,6 @@ public class Constants {
 
     public static final double SHOOTER_MAX_POWER = ReadConstants.findDouble("SHOOTER_MAX_POWER");
     public static final double SHOOTER_FEED_POWER = ReadConstants.findDouble("SHOOTER_FEED_POWER");
-    public static final double SHOOTER_FULL_BATTERY_VOLTAGE = ReadConstants.findDouble("SHOOTER_FULL_BATTERY_VOLTAGE");
-    public static final double SHOOTER_VOLTAGE_TOLERANCE = ReadConstants.findDouble("SHOOTER_VOLTAGE_TOLERANCE");
-    public static final double SHOOTER_READY_CURRENT_MAX = ReadConstants.findDouble("SHOOTER_READY_CURRENT_MAX");
-    public static final double SHOOTER_READY_CURRENT_MIN = ReadConstants.findDouble("SHOOTER_READY_CURRENT_MIN");
-    //GOOD SHOOTING ANGLE: 247
     
     /*
      * XboxController

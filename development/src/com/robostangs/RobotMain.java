@@ -113,7 +113,7 @@ public class RobotMain extends IterativeRobot {
         } else if (manip.lBumper()) {
             Loader.feed();
         } else {
-	    Loader.stopShooterConveyor();
+            Loader.stopShooterConveyor();
         }
 
         /*
@@ -139,58 +139,17 @@ public class RobotMain extends IterativeRobot {
             fullShootMode = true;
         }
         
-        /*
-         * Manipulator Arm Control
-         * Right Stick: Fine Manual
-         * Y: Shooting Angle
-         * X: Use Camera to auto-set angle
-         *        
-        if (manip.rightStickYAxis() == 0) {
-            //not using the joysticks to manual set, use PID
-            if (manip.yButton()) {
-                Arm.shootingPos();
-            } else if (manip.xButton()) {
-                //Arm.camPos();
-                Arm.getPIDFromDash();
-                Arm.enablePID();
-            } else if (manip.startButton()) {
-                if (potValue == 0) {
-                    potValue = Arm.getPot();
-                }
-                Arm.setPosition(potValue + 5);
-            } else if (manip.backButton()) {
-                if (potValue == 0) {
-                    potValue = Arm.getPot();
-                }
-                Arm.setPosition(potValue - 5);
-            } else {
-                potValue = 0;
-                Arm.stop();
-            }
+        if (manip.rightStickYAxis() != 0) {
+            //fine control
+            Arm.fineDrive(manip.rightStickYAxis());
+        } else if (manip.yButton()) {
+            Arm.noPotDrive(.15);
+        } else if (manip.xButton()) {
+            Arm.noPotDrive(-.15);
         } else {
-        */
-            if (manip.rightStickYAxis() != 0) {
-                //fine control
-                Arm.fineDrive(manip.rightStickYAxis());
-            } else if (manip.yButton()) {
-                Arm.setJags(.15);
-            } else if (manip.xButton()) {
-                Arm.setJags(-.15);
-            } else {
-                potValue = 0;
-                Arm.stop();
-            }
-        //}
-            /*
-        if(manip.startButton()) {
-            Conveyors.ingest();
-            //FrisbeeCounter.count(FrisbeeCounter.ingestFrisbee());
-        } else if(manip.backButton()) {
-            Conveyors.exgest();
-        } else {
-            Conveyors.stopIngest();
+            potValue = 0;
+            Arm.stop();
         }
-        * */
         
         if (manip.leftStickYAxis() != 0) {
             Lifter.manual(manip.leftStickYAxis());
@@ -228,33 +187,6 @@ public class RobotMain extends IterativeRobot {
         } else {
             DriveTrain.humanDrive(driver.leftStickYAxis(), driver.rightStickYAxis());
         }
-        
-        /*
-         * automatic drive thru?
-         * after the 4th frisbee goes through the limit switch,
-         * ingests it, lifts up the loader, and gets the shooter ready
-         * human control overrides this method or it should
-         *
-        if (FrisbeeCounter.getNumberOfFrisbees() == 4) {
-            timer.start();
-            if (timer.get() < 2) {
-                if(!manip.startButton() || !manip.backButton()) {
-                    Conveyors.ingest();
-                }
-            } else if (timer.get() < 10) {
-                if (manip.leftStickYAxis() == 0) {
-                    Loader.liftUp();
-                }
-                if (!manip.rBumper() || !manip.lBumper()) {
-                    Loader.loadShooter();
-                }
-            } else {
-                Loader.allOff();
-                timer.stop();
-                timer.reset();
-            }
-        }
-        */
     }
     
     /**

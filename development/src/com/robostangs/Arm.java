@@ -33,8 +33,6 @@ public class Arm {
         //pidCam.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         pidB = new PIDController(Constants.ARM_KP_AUTON, Constants.ARM_KI_AUTON, Constants.ARM_KD_AUTON, pot, motor);
         //pidCam = new PIDController(Constants.ARM_KP_CAM, Constants.ARM_KI_CAM, Constants.ARM_KD_CAM, ArmCamera.getInstance(), motor);
-        
-        //configure PID
         pidB.setInputRange(Constants.ARM_POT_MIN_VALUE, Constants.ARM_POT_MAX_VALUE);
         pidB.setOutputRange(Constants.ARM_MIN_POWER, Constants.ARM_MAX_POWER);
         pidB.setAbsoluteTolerance(3);
