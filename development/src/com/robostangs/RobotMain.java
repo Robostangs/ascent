@@ -86,9 +86,7 @@ public class RobotMain extends IterativeRobot {
         //Arm.printPotData();
         //Arm.outputPIDConstants();
         //System.out.println("encoders: " + DriveTrain.getLeftEncoderRaw() + " " + DriveTrain.getRightEncoderRaw());
-        System.out.println("switch: " + Lifter.atBottom());
-        System.out.println("Lifter JAG CURRENTO: " + Lifter.getJagCurrent());
-        System.out.println("Proximity Sensor: " + Lifter.getBottomSensor());
+      
         /*
         if (driveAfterAuto && timer.get() < Constants.TELEOP_DRIVE_TIME) {
             DriveTrain.drive(-0.45, -0.5);
@@ -111,9 +109,9 @@ public class RobotMain extends IterativeRobot {
         if (manip.rBumper()) {
             Conveyors.loadShooter();
         } else if (manip.lBumper()) {
-            Conveyors.feed();
+            Conveyors.feedMode();
         } else {
-            Conveyors.stopShooterConveyor();
+            Conveyors.stopShooter();
         }
 
         /*

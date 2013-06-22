@@ -214,6 +214,8 @@ public class ReadConstants {
         defConstants[83] = 0.65;
         defKeys[84] = "SHOOTER_INNER_WHEEL_POWER";
         defConstants[84] = 0.75;
+        defKeys[85] = "DT_ENCODER_TOLERANCE";
+        defConstants[85] = 0.0;
     }
 
     public static void init() {

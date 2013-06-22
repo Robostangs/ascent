@@ -103,7 +103,7 @@ public class Lifter {
      */
     public static void sensorUp() {
         if (atTop()) {
-            constantUp();
+            slowUp();
         } else {
             raise();
         }
@@ -137,7 +137,7 @@ public class Lifter {
     public static void manual(double speed) {
         if (atTop() && speed > 0) {
             //at top, trying to go up, hold at constant slow speed
-            constantUp();
+            slowUp();
             speed = 0;
         } else if (atBottom() && speed < 0) {
             //at bottom, trying to go down, don't move basket

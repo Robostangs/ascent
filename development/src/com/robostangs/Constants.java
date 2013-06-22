@@ -126,6 +126,7 @@ public class Constants {
     public static final double DT_STRAIGHT_RIGHT_INC = ReadConstants.findDouble("DT_STRAIGHT_RIGHT_INC");
     public static final double DT_STRAIGHT_RIGHT_DEC = ReadConstants.findDouble("DT_STRAIGHT_RIGHT_DEC");
     public static final double DT_DELAY_TIME = ReadConstants.findDouble("DT_DELAY_TIME");
+    public static final double DT_ENCODER_TOLERANCE = ReadConstants.findDouble("DT_ENCODER_TOLERANCE");
     
     /*
      * Lifter

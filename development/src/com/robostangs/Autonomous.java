@@ -74,11 +74,12 @@ public class Autonomous {
         Lifter.sensorUp();
 
         if (secondary.get() > 2.5) {
-            Loader.loadShooter();
+            Conveyors.loadShooter();
         }
 
         if (secondary.get() > 3.05) {
-            Loader.allOff();
+            Conveyors.stopShooter();
+            Lifter.stop();
             secondary.reset();
         }
     }
@@ -197,7 +198,8 @@ public class Autonomous {
                                 + timer.get());
                     }
 
-                    Loader.allOff();
+                    Conveyors.stopShooter();
+                    Lifter.stop();
                     Shooter.stop();
                     timer.stop();
                     timer.reset();
@@ -262,7 +264,8 @@ public class Autonomous {
                         shoot();
                     }
 
-                    Loader.allOff();
+                    Conveyors.stopShooter();
+                    Lifter.stop();
                     Shooter.stop();
                     timer.stop();
                     timer.reset();

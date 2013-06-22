@@ -162,7 +162,7 @@ public class DriveTrain {
     public static void driveStraight(double power) {
         double leftPower = power;
         double rightPower = power;
-        double difference = getLeftEncoderDistance() - getRightEncoderDistance()
+        double difference = getLeftEncoderDistance() - getRightEncoderDistance();
 
         if (difference > Constants.DT_ENCODER_TOLERANCE) {
             //right is further than left
@@ -186,7 +186,7 @@ public class DriveTrain {
         double leftPower = power;
         double rightPower = power;
         double avgDistance = (getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0;
-        double difference = getLeftEncoderDistance() - getRightEncoderDistance()
+        double difference = getLeftEncoderDistance() - getRightEncoderDistance();
         
         if (avgDistance < distance) {
             if (difference > Constants.DT_ENCODER_TOLERANCE) {

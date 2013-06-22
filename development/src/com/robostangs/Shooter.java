@@ -49,7 +49,6 @@ public class Shooter {
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
-        feedMode = false;
     }
     
     public static void fullShoot() {
@@ -60,7 +59,6 @@ public class Shooter {
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
-        feedMode = false;
 
     }
     public static double getVoltage() {
@@ -70,6 +68,17 @@ public class Shooter {
             ex.printStackTrace();
             return -1;
         }
+    }
+    
+    public static void feed() {
+        try{
+            shooter1.setX(-Constants.SHOOTER_FEED_POWER);
+            shooter2.setX(-Constants.SHOOTER_FEED_POWER);
+            shooter3.setX(-Constants.SHOOTER_FEED_POWER);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+
     }
 
     /**
