@@ -149,6 +149,8 @@ public class Constants {
 
     public static final double SHOOTER_MAX_POWER = ReadConstants.findDouble("SHOOTER_MAX_POWER");
     public static final double SHOOTER_FEED_POWER = ReadConstants.findDouble("SHOOTER_FEED_POWER");
+    public static final double SHOOTER_OUTER_WHEEL_POWER = ReadConstants.findDouble("SHOOTER_OUTER_WHEEL_POWER");
+    public static final double SHOOTER_INNER_WHEEL_POWER = ReadConstants.findDouble("SHOOTER_INNER_WHEEL_POWER");
     
     /*
      * XboxController

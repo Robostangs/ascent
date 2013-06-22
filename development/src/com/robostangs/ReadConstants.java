@@ -210,6 +210,10 @@ public class ReadConstants {
         defConstants[81] = 47;
         defKeys[82] = "ARM_POT_B_MAX_VALUE";
         defConstants[82] = 700;
+        defKeys[83] = "SHOOTER_OUTER_WHEEL_POWER";
+        defConstants[83] = 0.65;
+        defKeys[84] = "SHOOTER_INNER_WHEEL_POWER";
+        defConstants[84] = 0.75;
     }
 
     public static void init() {
