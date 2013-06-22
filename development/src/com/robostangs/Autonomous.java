@@ -100,14 +100,6 @@ public class Autonomous {
         FileConnection fc = (FileConnection) Connector.open("file:///" + inputFileName, Connector.READ);
         BufferedReader in = new BufferedReader(new InputStreamReader(fc.openInputStream()));
         int commaPos = 0;
-        
-        /*
-        if (in.markSupported() && init) {
-            in.mark(1000);
-            init = false;
-        }
-        in.reset();
-        * */
         while ((line = in.readLine()) != null) {
             if (line.indexOf(",") != -1) {
                 contents.addElement(line);
@@ -141,6 +133,7 @@ public class Autonomous {
     public static void sendStep(int pos) {
         SmartDashboard.putNumber(keys[pos], stepData[pos]);
     }
+
     /**
      * Checks to see if data is valid
      * @return true if data is good
